@@ -7,8 +7,7 @@ pub fn hamming(s: &str, t: &str) -> usize {
     }
     let s_len = s.chars().count();
     let t_len = t.chars().count();
-    result += s_len.abs_diff(t_len);
-    return result;
+    result + s_len.abs_diff(t_len)
 }
 
 #[cfg(test)]
@@ -17,11 +16,12 @@ mod tests {
 
     #[test]
     fn basic() {
-        assert_eq!(hamming("sitting", "sitting"), 0);
-        assert_eq!(hamming("abcdefg", "hijklmn"), 7);
-        assert_eq!(hamming("karolin", "kathrin"), 3);
-        assert_eq!(hamming("hello", "world"), 4);
-        assert_eq!(hamming("Rust", "rust"), 1);
-        assert_eq!(hamming("hi mark", "hi markus"), 2);
+        let f = hamming;
+        assert_eq!(f("sitting", "sitting"), 0);
+        assert_eq!(f("abcdefg", "hijklmn"), 7);
+        assert_eq!(f("karolin", "kathrin"), 3);
+        assert_eq!(f("hello", "world"), 4);
+        assert_eq!(f("Rust", "rust"), 1);
+        assert_eq!(f("hi mark", "hi markus"), 2);
     }
 }
