@@ -38,7 +38,7 @@ impl LCSSeq {
     }
 }
 
-impl Algorithm<usize> for LCSSeq {
+impl Algorithm for LCSSeq {
     fn similarity(&self, s1: &str, s2: &str) -> usize {
         self.calculate(s1, s2).chars().count()
     }

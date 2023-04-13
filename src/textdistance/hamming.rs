@@ -16,7 +16,7 @@ impl Hamming {
     }
 }
 
-impl Algorithm<usize> for Hamming {
+impl Algorithm for Hamming {
     fn distance(&self, s1: &str, s2: &str) -> usize {
         self.calculate(s1, s2)
     }
