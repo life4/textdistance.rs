@@ -1,8 +1,9 @@
 use super::algorithm::Algorithm;
+
 pub struct Hamming {}
 
 impl Hamming {
-    fn default(&self, s1: &str, s2: &str) -> usize {
+    fn calculate(&self, s1: &str, s2: &str) -> usize {
         let mut result = 0;
         for (s_char, t_char) in s1.chars().zip(s2.chars()) {
             if s_char != t_char {
@@ -17,7 +18,7 @@ impl Hamming {
 
 impl Algorithm<usize> for Hamming {
     fn distance(&self, s1: &str, s2: &str) -> usize {
-        self.default(s1, s2)
+        self.calculate(s1, s2)
     }
 
     fn maximum(&self, s1: &str, s2: &str) -> usize {
@@ -28,7 +29,7 @@ impl Algorithm<usize> for Hamming {
 const DEFAULT: Hamming = Hamming {};
 
 pub fn hamming(s1: &str, s2: &str) -> usize {
-    DEFAULT.default(s1, s2)
+    DEFAULT.calculate(s1, s2)
 }
 
 #[cfg(test)]
