@@ -4,7 +4,7 @@ use ndarray::Array2;
 pub struct LCSSeq {}
 
 impl LCSSeq {
-    fn calculate(&self, s1: &str, s2: &str) -> String {
+    fn from_str(&self, s1: &str, s2: &str) -> String {
         let s1_len = s1.chars().count();
         let s2_len = s2.chars().count();
         let mut lengths = Array2::from_elem((s1_len + 1, s2_len + 1), 0);
@@ -40,14 +40,14 @@ impl LCSSeq {
 
 impl Algorithm for LCSSeq {
     fn similarity(&self, s1: &str, s2: &str) -> usize {
-        self.calculate(s1, s2).chars().count()
+        self.from_str(s1, s2).chars().count()
     }
 }
 
 const DEFAULT: LCSSeq = LCSSeq {};
 
 pub fn lcsseq(s1: &str, s2: &str) -> String {
-    DEFAULT.calculate(s1, s2)
+    DEFAULT.from_str(s1, s2)
 }
 
 #[cfg(test)]

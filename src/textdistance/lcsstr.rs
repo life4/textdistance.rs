@@ -3,12 +3,21 @@ use super::algorithm::Algorithm;
 pub struct LCSStr {}
 
 impl LCSStr {
-    fn calculate(&self, s1: &str, s2: &str) -> String {
-        let mut dp = vec![vec![0; s2.len() + 1]; s1.len() + 1];
+    fn from_str(&self, s1: &str, s2: &str) -> String {
+        let res = self.from_iterator(s1.chars(), s2.chars());
+        res.into_iter().collect()
+    }
+
+    fn from_iterator<C, E>(&self, s1: C, s2: C) -> Vec<E>
+    where
+        C: Iterator<Item = E> + Clone,
+        E: Eq,
+    {
+        let mut dp = vec![vec![0; s2.to_owned().count() + 1]; s1.to_owned().count() + 1];
         let mut result_end = 0;
         let mut result_len = 0;
-        for (i, c1) in s1.chars().enumerate() {
-            for (j, c2) in s2.chars().enumerate() {
+        for (i, c1) in s1.to_owned().enumerate() {
+            for (j, c2) in s2.to_owned().enumerate() {
                 if c1 == c2 {
                     let new_len = dp[i][j] + 1;
                     dp[i + 1][j + 1] = new_len;
@@ -19,21 +28,20 @@ impl LCSStr {
                 }
             }
         }
-        let result = s1.get((result_end - result_len)..result_end);
-        result.unwrap().to_owned()
+        s1.skip(result_end - result_len).take(result_len).collect()
     }
 }
 
 impl Algorithm for LCSStr {
     fn similarity(&self, s1: &str, s2: &str) -> usize {
-        self.calculate(s1, s2).len()
+        self.from_str(s1, s2).len()
     }
 }
 
 const DEFAULT: LCSStr = LCSStr {};
 
 pub fn lcsstr(s1: &str, s2: &str) -> String {
-    DEFAULT.calculate(s1, s2)
+    DEFAULT.from_str(s1, s2)
 }
 
 #[cfg(test)]
@@ -61,9 +69,19 @@ mod tests {
         );
     }
 
+    #[test]
+    fn unicode() {
+        let f = lcsstr;
+        assert_eq!(f("п", ""), "");
+        assert_eq!(f("", "п"), "");
+        assert_eq!(f("п", "п"), "п");
+        assert_eq!(f("привет", "пока"), "п");
+        assert_eq!(f("корвет", "привет"), "вет");
+    }
+
     proptest! {
         #[test]
-        fn prop(s1 in "[a-z]*", s2 in "[a-z]*") {
+        fn prop(s1 in ".*", s2 in ".*") {
             let res = lcsstr(&s1, &s2);
             prop_assert!(s1.contains(&res));
             prop_assert!(s2.contains(&res));

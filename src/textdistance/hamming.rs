@@ -3,7 +3,7 @@ use super::algorithm::Algorithm;
 pub struct Hamming {}
 
 impl Hamming {
-    fn calculate(&self, s1: &str, s2: &str) -> usize {
+    fn from_str(&self, s1: &str, s2: &str) -> usize {
         let mut result = 0;
         for (s_char, t_char) in s1.chars().zip(s2.chars()) {
             if s_char != t_char {
@@ -18,14 +18,14 @@ impl Hamming {
 
 impl Algorithm for Hamming {
     fn distance(&self, s1: &str, s2: &str) -> usize {
-        self.calculate(s1, s2)
+        self.from_str(s1, s2)
     }
 }
 
 const DEFAULT: Hamming = Hamming {};
 
 pub fn hamming(s1: &str, s2: &str) -> usize {
-    DEFAULT.calculate(s1, s2)
+    DEFAULT.from_str(s1, s2)
 }
 
 #[cfg(test)]
