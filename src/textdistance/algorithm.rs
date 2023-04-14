@@ -15,5 +15,7 @@ pub trait Algorithm {
         (self.distance(s1, s2) as f64) / (self.maximum(s1, s2) as f64)
     }
 
-    fn maximum(&self, s1: &str, s2: &str) -> usize;
+    fn maximum(&self, s1: &str, s2: &str) -> usize {
+        s1.chars().count().max(s2.chars().count())
+    }
 }

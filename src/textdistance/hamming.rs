@@ -20,10 +20,6 @@ impl Algorithm for Hamming {
     fn distance(&self, s1: &str, s2: &str) -> usize {
         self.calculate(s1, s2)
     }
-
-    fn maximum(&self, s1: &str, s2: &str) -> usize {
-        s1.chars().count().max(s2.chars().count())
-    }
 }
 
 const DEFAULT: Hamming = Hamming {};
