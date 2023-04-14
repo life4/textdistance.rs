@@ -34,7 +34,7 @@ pub fn lcsstr(s1: &str, s2: &str) -> usize {
 mod tests {
     use super::*;
     #[test]
-    fn test1() {
+    fn basic() {
         let f = lcsstr;
         assert_eq!(f("", ""), 0);
         assert_eq!(f("a", ""), 0);
