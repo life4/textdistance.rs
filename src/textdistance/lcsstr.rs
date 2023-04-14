@@ -39,6 +39,8 @@ pub fn lcsstr(s1: &str, s2: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
+
     #[test]
     fn basic() {
         let f = lcsstr;
@@ -46,6 +48,7 @@ mod tests {
         assert_eq!(f("a", ""), "");
         assert_eq!(f("", "a"), "");
         assert_eq!(f("a", "a"), "a");
+        assert_eq!(f("ab", "b"), "b");
         assert_eq!(f("abcdef", "bcd"), "bcd");
         assert_eq!(f("bcd", "abcdef"), "bcd");
         assert_eq!(f("abcdef", "xabded"), "ab");
@@ -56,5 +59,14 @@ mod tests {
             f("OldSite:GeeksforGeeks.org", "NewSite:GeeksQuiz.com"),
             "Site:Geeks"
         );
+    }
+
+    proptest! {
+        #[test]
+        fn prop(s1 in "[a-z]*", s2 in "[a-z]*") {
+            let res = lcsstr(&s1, &s2);
+            prop_assert!(s1.contains(&res));
+            prop_assert!(s2.contains(&res));
+        }
     }
 }

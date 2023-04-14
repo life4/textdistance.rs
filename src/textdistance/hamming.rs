@@ -31,10 +31,15 @@ pub fn hamming(s1: &str, s2: &str) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
 
     #[test]
     fn function() {
         let f = hamming;
+        assert_eq!(f("", ""), 0);
+        assert_eq!(f("", "\0"), 1);
+        assert_eq!(f("", "abc"), 3);
+        assert_eq!(f("abc", ""), 3);
         assert_eq!(f("sitting", "sitting"), 0);
         assert_eq!(f("abcdefg", "hijklmn"), 7);
         assert_eq!(f("karolin", "kathrin"), 3);
@@ -48,5 +53,13 @@ mod tests {
         assert_eq!(DEFAULT.distance("Rust", "rust"), 1);
         assert_eq!(DEFAULT.similarity("Rust", "rust"), 3);
         assert_eq!(DEFAULT.maximum("Rust", "rust"), 4);
+    }
+
+    proptest! {
+        #[test]
+        fn prop(s1 in ".*", s2 in ".*") {
+            let res = hamming(&s1, &s2);
+            prop_assert!(res <= s1.len() || res <= s2.len());
+        }
     }
 }

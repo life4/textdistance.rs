@@ -53,6 +53,7 @@ pub fn lcsseq(s1: &str, s2: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
 
     #[test]
     fn basic() {
@@ -71,5 +72,13 @@ mod tests {
         assert_eq!(f("abcdgh", "aedfhr"), "adh");
         assert_eq!(f("aggtab", "gxtxayb"), "gtab");
         assert_eq!(f("你好，世界", "再见世界"), "世界");
+    }
+
+    proptest! {
+        #[test]
+        fn prop(s1 in ".*", s2 in ".*") {
+            let res = lcsseq(&s1, &s2);
+            prop_assert!(res.len() <= s1.len() || res.len() <= s2.len());
+        }
     }
 }
