@@ -1,7 +1,7 @@
 use super::algorithm::Algorithm;
 use ndarray::Array2;
 
-struct LCSSeq {}
+pub struct LCSSeq {}
 
 impl LCSSeq {
     fn calculate(&self, s1: &str, s2: &str) -> String {
@@ -65,5 +65,15 @@ mod tests {
         assert_eq!(f("abcd", "abcd"), "abcd");
         assert_eq!(f("test", "text"), "tet");
         assert_eq!(f("thisisatest", "testing123testing"), "tsitest");
+        assert_eq!(f("", ""), "");
+        assert_eq!(f("", "abcd"), "");
+        assert_eq!(f("abcd", ""), "");
+        assert_eq!(f("abcd", "c"), "c");
+        assert_eq!(f("abcd", "d"), "d");
+        assert_eq!(f("abcd", "e"), "");
+        assert_eq!(f("abcdefghi", "acegi"), "acegi");
+        assert_eq!(f("abcdgh", "aedfhr"), "adh");
+        assert_eq!(f("aggtab", "gxtxayb"), "gtab");
+        assert_eq!(f("你好，世界", "再见世界"), "世界");
     }
 }
