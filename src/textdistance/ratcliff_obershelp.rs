@@ -56,11 +56,17 @@ impl RatcliffObershelp {
             if match_len != 0 {
                 let prefix1_len = prefix1_end - match_len;
                 let prefix2_len = prefix2_end - match_len;
-                stack.push(((part1_start, prefix1_len), (part2_start, prefix2_len)));
-                stack.push((
-                    (part1_start + prefix1_end, part1_len - prefix1_end),
-                    (part2_start + prefix2_end, part2_len - prefix2_end),
-                ));
+                if prefix1_len != 0 && prefix2_len != 0 {
+                    stack.push(((part1_start, prefix1_len), (part2_start, prefix2_len)));
+                }
+                let suffix1_len = part1_len - prefix1_end;
+                let suffix2_len = part2_len - prefix2_end;
+                if suffix1_len != 0 && suffix2_len != 0 {
+                    stack.push((
+                        (part1_start + prefix1_end, suffix1_len),
+                        (part2_start + prefix2_end, suffix2_len),
+                    ));
+                }
                 result += match_len;
             }
         }
@@ -92,8 +98,11 @@ mod tests {
 
     #[test]
     fn basic() {
-        // let f = ratcliff_obershelp;
+        let f = ratcliff_obershelp;
         // assert_eq!(f("", ""), 0.0);
+        assert_eq!(f("abc", ""), 1.);
+        assert_eq!(f("", "abc"), 1.);
+        assert_eq!(f("abc", "abc"), 0.);
         assert_eq!(
             DEFAULT.from_str("GESTALT PATTERN MATCHING", "GESTALT PRACTICE"),
             24
