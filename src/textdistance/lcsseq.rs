@@ -5,10 +5,10 @@ pub struct LCSSeq {}
 
 impl LCSSeq {
     fn from_str(&self, s1: &str, s2: &str) -> Vec<char> {
-        self.from_iterator(s1.chars(), s2.chars())
+        self.from_iter(s1.chars(), s2.chars())
     }
 
-    fn from_iterator<C, E>(&self, s1: C, s2: C) -> Vec<E>
+    fn from_iter<C, E>(&self, s1: C, s2: C) -> Vec<E>
     where
         C: Iterator<Item = E> + Clone,
         E: Eq + Copy,
