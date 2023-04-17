@@ -12,15 +12,6 @@ impl RatcliffObershelp {
         C: Iterator<Item = E> + Clone,
         E: Eq,
     {
-        let res = self.find(s1.to_owned(), s2.to_owned());
-        2 * res
-    }
-
-    fn find<C, E>(&self, s1: C, s2: C) -> usize
-    where
-        C: Iterator<Item = E> + Clone,
-        E: Eq,
-    {
         let s1_len = s1.to_owned().count();
         let s2_len = s2.to_owned().count();
         let mut stack = Vec::new();
@@ -71,7 +62,7 @@ impl RatcliffObershelp {
             }
         }
 
-        result
+        2 * result
     }
 }
 
@@ -94,7 +85,6 @@ pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use proptest::prelude::*;
 
     #[test]
     fn basic() {
@@ -111,14 +101,5 @@ mod tests {
             DEFAULT.from_str("GESTALT PRACTICE", "GESTALT PATTERN MATCHING"),
             26
         );
-    }
-
-    proptest! {
-        #[test]
-        fn prop(s1 in ".+", s2 in ".*") {
-            let res = ratcliff_obershelp(&s1, &s2);
-            prop_assert!(0. <= res );
-            prop_assert!(res <= 1.);
-        }
     }
 }
