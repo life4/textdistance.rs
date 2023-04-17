@@ -4,14 +4,23 @@ use ndarray::Array2;
 pub struct LCSSeq {}
 
 impl LCSSeq {
-    fn from_str(&self, s1: &str, s2: &str) -> String {
-        let s1_len = s1.chars().count();
-        let s2_len = s2.chars().count();
-        let mut lengths = Array2::from_elem((s1_len + 1, s2_len + 1), 0);
+    fn from_str(&self, s1: &str, s2: &str) -> Vec<char> {
+        self.from_iterator(s1.chars(), s2.chars())
+    }
 
-        for (i, char1) in s1.chars().enumerate() {
-            for (j, char2) in s2.chars().enumerate() {
-                lengths[[i + 1, j + 1]] = if char1 == char2 {
+    fn from_iterator<C, E>(&self, s1: C, s2: C) -> Vec<E>
+    where
+        C: Iterator<Item = E> + Clone,
+        E: Eq + Copy,
+    {
+        let s1_len = s1.to_owned().count();
+        let s2_len = s2.to_owned().count();
+        let mut lengths = Array2::from_elem((s1_len + 1, s2_len + 1), 0);
+        let s1vec: Vec<E> = s1.collect();
+
+        for (i, char1) in s1vec.iter().enumerate() {
+            for (j, char2) in s2.to_owned().enumerate() {
+                lengths[[i + 1, j + 1]] = if char1 == &char2 {
                     lengths[[i, j]] + 1
                 } else {
                     lengths[[i + 1, j]].max(lengths[[i, j + 1]])
@@ -19,7 +28,7 @@ impl LCSSeq {
             }
         }
 
-        let mut result = String::new();
+        let mut result = Vec::<E>::new();
         let mut i = s1_len;
         let mut j = s2_len;
         while i != 0 && j != 0 {
@@ -29,25 +38,25 @@ impl LCSSeq {
                 j -= 1;
             } else {
                 // assert s1[i - 1] == s2[j - 1]
-                result.push(s1.chars().nth(i - 1).unwrap());
+                result.push(s1vec[i - 1]);
                 i -= 1;
                 j -= 1;
             }
         }
-        result.chars().rev().collect::<String>()
+        result.into_iter().rev().collect()
     }
 }
 
 impl Algorithm for LCSSeq {
     fn similarity(&self, s1: &str, s2: &str) -> usize {
-        self.from_str(s1, s2).chars().count()
+        self.from_str(s1, s2).len()
     }
 }
 
 const DEFAULT: LCSSeq = LCSSeq {};
 
 pub fn lcsseq(s1: &str, s2: &str) -> String {
-    DEFAULT.from_str(s1, s2)
+    DEFAULT.from_str(s1, s2).into_iter().collect::<String>()
 }
 
 #[cfg(test)]

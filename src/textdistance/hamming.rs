@@ -4,14 +4,22 @@ pub struct Hamming {}
 
 impl Hamming {
     fn from_str(&self, s1: &str, s2: &str) -> usize {
+        self.from_iterator(s1.chars(), s2.chars())
+    }
+
+    fn from_iterator<C, E>(&self, s1: C, s2: C) -> usize
+    where
+        C: Iterator<Item = E> + Clone,
+        E: Eq,
+    {
         let mut result = 0;
-        for (s_char, t_char) in s1.chars().zip(s2.chars()) {
+        for (s_char, t_char) in s1.to_owned().zip(s2.to_owned()) {
             if s_char != t_char {
                 result += 1
             }
         }
-        let s_len = s1.chars().count();
-        let t_len = s2.chars().count();
+        let s_len = s1.count();
+        let t_len = s2.count();
         result + s_len.abs_diff(t_len)
     }
 }
