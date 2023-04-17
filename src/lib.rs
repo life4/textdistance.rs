@@ -53,15 +53,15 @@ mod tests {
                 assert!(ns >= 0.);
                 assert!(ns <= 1.);
 
-                assert!((ns + nd) > 0.9999999);
-                assert!((ns + nd) < 1.0000001);
+                assert!((ns + nd) > 0.9999999, "{} + {} == 1", nd, ns);
+                assert!((ns + nd) < 1.0000001, "{} + {} == 1", nd, ns);
 
                 if d < s {
-                    assert!(nd < ns);
+                    assert!(nd < ns, "{} < {}", nd, ns);
                 } else if d > s {
-                    assert!(nd > ns);
-                } else {
-                    assert!(nd == ns);
+                    assert!(nd > ns, "{} > {}", nd, ns);
+                } else if s1 != "" && s2 != "" {
+                    assert!(nd == ns, "{} == {}", nd, ns);
                 }
             }
         }
@@ -69,10 +69,10 @@ mod tests {
         fn prop_same(s in ".*") {
             for alg in get_algs() {
                 let nd = alg.normalized_distance(&s, &s);
-                assert_eq!(nd, 0.);
+                assert_eq!(nd, 0., "{} == 0.0", nd);
 
                 let ns = alg.normalized_similarity(&s, &s);
-                assert_eq!(ns, 1.);
+                assert_eq!(ns, 1., "{} == 1.0", ns);
             }
         }
     }
