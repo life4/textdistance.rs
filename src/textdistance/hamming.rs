@@ -13,14 +13,14 @@ impl Hamming {
         E: Eq,
     {
         let mut result = 0;
-        for (s_char, t_char) in s1.to_owned().zip(s2.to_owned()) {
-            if s_char != t_char {
+        for (s1_char, s2_char) in s1.to_owned().zip(s2.to_owned()) {
+            if s1_char != s2_char {
                 result += 1
             }
         }
-        let s_len = s1.count();
-        let t_len = s2.count();
-        result + s_len.abs_diff(t_len)
+        let s1_len = s1.count();
+        let s2_len = s2.count();
+        result + s1_len.abs_diff(s2_len)
     }
 }
 
