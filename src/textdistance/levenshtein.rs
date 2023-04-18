@@ -9,51 +9,46 @@ impl Levenshtein {
 
     fn from_iter<C, E>(&self, s1: C, s2: C) -> usize
     where
-        C: Iterator<Item = E> + Clone,
+        C: Iterator<Item = E>,
         E: Eq,
     {
-        let s1_len = s1.to_owned().count();
-        let s2_len = s2.to_owned().count();
+        let s1: Vec<E> = s1.collect();
+        let s1_len = s1.len();
         if s1_len == 0 {
-            return s2_len;
-        }
-        if s2_len == 0 {
-            return s1_len;
+            return s2.count();
         }
 
         let mut cache: Vec<usize> = (1..).take(s1_len).collect();
-        let mut s1_dist;
-        let mut s2_dist;
+        let mut dist1;
+        let mut dist2;
 
         let mut result = 0;
-        for (s2_i, s2_char) in s2.enumerate() {
-            result = s2_i;
-            s1_dist = s2_i;
+        let mut s2_empty = true;
+        for (i2, c2) in s2.enumerate() {
+            result = i2;
+            dist1 = i2;
+            s2_empty = false;
 
-            for (s1_i, s1_char) in s1.to_owned().enumerate() {
-                s2_dist = if s1_char == s2_char {
-                    s1_dist
-                } else {
-                    s1_dist + 1
-                };
-
-                s1_dist = cache[s1_i];
-                result = if s1_dist > result {
-                    if s2_dist > result {
+            for (i1, c1) in s1.iter().enumerate() {
+                dist2 = if c1 == &c2 { dist1 } else { dist1 + 1 };
+                dist1 = cache[i1];
+                result = if dist1 > result {
+                    if dist2 > result {
                         result + 1
                     } else {
-                        s2_dist
+                        dist2
                     }
-                } else if s2_dist > s1_dist {
-                    s1_dist + 1
+                } else if dist2 > dist1 {
+                    dist1 + 1
                 } else {
-                    s2_dist
+                    dist2
                 };
-
-                cache[s1_i] = result;
+                cache[i1] = result;
             }
         }
-
+        if s2_empty {
+            return s1_len;
+        }
         result
     }
 }
