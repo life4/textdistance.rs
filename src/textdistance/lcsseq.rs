@@ -9,17 +9,18 @@ impl LCSSeq {
 
     fn from_iter<C, E>(&self, s1: C, s2: C) -> Vec<E>
     where
-        C: Iterator<Item = E> + Clone,
+        C: Iterator<Item = E>,
         E: Eq + Copy,
     {
-        let s1_len = s1.to_owned().count();
-        let s2_len = s2.to_owned().count();
+        let s1: Vec<E> = s1.collect();
+        let s2: Vec<E> = s2.collect();
+        let s1_len = s1.len();
+        let s2_len = s2.len();
         let mut lengths = vec![vec![0; s2_len + 1]; s1_len + 1];
-        let s1vec: Vec<E> = s1.collect();
 
-        for (i, char1) in s1vec.iter().enumerate() {
-            for (j, char2) in s2.to_owned().enumerate() {
-                lengths[i + 1][j + 1] = if char1 == &char2 {
+        for (i, char1) in s1.iter().enumerate() {
+            for (j, char2) in s2.iter().enumerate() {
+                lengths[i + 1][j + 1] = if char1 == char2 {
                     lengths[i][j] + 1
                 } else {
                     lengths[i + 1][j].max(lengths[i][j + 1])
@@ -36,8 +37,8 @@ impl LCSSeq {
             } else if lengths[i][j] == lengths[i][j - 1] {
                 j -= 1;
             } else {
-                // assert s1[i - 1] == s2[j - 1]
-                result.push(s1vec[i - 1]);
+                assert!(s1[i - 1] == s2[j - 1]);
+                result.push(s1[i - 1]);
                 i -= 1;
                 j -= 1;
             }
