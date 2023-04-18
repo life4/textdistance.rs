@@ -7,20 +7,20 @@ impl Hamming {
         self.from_iter(s1.chars(), s2.chars())
     }
 
-    fn from_iter<C, E>(&self, s1: C, s2: C) -> usize
+    fn from_iter<C, E>(&self, mut s1: C, mut s2: C) -> usize
     where
-        C: Iterator<Item = E> + Clone,
+        C: Iterator<Item = E>,
         E: Eq,
     {
         let mut result = 0;
-        for (s1_char, s2_char) in s1.to_owned().zip(s2.to_owned()) {
-            if s1_char != s2_char {
-                result += 1
+        loop {
+            match (s1.next(), s2.next()) {
+                (None, None) => break,
+                (Some(c1), Some(c2)) if c1 == c2 => {}
+                (_, _) => result += 1,
             }
         }
-        let s1_len = s1.count();
-        let s2_len = s2.count();
-        result + s1_len.abs_diff(s2_len)
+        result
     }
 }
 
@@ -61,6 +61,7 @@ mod tests {
         assert_eq!(DEFAULT.distance("Rust", "rust"), 1);
         assert_eq!(DEFAULT.similarity("Rust", "rust"), 3);
         assert_eq!(DEFAULT.maximum("Rust", "rust"), 4);
+        assert_eq!(DEFAULT.normalized_distance("Rust", "rust"), 0.25);
     }
 
     proptest! {
