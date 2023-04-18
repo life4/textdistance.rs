@@ -10,14 +10,16 @@ impl LCSStr {
 
     fn from_iter<C, E>(&self, s1: C, s2: C) -> Vec<E>
     where
-        C: Iterator<Item = E> + Clone,
-        E: Eq,
+        C: Iterator<Item = E>,
+        E: Eq + Clone,
     {
-        let mut dp = vec![vec![0; s2.to_owned().count() + 1]; s1.to_owned().count() + 1];
+        let s1: Vec<E> = s1.collect();
+        let s2: Vec<E> = s2.collect();
+        let mut dp = vec![vec![0; s2.len() + 1]; s1.len() + 1];
         let mut result_end = 0;
         let mut result_len = 0;
-        for (i, c1) in s1.to_owned().enumerate() {
-            for (j, c2) in s2.to_owned().enumerate() {
+        for (i, c1) in s1.iter().enumerate() {
+            for (j, c2) in s2.iter().enumerate() {
                 if c1 == c2 {
                     let new_len = dp[i][j] + 1;
                     dp[i + 1][j + 1] = new_len;
@@ -28,7 +30,7 @@ impl LCSStr {
                 }
             }
         }
-        s1.skip(result_end - result_len).take(result_len).collect()
+        s1[(result_end - result_len)..result_end].to_vec()
     }
 }
 
