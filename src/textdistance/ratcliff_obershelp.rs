@@ -9,11 +9,13 @@ impl RatcliffObershelp {
 
     fn from_iter<C, E>(&self, s1: C, s2: C) -> usize
     where
-        C: Iterator<Item = E> + Clone,
+        C: Iterator<Item = E>,
         E: Eq,
     {
-        let s1_len = s1.to_owned().count();
-        let s2_len = s2.to_owned().count();
+        let s1: Vec<E> = s1.collect();
+        let s2: Vec<E> = s2.collect();
+        let s1_len = s1.len();
+        let s2_len = s2.len();
         let mut stack = Vec::new();
         stack.push(((0, s1_len), (0, s2_len)));
         let mut result = 0;
@@ -21,24 +23,24 @@ impl RatcliffObershelp {
         while !stack.is_empty() {
             let top = stack.pop().unwrap();
             let ((part1_start, part1_len), (part2_start, part2_len)) = top;
-            let s1_part = s1.to_owned().skip(part1_start).take(part1_len);
-            let s2_part = s2.to_owned().skip(part2_start).take(part2_len);
+            let s1_part = s1[part1_start..(part1_start + part1_len)].iter();
+            let s2_part: Vec<&E> = s2[part2_start..(part2_start + part2_len)].iter().collect();
 
             let mut dp = vec![vec![0; s2_len + 1]; s1_len + 1];
             let mut prefix1_end = 0;
             let mut prefix2_end = 0;
             let mut match_len: usize = 0;
-            for (i, c1) in s1_part.enumerate() {
-                for (j, c2) in s2_part.to_owned().enumerate() {
-                    if c1 == c2 {
-                        let new_len: usize = dp[i][j] + 1;
-                        dp[i + 1][j + 1] = new_len;
+            for (i1, c1) in s1_part.enumerate() {
+                for (i2, c2) in s2_part.iter().enumerate() {
+                    if &c1 == c2 {
+                        let new_len: usize = dp[i1][i2] + 1;
+                        dp[i1 + 1][i2 + 1] = new_len;
                         if new_len > match_len {
-                            debug_assert!(i + 1 >= new_len);
-                            debug_assert!(j + 1 >= new_len);
+                            debug_assert!(i1 + 1 >= new_len);
+                            debug_assert!(i2 + 1 >= new_len);
                             match_len = new_len;
-                            prefix1_end = i + 1;
-                            prefix2_end = j + 1;
+                            prefix1_end = i1 + 1;
+                            prefix2_end = i2 + 1;
                         };
                     }
                 }
