@@ -7,57 +7,6 @@ pub trait Algorithm {
     fn from_str(&self, s1: &str, s2: &str) -> Result {
         self.from_iter(s1.chars(), s2.chars())
     }
-
-    /// Absolute similarity.
-    ///
-    /// A shortcut for `self.from_iter(s1, s2).sim()`.
-    fn sim<C, E>(&self, s1: C, s2: C) -> usize
-    where
-        C: Iterator<Item = E>,
-        E: Eq + Copy,
-    {
-        self.from_iter(s1, s2).sim()
-    }
-
-    /// Absolute similarity for strings.
-    ///
-    /// A shortcut for `self.from_str(s1, s2).sim()`.
-    fn ssim<C, E>(&self, s1: &str, s2: &str) -> usize {
-        self.from_str(s1, s2).sim()
-    }
-
-    /// Absolute distance.
-    ///
-    /// A shortcut for `self.from_iter(s1, s2).dist()`.
-    fn dist<C, E>(&self, s1: C, s2: C) -> usize
-    where
-        C: Iterator<Item = E>,
-        E: Eq + Copy,
-    {
-        self.from_iter(s1, s2).dist()
-    }
-
-    /// Normalized similarity.
-    ///
-    /// A shortcut for `self.from_iter(s1, s2).nsim()`.
-    fn nsim<C, E>(&self, s1: C, s2: C) -> f64
-    where
-        C: Iterator<Item = E>,
-        E: Eq + Copy,
-    {
-        self.from_iter(s1, s2).nsim()
-    }
-
-    /// Normalized distance.
-    ///
-    /// A shortcut for `self.from_iter(s1, s2).ndist()`.
-    fn ndist<C, E>(&self, s1: C, s2: C) -> f64
-    where
-        C: Iterator<Item = E>,
-        E: Eq + Copy,
-    {
-        self.from_iter(s1, s2).ndist()
-    }
 }
 
 /// Result of a distance/similarity algorithm.

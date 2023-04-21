@@ -2,8 +2,6 @@ use super::algorithm::{Algorithm, Result};
 
 pub struct Hamming {}
 
-impl Hamming {}
-
 impl Algorithm for Hamming {
     fn from_iter<C, E>(&self, mut s1: C, mut s2: C) -> Result
     where
@@ -70,11 +68,12 @@ mod tests {
     }
 
     #[test]
-    fn default_struct() {
-        assert_eq!(DEFAULT.dist("Rust".chars(), "rust".chars()), 1);
-        assert_eq!(DEFAULT.sim("Rust".chars(), "rust".chars()), 3);
-        assert_eq!(DEFAULT.from_iter("Rust".chars(), "rust".chars()).max, 4);
-        assert_eq!(DEFAULT.ndist("Rust".chars(), "rust".chars()), 0.25);
+    fn default_struct_result() {
+        let r = DEFAULT.from_iter("Rust".chars(), "rust".chars());
+        assert_eq!(r.dist(), 1);
+        assert_eq!(r.sim(), 3);
+        assert_eq!(r.max, 4);
+        assert_eq!(r.ndist(), 0.25);
     }
 
     proptest! {
