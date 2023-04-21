@@ -58,11 +58,11 @@ mod tests {
     #[test]
     fn basic() {
         for alg in get_algs() {
-            assert_eq!(alg("", "").distance(), 0);
-            assert!(alg("ab", "cde").distance() > 0);
-            assert!(alg("spam", "qwer").similarity() == 0);
-            assert_eq!(alg("", "").normalized_distance(), 0.);
-            assert_eq!(alg("", "").normalized_similarity(), 1.);
+            assert_eq!(alg("", "").dist(), 0);
+            assert!(alg("ab", "cde").dist() > 0);
+            assert!(alg("spam", "qwer").sim() == 0);
+            assert_eq!(alg("", "").ndist(), 0.);
+            assert_eq!(alg("", "").nsim(), 1.);
         }
     }
 
@@ -70,14 +70,14 @@ mod tests {
         #[test]
         fn prop(s1 in ".*", s2 in ".*") {
             for alg in get_algs() {
-                let d = alg(&s1, &s2).distance();
-                let s = alg(&s1, &s2).similarity();
+                let d = alg(&s1, &s2).dist();
+                let s = alg(&s1, &s2).sim();
 
-                let nd = alg(&s1, &s2).normalized_distance();
+                let nd = alg(&s1, &s2).ndist();
                 assert!(nd >= 0.);
                 assert!(nd <= 1.);
 
-                let ns = alg(&s1, &s2).normalized_similarity();
+                let ns = alg(&s1, &s2).nsim();
                 assert!(ns >= 0.);
                 assert!(ns <= 1.);
 
@@ -96,10 +96,10 @@ mod tests {
 
         fn prop_same(s in ".*") {
             for alg in get_algs() {
-                let nd = alg(&s, &s).normalized_distance();
+                let nd = alg(&s, &s).ndist();
                 assert_eq!(nd, 0., "{} == 0.0", nd);
 
-                let ns = alg(&s, &s).normalized_similarity();
+                let ns = alg(&s, &s).nsim();
                 assert_eq!(ns, 1., "{} == 1.0", ns);
             }
         }

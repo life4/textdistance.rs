@@ -75,7 +75,7 @@ impl Algorithm for RatcliffObershelp {
 const DEFAULT: RatcliffObershelp = RatcliffObershelp {};
 
 pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
-    DEFAULT.from_str(s1, s2).normalized_similarity()
+    DEFAULT.from_str(s1, s2).nsim()
 }
 
 #[cfg(test)]

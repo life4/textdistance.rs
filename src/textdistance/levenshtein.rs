@@ -71,7 +71,7 @@ impl Algorithm for Levenshtein {
 const DEFAULT: Levenshtein = Levenshtein {};
 
 pub fn levenshtein(s1: &str, s2: &str) -> usize {
-    DEFAULT.from_str(s1, s2).distance()
+    DEFAULT.from_str(s1, s2).dist()
 }
 
 #[cfg(test)]

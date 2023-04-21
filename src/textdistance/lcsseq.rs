@@ -53,7 +53,7 @@ impl Algorithm for LCSSeq {
 const DEFAULT: LCSSeq = LCSSeq {};
 
 pub fn lcsseq(s1: &str, s2: &str) -> usize {
-    DEFAULT.from_str(s1, s2).similarity()
+    DEFAULT.from_str(s1, s2).sim()
 }
 
 #[cfg(test)]

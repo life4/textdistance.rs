@@ -46,7 +46,7 @@ impl Algorithm for Hamming {
 const DEFAULT: Hamming = Hamming {};
 
 pub fn hamming(s1: &str, s2: &str) -> usize {
-    DEFAULT.from_str(s1, s2).distance()
+    DEFAULT.from_str(s1, s2).dist()
 }
 
 #[cfg(test)]
@@ -71,13 +71,10 @@ mod tests {
 
     #[test]
     fn default_struct() {
-        assert_eq!(DEFAULT.distance("Rust".chars(), "rust".chars()), 1);
-        assert_eq!(DEFAULT.similarity("Rust".chars(), "rust".chars()), 3);
+        assert_eq!(DEFAULT.dist("Rust".chars(), "rust".chars()), 1);
+        assert_eq!(DEFAULT.sim("Rust".chars(), "rust".chars()), 3);
         assert_eq!(DEFAULT.from_iter("Rust".chars(), "rust".chars()).max, 4);
-        assert_eq!(
-            DEFAULT.normalized_distance("Rust".chars(), "rust".chars()),
-            0.25
-        );
+        assert_eq!(DEFAULT.ndist("Rust".chars(), "rust".chars()), 0.25);
     }
 
     proptest! {

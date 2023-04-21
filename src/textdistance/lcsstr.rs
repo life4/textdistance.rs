@@ -41,7 +41,7 @@ impl Algorithm for LCSStr {
 const DEFAULT: LCSStr = LCSStr {};
 
 pub fn lcsstr(s1: &str, s2: &str) -> usize {
-    DEFAULT.from_str(s1, s2).similarity()
+    DEFAULT.from_str(s1, s2).sim()
 }
 
 #[cfg(test)]
