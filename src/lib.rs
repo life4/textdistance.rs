@@ -6,7 +6,7 @@ pub mod textdistance {
     mod levenshtein;
     mod ratcliff_obershelp;
 
-    pub use self::algorithm::Algorithm;
+    pub use self::algorithm::{Algorithm, Result};
     pub use self::hamming::{hamming, Hamming};
     pub use self::lcsseq::{lcsseq, LCSSeq};
     pub use self::lcsstr::{lcsstr, LCSStr};
@@ -14,69 +14,94 @@ pub mod textdistance {
     pub use self::ratcliff_obershelp::{ratcliff_obershelp, RatcliffObershelp};
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use crate::textdistance::Algorithm;
-//     use proptest::prelude::*;
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::textdistance::{Algorithm, Result};
+    use proptest::prelude::*;
 
-//     fn get_algs() -> Vec<Box<dyn Algorithm>> {
-//         vec![
-//             Box::new(textdistance::Hamming {}),
-//             Box::new(textdistance::LCSSeq {}),
-//             Box::new(textdistance::LCSStr {}),
-//             Box::new(textdistance::RatcliffObershelp {}),
-//             Box::new(textdistance::Levenshtein {}),
-//         ]
-//     }
+    fn hamming(s1: &str, s2: &str) -> Result {
+        let h = textdistance::Hamming {};
+        h.from_str(s1, s2)
+    }
 
-//     #[test]
-//     fn basic() {
-//         for alg in get_algs() {
-//             assert_eq!(alg.distance("", ""), 0);
-//             assert!(alg.distance("ab", "cde") > 0);
-//             assert!(alg.similarity("spam", "qwer") == 0);
-//             assert_eq!(alg.normalized_distance("", ""), 0.);
-//             assert_eq!(alg.normalized_similarity("", ""), 1.);
-//         }
-//     }
+    fn lcsseq(s1: &str, s2: &str) -> Result {
+        let h = textdistance::LCSSeq {};
+        h.from_str(s1, s2)
+    }
 
-//     proptest! {
-//         #[test]
-//         fn prop(s1 in ".*", s2 in ".*") {
-//             for alg in get_algs() {
-//                 let d = alg.distance(&s1, &s2);
-//                 let s = alg.similarity(&s1, &s2);
+    fn lcsstr(s1: &str, s2: &str) -> Result {
+        let h = textdistance::LCSStr {};
+        h.from_str(s1, s2)
+    }
 
-//                 let nd = alg.normalized_distance(&s1, &s2);
-//                 assert!(nd >= 0.);
-//                 assert!(nd <= 1.);
+    fn ratcliff_obershelp(s1: &str, s2: &str) -> Result {
+        let h = textdistance::RatcliffObershelp {};
+        h.from_str(s1, s2)
+    }
 
-//                 let ns = alg.normalized_similarity(&s1, &s2);
-//                 assert!(ns >= 0.);
-//                 assert!(ns <= 1.);
+    fn levenshtein(s1: &str, s2: &str) -> Result {
+        let h = textdistance::Levenshtein {};
+        h.from_str(s1, s2)
+    }
 
-//                 assert!((ns + nd) > 0.9999999, "{} + {} == 1", nd, ns);
-//                 assert!((ns + nd) < 1.0000001, "{} + {} == 1", nd, ns);
+    fn get_algs() -> Vec<Box<dyn Fn(&str, &str) -> Result>> {
+        vec![
+            Box::new(hamming),
+            Box::new(lcsseq),
+            Box::new(lcsstr),
+            Box::new(ratcliff_obershelp),
+            Box::new(levenshtein),
+        ]
+    }
 
-//                 if d < s {
-//                     assert!(nd < ns, "{} < {}", nd, ns);
-//                 } else if d > s {
-//                     assert!(nd > ns, "{} > {}", nd, ns);
-//                 } else if s1 != "" && s2 != "" {
-//                     assert!(nd == ns, "{} == {}", nd, ns);
-//                 }
-//             }
-//         }
+    #[test]
+    fn basic() {
+        for alg in get_algs() {
+            assert_eq!(alg("", "").distance(), 0);
+            assert!(alg("ab", "cde").distance() > 0);
+            assert!(alg("spam", "qwer").similarity() == 0);
+            assert_eq!(alg("", "").normalized_distance(), 0.);
+            assert_eq!(alg("", "").normalized_similarity(), 1.);
+        }
+    }
 
-//         fn prop_same(s in ".*") {
-//             for alg in get_algs() {
-//                 let nd = alg.normalized_distance(&s, &s);
-//                 assert_eq!(nd, 0., "{} == 0.0", nd);
+    proptest! {
+        #[test]
+        fn prop(s1 in ".*", s2 in ".*") {
+            for alg in get_algs() {
+                let d = alg(&s1, &s2).distance();
+                let s = alg(&s1, &s2).similarity();
 
-//                 let ns = alg.normalized_similarity(&s, &s);
-//                 assert_eq!(ns, 1., "{} == 1.0", ns);
-//             }
-//         }
-//     }
-// }
+                let nd = alg(&s1, &s2).normalized_distance();
+                assert!(nd >= 0.);
+                assert!(nd <= 1.);
+
+                let ns = alg(&s1, &s2).normalized_similarity();
+                assert!(ns >= 0.);
+                assert!(ns <= 1.);
+
+                assert!((ns + nd) > 0.9999999, "{} + {} == 1", nd, ns);
+                assert!((ns + nd) < 1.0000001, "{} + {} == 1", nd, ns);
+
+                if d < s {
+                    assert!(nd < ns, "{} < {}", nd, ns);
+                } else if d > s {
+                    assert!(nd > ns, "{} > {}", nd, ns);
+                } else if s1 != "" && s2 != "" {
+                    assert!(nd == ns, "{} == {}", nd, ns);
+                }
+            }
+        }
+
+        fn prop_same(s in ".*") {
+            for alg in get_algs() {
+                let nd = alg(&s, &s).normalized_distance();
+                assert_eq!(nd, 0., "{} == 0.0", nd);
+
+                let ns = alg(&s, &s).normalized_similarity();
+                assert_eq!(ns, 1., "{} == 1.0", ns);
+            }
+        }
+    }
+}

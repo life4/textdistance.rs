@@ -6,14 +6,14 @@ impl Algorithm for LCSStr {
     fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
-        E: Eq + Clone,
+        E: Eq,
     {
         let s1: Vec<E> = s1.collect();
         let s2: Vec<E> = s2.collect();
         let l1 = s1.len();
         let l2 = s2.len();
         let mut dp = vec![vec![0; l2 + 1]; l1 + 1];
-        let mut result_end = 0;
+        // let mut result_end = 0;
         let mut result_len = 0;
         for (i, c1) in s1.iter().enumerate() {
             for (j, c2) in s2.iter().enumerate() {
@@ -22,7 +22,7 @@ impl Algorithm for LCSStr {
                     dp[i + 1][j + 1] = new_len;
                     if new_len > result_len {
                         result_len = new_len;
-                        result_end = i + 1;
+                        // result_end = i + 1;
                     };
                 }
             }
@@ -47,7 +47,6 @@ pub fn lcsstr(s1: &str, s2: &str) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use proptest::prelude::*;
 
     #[test]
     fn basic() {

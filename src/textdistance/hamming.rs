@@ -69,13 +69,16 @@ mod tests {
         assert_eq!(f("hi mark", "hi markus"), 2);
     }
 
-    // #[test]
-    // fn default_struct() {
-    //     assert_eq!(DEFAULT.distance("Rust", "rust"), 1);
-    //     assert_eq!(DEFAULT.similarity("Rust", "rust"), 3);
-    //     assert_eq!(DEFAULT.maximum("Rust", "rust"), 4);
-    //     assert_eq!(DEFAULT.normalized_distance("Rust", "rust"), 0.25);
-    // }
+    #[test]
+    fn default_struct() {
+        assert_eq!(DEFAULT.distance("Rust".chars(), "rust".chars()), 1);
+        assert_eq!(DEFAULT.similarity("Rust".chars(), "rust".chars()), 3);
+        assert_eq!(DEFAULT.from_iter("Rust".chars(), "rust".chars()).max, 4);
+        assert_eq!(
+            DEFAULT.normalized_distance("Rust".chars(), "rust".chars()),
+            0.25
+        );
+    }
 
     proptest! {
         #[test]

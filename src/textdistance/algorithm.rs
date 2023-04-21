@@ -67,10 +67,18 @@ impl Result {
     }
 
     pub fn normalized_distance(&self) -> f64 {
-        self.distance() as f64 / self.max as f64
+        if self.max == 0 {
+            self.distance() as f64
+        } else {
+            self.distance() as f64 / self.max as f64
+        }
     }
 
     pub fn normalized_similarity(&self) -> f64 {
-        self.similarity() as f64 / self.max as f64
+        if self.max == 0 {
+            1.0
+        } else {
+            self.similarity() as f64 / self.max as f64
+        }
     }
 }

@@ -6,7 +6,7 @@ impl Algorithm for RatcliffObershelp {
     fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
-        E: Eq + Copy,
+        E: Eq,
     {
         let s1: Vec<E> = s1.collect();
         let s2: Vec<E> = s2.collect();

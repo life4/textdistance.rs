@@ -77,7 +77,6 @@ pub fn levenshtein(s1: &str, s2: &str) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
-    // use proptest::prelude::*;
 
     #[test]
     fn function() {
