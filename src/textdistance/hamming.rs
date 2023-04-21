@@ -2,6 +2,12 @@ use super::algorithm::{Algorithm, Result};
 
 pub struct Hamming {}
 
+impl Default for Hamming {
+    fn default() -> Self {
+        Self {}
+    }
+}
+
 impl Algorithm for Hamming {
     fn for_iter<C, E>(&self, mut s1: C, mut s2: C) -> Result
     where
@@ -13,21 +19,23 @@ impl Algorithm for Hamming {
         let mut l2 = 0;
         loop {
             match (s1.next(), s2.next()) {
-                (None, None) => break,
                 (Some(c1), Some(c2)) => {
                     l1 += 1;
                     l2 += 1;
                     if c1 != c2 {
-                        result += 1
+                        result += 1;
                     }
                 }
                 (Some(_), None) => {
                     l1 += 1;
-                    result += 1
+                    result += 1;
                 }
                 (None, Some(_)) => {
                     l2 += 1;
-                    result += 1
+                    result += 1;
+                }
+                (None, None) => {
+                    break;
                 }
             }
         }
@@ -41,10 +49,9 @@ impl Algorithm for Hamming {
     }
 }
 
-const DEFAULT: Hamming = Hamming {};
-
 pub fn hamming(s1: &str, s2: &str) -> usize {
-    DEFAULT.for_str(s1, s2).dist()
+    let a: Hamming = Default::default();
+    a.for_str(s1, s2).dist()
 }
 
 #[cfg(test)]
@@ -69,7 +76,8 @@ mod tests {
 
     #[test]
     fn default_struct_result() {
-        let r = DEFAULT.for_iter("Rust".chars(), "rust".chars());
+        let a: Hamming = Default::default();
+        let r = a.for_iter("Rust".chars(), "rust".chars());
         assert_eq!(r.dist(), 1);
         assert_eq!(r.sim(), 3);
         assert_eq!(r.max, 4);

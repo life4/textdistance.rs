@@ -2,6 +2,11 @@ use super::algorithm::{Algorithm, Result};
 
 pub struct RatcliffObershelp {}
 
+impl Default for RatcliffObershelp {
+    fn default() -> Self {
+        Self {}
+    }
+}
 impl Algorithm for RatcliffObershelp {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
@@ -72,10 +77,9 @@ impl Algorithm for RatcliffObershelp {
     }
 }
 
-const DEFAULT: RatcliffObershelp = RatcliffObershelp {};
-
 pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
-    DEFAULT.for_str(s1, s2).nsim()
+    let a: RatcliffObershelp = Default::default();
+    a.for_str(s1, s2).nsim()
 }
 
 #[cfg(test)]
@@ -85,19 +89,18 @@ mod tests {
     #[test]
     fn basic() {
         let f = ratcliff_obershelp;
+        let a: RatcliffObershelp = Default::default();
         // assert_eq!(f("", ""), 0.0);
         assert_eq!(f("abc", ""), 0.);
         assert_eq!(f("", "abc"), 0.);
         assert_eq!(f("abc", "abc"), 1.);
         assert_eq!(
-            DEFAULT
-                .for_str("GESTALT PATTERN MATCHING", "GESTALT PRACTICE")
+            a.for_str("GESTALT PATTERN MATCHING", "GESTALT PRACTICE")
                 .abs,
             24
         );
         assert_eq!(
-            DEFAULT
-                .for_str("GESTALT PRACTICE", "GESTALT PATTERN MATCHING")
+            a.for_str("GESTALT PRACTICE", "GESTALT PATTERN MATCHING")
                 .abs,
             26
         );

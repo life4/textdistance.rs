@@ -2,6 +2,12 @@ use super::algorithm::{Algorithm, Result};
 
 pub struct LCSSeq {}
 
+impl Default for LCSSeq {
+    fn default() -> Self {
+        Self {}
+    }
+}
+
 impl Algorithm for LCSSeq {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
@@ -50,10 +56,9 @@ impl Algorithm for LCSSeq {
     }
 }
 
-const DEFAULT: LCSSeq = LCSSeq {};
-
 pub fn lcsseq(s1: &str, s2: &str) -> usize {
-    DEFAULT.for_str(s1, s2).sim()
+    let a: LCSSeq = Default::default();
+    a.for_str(s1, s2).sim()
 }
 
 #[cfg(test)]

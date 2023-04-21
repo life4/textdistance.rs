@@ -2,6 +2,12 @@ use super::algorithm::{Algorithm, Result};
 
 pub struct Levenshtein {}
 
+impl Default for Levenshtein {
+    fn default() -> Self {
+        Self {}
+    }
+}
+
 impl Algorithm for Levenshtein {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
@@ -68,10 +74,9 @@ impl Algorithm for Levenshtein {
     }
 }
 
-const DEFAULT: Levenshtein = Levenshtein {};
-
 pub fn levenshtein(s1: &str, s2: &str) -> usize {
-    DEFAULT.for_str(s1, s2).dist()
+    let a: Levenshtein = Default::default();
+    a.for_str(s1, s2).dist()
 }
 
 #[cfg(test)]

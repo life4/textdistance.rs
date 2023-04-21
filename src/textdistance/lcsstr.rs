@@ -2,6 +2,12 @@ use super::algorithm::{Algorithm, Result};
 
 pub struct LCSStr {}
 
+impl Default for LCSStr {
+    fn default() -> Self {
+        Self {}
+    }
+}
+
 impl Algorithm for LCSStr {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
@@ -38,10 +44,9 @@ impl Algorithm for LCSStr {
     }
 }
 
-const DEFAULT: LCSStr = LCSStr {};
-
 pub fn lcsstr(s1: &str, s2: &str) -> usize {
-    DEFAULT.for_str(s1, s2).sim()
+    let a: LCSStr = Default::default();
+    a.for_str(s1, s2).sim()
 }
 
 #[cfg(test)]
