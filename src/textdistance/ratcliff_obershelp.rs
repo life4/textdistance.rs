@@ -65,8 +65,6 @@ impl Algorithm for RatcliffObershelp {
             }
         }
 
-        // 2 * result
-        // s1.len() + s2.len()
         Result {
             abs: 2 * result,
             is_distance: false,
@@ -90,7 +88,7 @@ mod tests {
     fn basic() {
         let f = ratcliff_obershelp;
         let a: RatcliffObershelp = Default::default();
-        // assert_eq!(f("", ""), 0.0);
+        assert_eq!(f("", ""), 1.);
         assert_eq!(f("abc", ""), 0.);
         assert_eq!(f("", "abc"), 0.);
         assert_eq!(f("abc", "abc"), 1.);

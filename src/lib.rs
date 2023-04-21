@@ -16,33 +16,32 @@ pub mod textdistance {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::textdistance::{Algorithm, Result};
+    use crate::textdistance::*;
     use proptest::prelude::*;
 
     fn hamming(s1: &str, s2: &str) -> Result {
-        let h = textdistance::Hamming {};
-        h.for_str(s1, s2)
+        let a: Hamming = Default::default();
+        a.for_str(s1, s2)
     }
 
     fn lcsseq(s1: &str, s2: &str) -> Result {
-        let h = textdistance::LCSSeq {};
-        h.for_str(s1, s2)
+        let a: LCSSeq = Default::default();
+        a.for_str(s1, s2)
     }
 
     fn lcsstr(s1: &str, s2: &str) -> Result {
-        let h = textdistance::LCSStr {};
-        h.for_str(s1, s2)
+        let a: LCSStr = Default::default();
+        a.for_str(s1, s2)
     }
 
     fn ratcliff_obershelp(s1: &str, s2: &str) -> Result {
-        let h = textdistance::RatcliffObershelp {};
-        h.for_str(s1, s2)
+        let a: RatcliffObershelp = Default::default();
+        a.for_str(s1, s2)
     }
 
     fn levenshtein(s1: &str, s2: &str) -> Result {
-        let h = textdistance::Levenshtein {};
-        h.for_str(s1, s2)
+        let a: Levenshtein = Default::default();
+        a.for_str(s1, s2)
     }
 
     fn get_algs() -> Vec<Box<dyn Fn(&str, &str) -> Result>> {

@@ -1,10 +1,12 @@
 use super::algorithm::{Algorithm, Result};
 
-pub struct Hamming {}
+pub struct Hamming {
+    truncate: bool,
+}
 
 impl Default for Hamming {
     fn default() -> Self {
-        Self {}
+        Self { truncate: false }
     }
 }
 
@@ -28,11 +30,15 @@ impl Algorithm for Hamming {
                 }
                 (Some(_), None) => {
                     l1 += 1;
-                    result += 1;
+                    if !self.truncate {
+                        result += 1;
+                    }
                 }
                 (None, Some(_)) => {
                     l2 += 1;
-                    result += 1;
+                    if !self.truncate {
+                        result += 1;
+                    }
                 }
                 (None, None) => {
                     break;
@@ -82,6 +88,16 @@ mod tests {
         assert_eq!(r.sim(), 3);
         assert_eq!(r.max, 4);
         assert_eq!(r.ndist(), 0.25);
+    }
+
+    #[test]
+    fn truncate() {
+        let a = Hamming {
+            truncate: true,
+            ..Default::default()
+        };
+        assert_eq!(a.for_str("hi mark", "hi markus").abs, 0);
+        assert_eq!(a.for_str("Hi mark", "hi markus").abs, 1);
     }
 
     proptest! {
