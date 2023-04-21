@@ -1,14 +1,14 @@
 /// A base trait for all distance/similarity algorithms.
 pub trait Algorithm {
     /// Calculate similarity and distance for iterators.
-    fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
+    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq + Copy;
 
     /// Calculate similarity and distance for strings.
-    fn from_str(&self, s1: &str, s2: &str) -> Result {
-        self.from_iter(s1.chars(), s2.chars())
+    fn for_str(&self, s1: &str, s2: &str) -> Result {
+        self.for_iter(s1.chars(), s2.chars())
     }
 }
 

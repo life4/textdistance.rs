@@ -3,7 +3,7 @@ use super::algorithm::{Algorithm, Result};
 pub struct LCSSeq {}
 
 impl Algorithm for LCSSeq {
-    fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
+    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq + Copy,
@@ -53,7 +53,7 @@ impl Algorithm for LCSSeq {
 const DEFAULT: LCSSeq = LCSSeq {};
 
 pub fn lcsseq(s1: &str, s2: &str) -> usize {
-    DEFAULT.from_str(s1, s2).sim()
+    DEFAULT.for_str(s1, s2).sim()
 }
 
 #[cfg(test)]

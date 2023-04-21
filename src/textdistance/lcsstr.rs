@@ -3,7 +3,7 @@ use super::algorithm::{Algorithm, Result};
 pub struct LCSStr {}
 
 impl Algorithm for LCSStr {
-    fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
+    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq,
@@ -41,7 +41,7 @@ impl Algorithm for LCSStr {
 const DEFAULT: LCSStr = LCSStr {};
 
 pub fn lcsstr(s1: &str, s2: &str) -> usize {
-    DEFAULT.from_str(s1, s2).sim()
+    DEFAULT.for_str(s1, s2).sim()
 }
 
 #[cfg(test)]

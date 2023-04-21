@@ -3,7 +3,7 @@ use super::algorithm::{Algorithm, Result};
 pub struct RatcliffObershelp {}
 
 impl Algorithm for RatcliffObershelp {
-    fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
+    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq,
@@ -75,7 +75,7 @@ impl Algorithm for RatcliffObershelp {
 const DEFAULT: RatcliffObershelp = RatcliffObershelp {};
 
 pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
-    DEFAULT.from_str(s1, s2).nsim()
+    DEFAULT.for_str(s1, s2).nsim()
 }
 
 #[cfg(test)]
@@ -91,13 +91,13 @@ mod tests {
         assert_eq!(f("abc", "abc"), 1.);
         assert_eq!(
             DEFAULT
-                .from_str("GESTALT PATTERN MATCHING", "GESTALT PRACTICE")
+                .for_str("GESTALT PATTERN MATCHING", "GESTALT PRACTICE")
                 .abs,
             24
         );
         assert_eq!(
             DEFAULT
-                .from_str("GESTALT PRACTICE", "GESTALT PATTERN MATCHING")
+                .for_str("GESTALT PRACTICE", "GESTALT PATTERN MATCHING")
                 .abs,
             26
         );

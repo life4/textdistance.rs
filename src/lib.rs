@@ -22,27 +22,27 @@ mod tests {
 
     fn hamming(s1: &str, s2: &str) -> Result {
         let h = textdistance::Hamming {};
-        h.from_str(s1, s2)
+        h.for_str(s1, s2)
     }
 
     fn lcsseq(s1: &str, s2: &str) -> Result {
         let h = textdistance::LCSSeq {};
-        h.from_str(s1, s2)
+        h.for_str(s1, s2)
     }
 
     fn lcsstr(s1: &str, s2: &str) -> Result {
         let h = textdistance::LCSStr {};
-        h.from_str(s1, s2)
+        h.for_str(s1, s2)
     }
 
     fn ratcliff_obershelp(s1: &str, s2: &str) -> Result {
         let h = textdistance::RatcliffObershelp {};
-        h.from_str(s1, s2)
+        h.for_str(s1, s2)
     }
 
     fn levenshtein(s1: &str, s2: &str) -> Result {
         let h = textdistance::Levenshtein {};
-        h.from_str(s1, s2)
+        h.for_str(s1, s2)
     }
 
     fn get_algs() -> Vec<Box<dyn Fn(&str, &str) -> Result>> {

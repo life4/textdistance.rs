@@ -3,7 +3,7 @@ use super::algorithm::{Algorithm, Result};
 pub struct Hamming {}
 
 impl Algorithm for Hamming {
-    fn from_iter<C, E>(&self, mut s1: C, mut s2: C) -> Result
+    fn for_iter<C, E>(&self, mut s1: C, mut s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq,
@@ -44,7 +44,7 @@ impl Algorithm for Hamming {
 const DEFAULT: Hamming = Hamming {};
 
 pub fn hamming(s1: &str, s2: &str) -> usize {
-    DEFAULT.from_str(s1, s2).dist()
+    DEFAULT.for_str(s1, s2).dist()
 }
 
 #[cfg(test)]
@@ -69,7 +69,7 @@ mod tests {
 
     #[test]
     fn default_struct_result() {
-        let r = DEFAULT.from_iter("Rust".chars(), "rust".chars());
+        let r = DEFAULT.for_iter("Rust".chars(), "rust".chars());
         assert_eq!(r.dist(), 1);
         assert_eq!(r.sim(), 3);
         assert_eq!(r.max, 4);

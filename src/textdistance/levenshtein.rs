@@ -3,7 +3,7 @@ use super::algorithm::{Algorithm, Result};
 pub struct Levenshtein {}
 
 impl Algorithm for Levenshtein {
-    fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
+    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq,
@@ -71,7 +71,7 @@ impl Algorithm for Levenshtein {
 const DEFAULT: Levenshtein = Levenshtein {};
 
 pub fn levenshtein(s1: &str, s2: &str) -> usize {
-    DEFAULT.from_str(s1, s2).dist()
+    DEFAULT.for_str(s1, s2).dist()
 }
 
 #[cfg(test)]
