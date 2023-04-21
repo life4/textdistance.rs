@@ -1,5 +1,6 @@
 pub mod textdistance {
     mod algorithm;
+    mod damerau_levenshtein;
     mod hamming;
     mod lcsseq;
     mod lcsstr;
@@ -7,6 +8,7 @@ pub mod textdistance {
     mod ratcliff_obershelp;
 
     pub use self::algorithm::{Algorithm, Result};
+    pub use self::damerau_levenshtein::{damerau_levenshtein, DamerauLevenshtein};
     pub use self::hamming::{hamming, Hamming};
     pub use self::lcsseq::{lcsseq, LCSSeq};
     pub use self::lcsstr::{lcsstr, LCSStr};
@@ -44,13 +46,19 @@ mod tests {
         a.for_str(s1, s2)
     }
 
+    fn damerau_levenshtein(s1: &str, s2: &str) -> Result {
+        let a: DamerauLevenshtein = Default::default();
+        a.for_str(s1, s2)
+    }
+
     fn get_algs() -> Vec<Box<dyn Fn(&str, &str) -> Result>> {
         vec![
+            Box::new(damerau_levenshtein),
             Box::new(hamming),
             Box::new(lcsseq),
             Box::new(lcsstr),
-            Box::new(ratcliff_obershelp),
             Box::new(levenshtein),
+            Box::new(ratcliff_obershelp),
         ]
     }
 

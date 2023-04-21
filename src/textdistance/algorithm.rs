@@ -1,10 +1,12 @@
+use std::hash::Hash;
+
 /// A base trait for all distance/similarity algorithms.
 pub trait Algorithm {
     /// Calculate similarity and distance for iterators.
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
-        E: Eq + Copy;
+        E: Eq + Copy + Hash;
 
     /// Calculate similarity and distance for strings.
     fn for_str(&self, s1: &str, s2: &str) -> Result {
