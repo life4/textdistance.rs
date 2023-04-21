@@ -1,18 +1,29 @@
-use std::collections::HashMap;
-
 use super::algorithm::{Algorithm, Result};
-
-pub struct DamerauLevenshtein {}
+use std::collections::HashMap;
 use std::hash::Hash;
+
+pub struct DamerauLevenshtein {
+    restricted: bool,
+    del_cost: usize,
+    ins_cost: usize,
+    sub_cost: usize,
+    trans_cost: usize,
+}
 
 impl Default for DamerauLevenshtein {
     fn default() -> Self {
-        Self {}
+        Self {
+            restricted: true,
+            del_cost: 1,
+            ins_cost: 1,
+            sub_cost: 1,
+            trans_cost: 1,
+        }
     }
 }
 
-impl Algorithm for DamerauLevenshtein {
-    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
+impl DamerauLevenshtein {
+    fn get_restricted<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq + Hash,
@@ -43,12 +54,12 @@ impl Algorithm for DamerauLevenshtein {
                 let i2 = i2 + 1;
                 let last = *char_map.get(&c2).unwrap_or(&0);
 
-                let cost = if c1 == c2 { 0 } else { 1 };
+                let sub_cost = if c1 == c2 { 0 } else { self.sub_cost };
                 mat[i1 + 1][i2 + 1] = min4(
-                    mat[i1 + 1][i2] + 1,                                 // deletion
-                    mat[i1][i2 + 1] + 1,                                 // insertion
-                    mat[i1][i2] + cost,                                  // substitution
-                    mat[last][db] + (i1 - last - 1) + 1 + (i2 - db - 1), // transposition
+                    mat[i1][i2] + sub_cost,                                    // substitution
+                    mat[i1 + 1][i2] + self.del_cost,                           // deletion
+                    mat[i1][i2 + 1] + self.ins_cost,                           // insertion
+                    mat[last][db] + i1 + i2 - 2 + self.trans_cost - last - db, // transposition
                 );
 
                 if c1 == c2 {
@@ -66,6 +77,17 @@ impl Algorithm for DamerauLevenshtein {
             len1: l1,
             len2: l2,
         }
+    }
+}
+
+impl Algorithm for DamerauLevenshtein {
+    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
+    where
+        C: Iterator<Item = E>,
+        E: Eq + Hash,
+    {
+        assert!(self.restricted);
+        self.get_restricted(s1, s2)
     }
 }
 
@@ -116,6 +138,23 @@ mod tests {
         assert_eq!(f("ab", "cde"), 3);
         assert_eq!(f("ab", "ac"), 1);
         assert_eq!(f("ab", "bc"), 2);
+    }
+
+    // #[test]
+    // fn unrestricted() {
+    //     let a = DamerauLevenshtein {
+    //         restricted: false,
+    //         ..Default::default()
+    //     };
+    //     assert_eq!(a.for_str("ab", "bca").abs, 3);
+    //     assert_eq!(a.for_str("abcd", "bdac").abs, 4);
+    // }
+
+    #[test]
+    fn restricted() {
+        let a: DamerauLevenshtein = Default::default();
+        assert_eq!(a.for_str("ab", "bca").abs, 2);
+        assert_eq!(a.for_str("abcd", "bdac").abs, 3);
     }
 
     proptest! {
