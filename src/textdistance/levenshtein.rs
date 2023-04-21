@@ -1,33 +1,36 @@
-use super::algorithm::Algorithm;
+use super::algorithm::{Algorithm, Result};
 
 pub struct Levenshtein {}
 
-impl Levenshtein {
-    fn from_str(&self, s1: &str, s2: &str) -> usize {
-        self.from_iter(s1.chars(), s2.chars())
-    }
-
-    fn from_iter<C, E>(&self, s1: C, s2: C) -> usize
+impl Algorithm for Levenshtein {
+    fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq,
     {
         let s1: Vec<E> = s1.collect();
-        let s1_len = s1.len();
-        if s1_len == 0 {
-            return s2.count();
+        let l1 = s1.len();
+        if l1 == 0 {
+            let l2 = s2.count();
+            return Result {
+                abs: l2,
+                is_distance: true,
+                max: l1.max(l2),
+                len1: l1,
+                len2: l2,
+            };
         }
 
-        let mut cache: Vec<usize> = (1..).take(s1_len).collect();
+        let mut cache: Vec<usize> = (1..).take(l1).collect();
         let mut dist1;
         let mut dist2;
 
         let mut result = 0;
-        let mut s2_empty = true;
+        let mut l2 = 0;
         for (i2, c2) in s2.enumerate() {
             result = i2;
             dist1 = i2;
-            s2_empty = false;
+            l2 += 1;
 
             for (i1, c1) in s1.iter().enumerate() {
                 dist2 = if c1 == &c2 { dist1 } else { dist1 + 1 };
@@ -46,23 +49,29 @@ impl Levenshtein {
                 cache[i1] = result;
             }
         }
-        if s2_empty {
-            return s1_len;
+        if l2 == 0 {
+            return Result {
+                abs: l1,
+                is_distance: true,
+                max: l1.max(l2),
+                len1: l1,
+                len2: l2,
+            };
         }
-        result
-    }
-}
-
-impl Algorithm for Levenshtein {
-    fn distance(&self, s1: &str, s2: &str) -> usize {
-        self.from_str(s1, s2)
+        Result {
+            abs: result,
+            is_distance: true,
+            max: l1.max(l2),
+            len1: l1,
+            len2: l2,
+        }
     }
 }
 
 const DEFAULT: Levenshtein = Levenshtein {};
 
 pub fn levenshtein(s1: &str, s2: &str) -> usize {
-    DEFAULT.from_str(s1, s2)
+    DEFAULT.from_str(s1, s2).distance()
 }
 
 #[cfg(test)]

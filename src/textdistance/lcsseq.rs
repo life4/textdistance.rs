@@ -1,22 +1,18 @@
-use super::algorithm::Algorithm;
+use super::algorithm::{Algorithm, Result};
 
 pub struct LCSSeq {}
 
-impl LCSSeq {
-    fn from_str(&self, s1: &str, s2: &str) -> Vec<char> {
-        self.from_iter(s1.chars(), s2.chars())
-    }
-
-    fn from_iter<C, E>(&self, s1: C, s2: C) -> Vec<E>
+impl Algorithm for LCSSeq {
+    fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq + Copy,
     {
         let s1: Vec<E> = s1.collect();
         let s2: Vec<E> = s2.collect();
-        let s1_len = s1.len();
-        let s2_len = s2.len();
-        let mut lengths = vec![vec![0; s2_len + 1]; s1_len + 1];
+        let l1 = s1.len();
+        let l2 = s2.len();
+        let mut lengths = vec![vec![0; l2 + 1]; l1 + 1];
 
         for (i, char1) in s1.iter().enumerate() {
             for (j, char2) in s2.iter().enumerate() {
@@ -29,8 +25,8 @@ impl LCSSeq {
         }
 
         let mut result = Vec::<E>::new();
-        let mut i = s1_len;
-        let mut j = s2_len;
+        let mut i = l1;
+        let mut j = l2;
         while i != 0 && j != 0 {
             if lengths[i][j] == lengths[i - 1][j] {
                 i -= 1;
@@ -43,20 +39,21 @@ impl LCSSeq {
                 j -= 1;
             }
         }
-        result.into_iter().rev().collect()
-    }
-}
-
-impl Algorithm for LCSSeq {
-    fn similarity(&self, s1: &str, s2: &str) -> usize {
-        self.from_str(s1, s2).len()
+        // val: Some(result.into_iter().rev().collect::<String>())
+        Result {
+            abs: result.len(),
+            is_distance: false,
+            max: l1.max(l2),
+            len1: l1,
+            len2: l2,
+        }
     }
 }
 
 const DEFAULT: LCSSeq = LCSSeq {};
 
-pub fn lcsseq(s1: &str, s2: &str) -> String {
-    DEFAULT.from_str(s1, s2).into_iter().collect::<String>()
+pub fn lcsseq(s1: &str, s2: &str) -> usize {
+    DEFAULT.from_str(s1, s2).similarity()
 }
 
 #[cfg(test)]
@@ -67,27 +64,27 @@ mod tests {
     #[test]
     fn basic() {
         let f = lcsseq;
-        assert_eq!(f("ab", "cd"), "");
-        assert_eq!(f("abcd", "abcd"), "abcd");
-        assert_eq!(f("test", "text"), "tet");
-        assert_eq!(f("thisisatest", "testing123testing"), "tsitest");
-        assert_eq!(f("", ""), "");
-        assert_eq!(f("", "abcd"), "");
-        assert_eq!(f("abcd", ""), "");
-        assert_eq!(f("abcd", "c"), "c");
-        assert_eq!(f("abcd", "d"), "d");
-        assert_eq!(f("abcd", "e"), "");
-        assert_eq!(f("abcdefghi", "acegi"), "acegi");
-        assert_eq!(f("abcdgh", "aedfhr"), "adh");
-        assert_eq!(f("aggtab", "gxtxayb"), "gtab");
-        assert_eq!(f("你好，世界", "再见世界"), "世界");
+        assert_eq!(f("", ""), 0);
+        assert_eq!(f("", "abcd"), 0);
+        assert_eq!(f("abcd", ""), 0);
+        assert_eq!(f("ab", "cd"), 0);
+        assert_eq!(f("abcd", "abcd"), 4); // "abcd"
+        assert_eq!(f("test", "text"), 3); // "tet"
+        assert_eq!(f("thisisatest", "testing123testing"), 7); // "tsitest"
+        assert_eq!(f("abcd", "c"), 1); // "c"
+        assert_eq!(f("abcd", "d"), 1); // "d"
+        assert_eq!(f("abcd", "e"), 0); // ""
+        assert_eq!(f("abcdefghi", "acegi"), 5); // "acegi"
+        assert_eq!(f("abcdgh", "aedfhr"), 3); // "adh"
+        assert_eq!(f("aggtab", "gxtxayb"), 4); // "gtab"
+        assert_eq!(f("你好，世界", "再见世界"), 2); // "世界"
     }
 
     proptest! {
         #[test]
         fn prop(s1 in ".*", s2 in ".*") {
             let res = lcsseq(&s1, &s2);
-            prop_assert!(res.len() <= s1.len() || res.len() <= s2.len());
+            prop_assert!(res <= s1.len() || res <= s2.len());
         }
     }
 }

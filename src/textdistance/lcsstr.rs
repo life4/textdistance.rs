@@ -1,21 +1,18 @@
-use super::algorithm::Algorithm;
+use super::algorithm::{Algorithm, Result};
 
 pub struct LCSStr {}
 
-impl LCSStr {
-    fn from_str(&self, s1: &str, s2: &str) -> String {
-        let res = self.from_iter(s1.chars(), s2.chars());
-        res.into_iter().collect()
-    }
-
-    fn from_iter<C, E>(&self, s1: C, s2: C) -> Vec<E>
+impl Algorithm for LCSStr {
+    fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq + Clone,
     {
         let s1: Vec<E> = s1.collect();
         let s2: Vec<E> = s2.collect();
-        let mut dp = vec![vec![0; s2.len() + 1]; s1.len() + 1];
+        let l1 = s1.len();
+        let l2 = s2.len();
+        let mut dp = vec![vec![0; l2 + 1]; l1 + 1];
         let mut result_end = 0;
         let mut result_len = 0;
         for (i, c1) in s1.iter().enumerate() {
@@ -30,20 +27,21 @@ impl LCSStr {
                 }
             }
         }
-        s1[(result_end - result_len)..result_end].to_vec()
-    }
-}
-
-impl Algorithm for LCSStr {
-    fn similarity(&self, s1: &str, s2: &str) -> usize {
-        self.from_str(s1, s2).len()
+        // s1[(result_end - result_len)..result_end].to_vec()
+        Result {
+            abs: result_len,
+            is_distance: false,
+            max: l1.max(l2),
+            len1: l1,
+            len2: l2,
+        }
     }
 }
 
 const DEFAULT: LCSStr = LCSStr {};
 
-pub fn lcsstr(s1: &str, s2: &str) -> String {
-    DEFAULT.from_str(s1, s2)
+pub fn lcsstr(s1: &str, s2: &str) -> usize {
+    DEFAULT.from_str(s1, s2).similarity()
 }
 
 #[cfg(test)]
@@ -54,39 +52,28 @@ mod tests {
     #[test]
     fn basic() {
         let f = lcsstr;
-        assert_eq!(f("", ""), "");
-        assert_eq!(f("a", ""), "");
-        assert_eq!(f("", "a"), "");
-        assert_eq!(f("a", "a"), "a");
-        assert_eq!(f("ab", "b"), "b");
-        assert_eq!(f("abcdef", "bcd"), "bcd");
-        assert_eq!(f("bcd", "abcdef"), "bcd");
-        assert_eq!(f("abcdef", "xabded"), "ab");
-        assert_eq!(f("GeeksforGeeks", "GeeksQuiz"), "Geeks");
-        assert_eq!(f("abcdxyz", "xyzabcd"), "abcd");
-        assert_eq!(f("zxabcdezy", "yzabcdezx"), "abcdez");
-        assert_eq!(
-            f("OldSite:GeeksforGeeks.org", "NewSite:GeeksQuiz.com"),
-            "Site:Geeks"
-        );
+        assert_eq!(f("", ""), 0);
+        assert_eq!(f("a", ""), 0);
+        assert_eq!(f("", "a"), 0);
+        assert_eq!(f("a", "a"), 1); // "a"
+        assert_eq!(f("ab", "b"), 1); // "b"
+        assert_eq!(f("abcdef", "bcd"), 3); // "bcd"
+        assert_eq!(f("bcd", "abcdef"), 3); // "bcd"
+        assert_eq!(f("abcdef", "xabded"), 2); // "ab"
+        assert_eq!(f("GeeksforGeeks", "GeeksQuiz"), 5); // "Geeks"
+        assert_eq!(f("abcdxyz", "xyzabcd"), 4); // "abcd"
+        assert_eq!(f("zxabcdezy", "yzabcdezx"), 6); // "abcdez"
+        assert_eq!(f("OldSite:GeeksforGeeks.org", "NewSite:GeeksQuiz.com"), 10);
+        // "Site:Geeks"
     }
 
     #[test]
     fn unicode() {
         let f = lcsstr;
-        assert_eq!(f("п", ""), "");
-        assert_eq!(f("", "п"), "");
-        assert_eq!(f("п", "п"), "п");
-        assert_eq!(f("привет", "пока"), "п");
-        assert_eq!(f("корвет", "привет"), "вет");
-    }
-
-    proptest! {
-        #[test]
-        fn prop(s1 in ".*", s2 in ".*") {
-            let res = lcsstr(&s1, &s2);
-            prop_assert!(s1.contains(&res));
-            prop_assert!(s2.contains(&res));
-        }
+        assert_eq!(f("п", ""), 0);
+        assert_eq!(f("", "п"), 0);
+        assert_eq!(f("п", "п"), 1);
+        assert_eq!(f("привет", "пока"), 1);
+        assert_eq!(f("корвет", "привет"), 3);
     }
 }

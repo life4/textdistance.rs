@@ -1,23 +1,19 @@
-use super::algorithm::Algorithm;
+use super::algorithm::{Algorithm, Result};
 
 pub struct RatcliffObershelp {}
 
-impl RatcliffObershelp {
-    fn from_str(&self, s1: &str, s2: &str) -> usize {
-        self.from_iter(s1.chars(), s2.chars())
-    }
-
-    fn from_iter<C, E>(&self, s1: C, s2: C) -> usize
+impl Algorithm for RatcliffObershelp {
+    fn from_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
-        E: Eq,
+        E: Eq + Copy,
     {
         let s1: Vec<E> = s1.collect();
         let s2: Vec<E> = s2.collect();
-        let s1_len = s1.len();
-        let s2_len = s2.len();
-        let mut stack = Vec::new();
-        stack.push(((0, s1_len), (0, s2_len)));
+        let l1 = s1.len();
+        let l2 = s2.len();
+        let mut stack: Vec<((usize, usize), (usize, usize))> = Vec::new();
+        stack.push(((0, l1), (0, l2)));
         let mut result = 0;
 
         while !stack.is_empty() {
@@ -26,7 +22,7 @@ impl RatcliffObershelp {
             let s1_part = s1[part1_start..(part1_start + part1_len)].iter();
             let s2_part: Vec<&E> = s2[part2_start..(part2_start + part2_len)].iter().collect();
 
-            let mut dp = vec![vec![0; s2_len + 1]; s1_len + 1];
+            let mut dp = vec![vec![0; l2 + 1]; l1 + 1];
             let mut prefix1_end = 0;
             let mut prefix2_end = 0;
             let mut match_len: usize = 0;
@@ -64,24 +60,22 @@ impl RatcliffObershelp {
             }
         }
 
-        2 * result
-    }
-}
-
-impl Algorithm for RatcliffObershelp {
-    fn similarity(&self, s1: &str, s2: &str) -> usize {
-        self.from_str(s1, s2)
-    }
-
-    fn maximum(&self, s1: &str, s2: &str) -> usize {
-        s1.len() + s2.len()
+        // 2 * result
+        // s1.len() + s2.len()
+        Result {
+            abs: 2 * result,
+            is_distance: false,
+            max: l1 + l2,
+            len1: l1,
+            len2: l2,
+        }
     }
 }
 
 const DEFAULT: RatcliffObershelp = RatcliffObershelp {};
 
 pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
-    DEFAULT.normalized_distance(s1, s2)
+    DEFAULT.from_str(s1, s2).normalized_similarity()
 }
 
 #[cfg(test)]
@@ -92,15 +86,19 @@ mod tests {
     fn basic() {
         let f = ratcliff_obershelp;
         // assert_eq!(f("", ""), 0.0);
-        assert_eq!(f("abc", ""), 1.);
-        assert_eq!(f("", "abc"), 1.);
-        assert_eq!(f("abc", "abc"), 0.);
+        assert_eq!(f("abc", ""), 0.);
+        assert_eq!(f("", "abc"), 0.);
+        assert_eq!(f("abc", "abc"), 1.);
         assert_eq!(
-            DEFAULT.from_str("GESTALT PATTERN MATCHING", "GESTALT PRACTICE"),
+            DEFAULT
+                .from_str("GESTALT PATTERN MATCHING", "GESTALT PRACTICE")
+                .abs,
             24
         );
         assert_eq!(
-            DEFAULT.from_str("GESTALT PRACTICE", "GESTALT PATTERN MATCHING"),
+            DEFAULT
+                .from_str("GESTALT PRACTICE", "GESTALT PATTERN MATCHING")
+                .abs,
             26
         );
     }
