@@ -77,6 +77,7 @@ pub fn levenshtein(s1: &str, s2: &str) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
 
     #[test]
     fn function() {
@@ -95,5 +96,15 @@ mod tests {
         assert_eq!(f("test", "testit"), 2);
         assert_eq!(f("test", "tesst"), 1);
         assert_eq!(f("test", "tet"), 1);
+    }
+
+    proptest! {
+        #[test]
+        fn prop(s1 in ".*", s2 in ".*") {
+            let res = levenshtein(&s1, &s2);
+            let res2 = levenshtein(&s2, &s1);
+            prop_assert_eq!(res, res2);
+            prop_assert!(res <= s1.len() || res <= s2.len());
+        }
     }
 }

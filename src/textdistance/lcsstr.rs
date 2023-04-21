@@ -47,6 +47,7 @@ pub fn lcsstr(s1: &str, s2: &str) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
 
     #[test]
     fn basic() {
@@ -74,5 +75,15 @@ mod tests {
         assert_eq!(f("п", "п"), 1);
         assert_eq!(f("привет", "пока"), 1);
         assert_eq!(f("корвет", "привет"), 3);
+    }
+
+    proptest! {
+        #[test]
+        fn prop(s1 in ".*", s2 in ".*") {
+            let res = lcsstr(&s1, &s2);
+            let res2 = lcsstr(&s2, &s1);
+            prop_assert_eq!(res, res2);
+            prop_assert!(res <= s1.len() || res <= s2.len());
+        }
     }
 }

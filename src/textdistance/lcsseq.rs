@@ -84,6 +84,8 @@ mod tests {
         #[test]
         fn prop(s1 in ".*", s2 in ".*") {
             let res = lcsseq(&s1, &s2);
+            let res2 = lcsseq(&s2, &s1);
+            prop_assert_eq!(res, res2);
             prop_assert!(res <= s1.len() || res <= s2.len());
         }
     }
