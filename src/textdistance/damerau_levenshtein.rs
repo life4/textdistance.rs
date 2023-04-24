@@ -13,7 +13,7 @@ pub struct DamerauLevenshtein {
 impl Default for DamerauLevenshtein {
     fn default() -> Self {
         Self {
-            restricted: true,
+            restricted: false,
             del_cost: 1,
             ins_cost: 1,
             sub_cost: 1,
@@ -23,7 +23,7 @@ impl Default for DamerauLevenshtein {
 }
 
 impl DamerauLevenshtein {
-    fn get_restricted<C, E>(&self, s1: C, s2: C) -> Result
+    fn get_unrestricted<C, E>(&self, s1: C, s2: C) -> Result
     where
         C: Iterator<Item = E>,
         E: Eq + Hash,
@@ -86,8 +86,8 @@ impl Algorithm for DamerauLevenshtein {
         C: Iterator<Item = E>,
         E: Eq + Hash,
     {
-        assert!(self.restricted);
-        self.get_restricted(s1, s2)
+        assert!(!self.restricted);
+        self.get_unrestricted(s1, s2)
     }
 }
 
@@ -141,7 +141,7 @@ mod tests {
     }
 
     // #[test]
-    // fn unrestricted() {
+    // fn restricted() {
     //     let a = DamerauLevenshtein {
     //         restricted: false,
     //         ..Default::default()
@@ -151,7 +151,7 @@ mod tests {
     // }
 
     #[test]
-    fn restricted() {
+    fn unrestricted() {
         let a: DamerauLevenshtein = Default::default();
         assert_eq!(a.for_str("ab", "bca").abs, 2);
         assert_eq!(a.for_str("abcd", "bdac").abs, 3);
