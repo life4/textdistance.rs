@@ -78,6 +78,58 @@ impl DamerauLevenshtein {
             len2: l2,
         }
     }
+
+    #[allow(clippy::needless_range_loop)]
+    fn get_restricted<C, E>(&self, s1: C, s2: C) -> Result
+    where
+        C: Iterator<Item = E>,
+        E: Eq + Hash,
+    {
+        let s1: Vec<E> = s1.collect();
+        let s2: Vec<E> = s2.collect();
+        let l1 = s1.len();
+        let l2 = s2.len();
+
+        let mut mat: Vec<Vec<usize>> = vec![vec![0; l2 + 2]; l1 + 2];
+        for i in 0..(l1 + 1) {
+            mat[i][0] = i;
+        }
+        for i in 0..(l2 + 1) {
+            mat[0][i] = i;
+        }
+
+        for (i1, c1) in s1.iter().enumerate() {
+            for (i2, c2) in s2.iter().enumerate() {
+                let sub_cost = if c1 == c2 { 0 } else { self.sub_cost };
+                mat[i1 + 1][i2 + 1] = min3(
+                    mat[i1][i2 + 1] + self.del_cost, // deletion
+                    mat[i1 + 1][i2] + self.ins_cost, // insertion
+                    mat[i1][i2] + sub_cost,          // substitution
+                );
+
+                // transposition
+                if i1 == 0 || i2 == 0 {
+                    continue;
+                };
+                if c1 != &s2[i2 - 1] {
+                    continue;
+                };
+                if &s1[i1 - 1] != c2 {
+                    continue;
+                };
+                let trans_cost = if c1 == c2 { 0 } else { self.trans_cost };
+                mat[i1 + 1][i2 + 1] = mat[i1 + 1][i2 + 1].min(mat[i1 - 1][i2 - 1] + trans_cost);
+            }
+        }
+
+        Result {
+            is_distance: true,
+            abs: mat[l1][l2],
+            max: l1.max(l2),
+            len1: l1,
+            len2: l2,
+        }
+    }
 }
 
 impl Algorithm for DamerauLevenshtein {
@@ -86,8 +138,11 @@ impl Algorithm for DamerauLevenshtein {
         C: Iterator<Item = E>,
         E: Eq + Hash,
     {
-        assert!(!self.restricted);
-        self.get_unrestricted(s1, s2)
+        if self.restricted {
+            self.get_restricted(s1, s2)
+        } else {
+            self.get_unrestricted(s1, s2)
+        }
     }
 }
 
@@ -95,8 +150,20 @@ fn min4(a: usize, b: usize, c: usize, d: usize) -> usize {
     a.min(b).min(c).min(d)
 }
 
+fn min3(a: usize, b: usize, c: usize) -> usize {
+    a.min(b).min(c)
+}
+
 pub fn damerau_levenshtein(s1: &str, s2: &str) -> usize {
     let a: DamerauLevenshtein = Default::default();
+    a.for_str(s1, s2).dist()
+}
+
+pub fn damerau_levenshtein_restricted(s1: &str, s2: &str) -> usize {
+    let a = DamerauLevenshtein {
+        restricted: true,
+        ..Default::default()
+    };
     a.for_str(s1, s2).dist()
 }
 
@@ -107,7 +174,13 @@ mod tests {
 
     #[test]
     fn function() {
-        let f = damerau_levenshtein;
+        fn f(s1: &str, s2: &str) -> usize {
+            let res1 = damerau_levenshtein(s1, s2);
+            let res2 = damerau_levenshtein_restricted(s1, s2);
+            assert_eq!(res1, res2);
+            res1
+        }
+
         assert_eq!(f("", ""), 0);
         assert_eq!(f("", "\0"), 1);
         assert_eq!(f("", "abc"), 3);
@@ -140,15 +213,15 @@ mod tests {
         assert_eq!(f("ab", "bc"), 2);
     }
 
-    // #[test]
-    // fn restricted() {
-    //     let a = DamerauLevenshtein {
-    //         restricted: false,
-    //         ..Default::default()
-    //     };
-    //     assert_eq!(a.for_str("ab", "bca").abs, 3);
-    //     assert_eq!(a.for_str("abcd", "bdac").abs, 4);
-    // }
+    #[test]
+    fn restricted() {
+        let a = DamerauLevenshtein {
+            restricted: true,
+            ..Default::default()
+        };
+        assert_eq!(a.for_str("ab", "bca").abs, 3);
+        assert_eq!(a.for_str("abcd", "bdac").abs, 4);
+    }
 
     #[test]
     fn unrestricted() {
@@ -159,9 +232,17 @@ mod tests {
 
     proptest! {
         #[test]
-        fn prop(s1 in ".*", s2 in ".*") {
+        fn prop_default(s1 in ".*", s2 in ".*") {
             let res = damerau_levenshtein(&s1, &s2);
             let res2 = damerau_levenshtein(&s2, &s1);
+            prop_assert_eq!(res, res2);
+            prop_assert!(res <= s1.len() || res <= s2.len());
+        }
+
+        #[test]
+        fn prop_restricted(s1 in ".*", s2 in ".*") {
+            let res = damerau_levenshtein_restricted(&s1, &s2);
+            let res2 = damerau_levenshtein_restricted(&s2, &s1);
             prop_assert_eq!(res, res2);
             prop_assert!(res <= s1.len() || res <= s2.len());
         }

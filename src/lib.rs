@@ -8,7 +8,9 @@ pub mod textdistance {
     mod ratcliff_obershelp;
 
     pub use self::algorithm::{Algorithm, Result};
-    pub use self::damerau_levenshtein::{damerau_levenshtein, DamerauLevenshtein};
+    pub use self::damerau_levenshtein::{
+        damerau_levenshtein, damerau_levenshtein_restricted, DamerauLevenshtein,
+    };
     pub use self::hamming::{hamming, Hamming};
     pub use self::lcsseq::{lcsseq, LCSSeq};
     pub use self::lcsstr::{lcsstr, LCSStr};
