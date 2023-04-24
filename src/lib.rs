@@ -75,23 +75,29 @@ mod tests {
         }
     }
 
+    fn is_close(a: f64, b: f64) -> bool {
+        a - b < 1E-9 && b - a < 1E-9
+    }
+
     proptest! {
         #[test]
         fn prop(s1 in ".*", s2 in ".*") {
             for alg in get_algs() {
-                let d = alg(&s1, &s2).dist();
-                let s = alg(&s1, &s2).sim();
+                let res = alg(&s1, &s2);
+                let d = res.dist();
+                let s = res.sim();
 
-                let nd = alg(&s1, &s2).ndist();
+                let nd = res.ndist();
+                assert!(nd.is_finite());
                 assert!(nd >= 0.);
                 assert!(nd <= 1.);
 
-                let ns = alg(&s1, &s2).nsim();
+                let ns = res.nsim();
+                assert!(ns.is_finite());
                 assert!(ns >= 0.);
                 assert!(ns <= 1.);
 
-                assert!((ns + nd) > 0.9999999, "{} + {} == 1", nd, ns);
-                assert!((ns + nd) < 1.0000001, "{} + {} == 1", nd, ns);
+                assert!(is_close(ns + nd, 1.), "{} + {} == 1", nd, ns);
 
                 if d < s {
                     assert!(nd < ns, "{} < {}", nd, ns);
@@ -100,6 +106,11 @@ mod tests {
                 } else if !s1.is_empty() && !s2.is_empty() {
                     assert!(nd == ns, "{} == {}", nd, ns);
                 }
+                assert!(res.abs == d || res.abs == s);
+
+                assert_eq!(res.len1, s1.chars().count());
+                assert_eq!(res.len2, s2.chars().count());
+                assert!(res.max >= res.len1.min(res.len2));
             }
         }
 
