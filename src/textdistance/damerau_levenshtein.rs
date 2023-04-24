@@ -2,11 +2,27 @@ use super::algorithm::{Algorithm, Result};
 use std::collections::HashMap;
 use std::hash::Hash;
 
+/// [Damerau-Levenshtein distance] is the edit distance between two sequences.
+///
+/// It is the minimum number of operations (consisting of insertions, deletions or
+/// substitutions of a single character, or transposition of two adjacent characters)
+/// required to change one text into the other.
+///
+/// [Damerau-Levenshtein distance]: https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
 pub struct DamerauLevenshtein {
+    /// If false (default), allow adjacent transpositions.
     pub restricted: bool,
+
+    /// The cost of removing a character.
     pub del_cost: usize,
+
+    /// The cost of adding a new character.
     pub ins_cost: usize,
+
+    /// The cost of replacing a character with another one.
     pub sub_cost: usize,
+
+    /// The cost of swapping two adjacent characters.
     pub trans_cost: usize,
 }
 
