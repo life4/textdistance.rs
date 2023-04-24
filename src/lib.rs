@@ -1,4 +1,6 @@
 pub mod textdistance {
+    pub mod str;
+
     mod algorithm;
     mod damerau_levenshtein;
     mod hamming;
@@ -8,14 +10,12 @@ pub mod textdistance {
     mod ratcliff_obershelp;
 
     pub use self::algorithm::{Algorithm, Result};
-    pub use self::damerau_levenshtein::{
-        damerau_levenshtein, damerau_levenshtein_restricted, DamerauLevenshtein,
-    };
-    pub use self::hamming::{hamming, Hamming};
-    pub use self::lcsseq::{lcsseq, LCSSeq};
-    pub use self::lcsstr::{lcsstr, LCSStr};
-    pub use self::levenshtein::{levenshtein, Levenshtein};
-    pub use self::ratcliff_obershelp::{ratcliff_obershelp, RatcliffObershelp};
+    pub use self::damerau_levenshtein::DamerauLevenshtein;
+    pub use self::hamming::Hamming;
+    pub use self::lcsseq::LCSSeq;
+    pub use self::lcsstr::LCSStr;
+    pub use self::levenshtein::Levenshtein;
+    pub use self::ratcliff_obershelp::RatcliffObershelp;
 }
 
 #[cfg(test)]

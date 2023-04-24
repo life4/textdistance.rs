@@ -2,7 +2,7 @@ use super::algorithm::{Algorithm, Result};
 
 #[derive(Default)]
 pub struct Hamming {
-    truncate: bool,
+    pub truncate: bool,
 }
 
 impl Algorithm for Hamming {
@@ -50,14 +50,10 @@ impl Algorithm for Hamming {
     }
 }
 
-pub fn hamming(s1: &str, s2: &str) -> usize {
-    let a: Hamming = Default::default();
-    a.for_str(s1, s2).dist()
-}
-
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::{Algorithm, Hamming};
+    use crate::textdistance::str::hamming;
     use proptest::prelude::*;
 
     #[test]

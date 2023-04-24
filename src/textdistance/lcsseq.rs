@@ -51,14 +51,9 @@ impl Algorithm for LCSSeq {
     }
 }
 
-pub fn lcsseq(s1: &str, s2: &str) -> usize {
-    let a: LCSSeq = Default::default();
-    a.for_str(s1, s2).sim()
-}
-
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::textdistance::str::lcsseq;
     use proptest::prelude::*;
 
     #[test]

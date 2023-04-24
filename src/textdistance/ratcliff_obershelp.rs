@@ -71,14 +71,10 @@ impl Algorithm for RatcliffObershelp {
     }
 }
 
-pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
-    let a: RatcliffObershelp = Default::default();
-    a.for_str(s1, s2).nsim()
-}
-
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::{Algorithm, RatcliffObershelp};
+    use crate::textdistance::str::ratcliff_obershelp;
 
     #[test]
     fn basic() {

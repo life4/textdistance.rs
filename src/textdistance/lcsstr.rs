@@ -39,14 +39,9 @@ impl Algorithm for LCSStr {
     }
 }
 
-pub fn lcsstr(s1: &str, s2: &str) -> usize {
-    let a: LCSStr = Default::default();
-    a.for_str(s1, s2).sim()
-}
-
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::textdistance::str::lcsstr;
     use proptest::prelude::*;
 
     #[test]

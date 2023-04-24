@@ -69,14 +69,9 @@ impl Algorithm for Levenshtein {
     }
 }
 
-pub fn levenshtein(s1: &str, s2: &str) -> usize {
-    let a: Levenshtein = Default::default();
-    a.for_str(s1, s2).dist()
-}
-
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::textdistance::str::levenshtein;
     use proptest::prelude::*;
 
     #[test]

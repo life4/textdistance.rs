@@ -3,11 +3,11 @@ use std::collections::HashMap;
 use std::hash::Hash;
 
 pub struct DamerauLevenshtein {
-    restricted: bool,
-    del_cost: usize,
-    ins_cost: usize,
-    sub_cost: usize,
-    trans_cost: usize,
+    pub restricted: bool,
+    pub del_cost: usize,
+    pub ins_cost: usize,
+    pub sub_cost: usize,
+    pub trans_cost: usize,
 }
 
 impl Default for DamerauLevenshtein {
@@ -154,22 +154,10 @@ fn min3(a: usize, b: usize, c: usize) -> usize {
     a.min(b).min(c)
 }
 
-pub fn damerau_levenshtein(s1: &str, s2: &str) -> usize {
-    let a: DamerauLevenshtein = Default::default();
-    a.for_str(s1, s2).dist()
-}
-
-pub fn damerau_levenshtein_restricted(s1: &str, s2: &str) -> usize {
-    let a = DamerauLevenshtein {
-        restricted: true,
-        ..Default::default()
-    };
-    a.for_str(s1, s2).dist()
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::textdistance::str::{damerau_levenshtein, damerau_levenshtein_restricted};
     use proptest::prelude::*;
 
     #[test]

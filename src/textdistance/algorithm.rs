@@ -24,6 +24,10 @@ pub struct Result {
 }
 
 impl Result {
+    pub fn val(&self) -> usize {
+        self.abs
+    }
+
     /// Absolute distance.
     ///
     /// A non-negative number showing how different the two sequences are.
@@ -53,6 +57,14 @@ impl Result {
             self.max - self.abs
         } else {
             self.abs
+        }
+    }
+
+    pub fn nval(&self) -> f64 {
+        if self.is_distance {
+            self.ndist()
+        } else {
+            self.nsim()
         }
     }
 
