@@ -8,6 +8,7 @@ pub mod textdistance {
     mod lcsstr;
     mod levenshtein;
     mod ratcliff_obershelp;
+    mod sift4;
 
     pub use self::algorithm::{Algorithm, Result};
     pub use self::damerau_levenshtein::DamerauLevenshtein;
@@ -16,6 +17,7 @@ pub mod textdistance {
     pub use self::lcsstr::LCSStr;
     pub use self::levenshtein::Levenshtein;
     pub use self::ratcliff_obershelp::RatcliffObershelp;
+    pub use self::sift4::Sift4;
 }
 
 #[cfg(test)]
@@ -53,6 +55,11 @@ mod tests {
         a.for_str(s1, s2)
     }
 
+    fn sift4(s1: &str, s2: &str) -> Result {
+        let a: Sift4 = Default::default();
+        a.for_str(s1, s2)
+    }
+
     type AlgFn = dyn Fn(&str, &str) -> Result;
 
     fn get_algs() -> Vec<Box<AlgFn>> {
@@ -63,6 +70,7 @@ mod tests {
             Box::new(lcsstr),
             Box::new(levenshtein),
             Box::new(ratcliff_obershelp),
+            Box::new(sift4),
         ]
     }
 
