@@ -1,12 +1,7 @@
 use super::algorithm::{Algorithm, Result};
 
+#[derive(Default)]
 pub struct LCSStr {}
-
-impl Default for LCSStr {
-    fn default() -> Self {
-        Self {}
-    }
-}
 
 impl Algorithm for LCSStr {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result

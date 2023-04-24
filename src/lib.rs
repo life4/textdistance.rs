@@ -51,7 +51,9 @@ mod tests {
         a.for_str(s1, s2)
     }
 
-    fn get_algs() -> Vec<Box<dyn Fn(&str, &str) -> Result>> {
+    type AlgFn = dyn Fn(&str, &str) -> Result;
+
+    fn get_algs() -> Vec<Box<AlgFn>> {
         vec![
             Box::new(damerau_levenshtein),
             Box::new(hamming),
@@ -95,7 +97,7 @@ mod tests {
                     assert!(nd < ns, "{} < {}", nd, ns);
                 } else if d > s {
                     assert!(nd > ns, "{} > {}", nd, ns);
-                } else if s1 != "" && s2 != "" {
+                } else if !s1.is_empty() && !s2.is_empty() {
                     assert!(nd == ns, "{} == {}", nd, ns);
                 }
             }

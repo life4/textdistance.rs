@@ -1,12 +1,7 @@
 use super::algorithm::{Algorithm, Result};
 
+#[derive(Default)]
 pub struct Levenshtein {}
-
-impl Default for Levenshtein {
-    fn default() -> Self {
-        Self {}
-    }
-}
 
 impl Algorithm for Levenshtein {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result

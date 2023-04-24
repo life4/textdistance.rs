@@ -1,12 +1,7 @@
 use super::algorithm::{Algorithm, Result};
 
+#[derive(Default)]
 pub struct LCSSeq {}
-
-impl Default for LCSSeq {
-    fn default() -> Self {
-        Self {}
-    }
-}
 
 impl Algorithm for LCSSeq {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result

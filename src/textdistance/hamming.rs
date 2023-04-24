@@ -1,13 +1,8 @@
 use super::algorithm::{Algorithm, Result};
 
+#[derive(Default)]
 pub struct Hamming {
     truncate: bool,
-}
-
-impl Default for Hamming {
-    fn default() -> Self {
-        Self { truncate: false }
-    }
 }
 
 impl Algorithm for Hamming {
@@ -92,10 +87,7 @@ mod tests {
 
     #[test]
     fn truncate() {
-        let a = Hamming {
-            truncate: true,
-            ..Default::default()
-        };
+        let a = Hamming { truncate: true };
         assert_eq!(a.for_str("hi mark", "hi markus").abs, 0);
         assert_eq!(a.for_str("Hi mark", "hi markus").abs, 1);
     }

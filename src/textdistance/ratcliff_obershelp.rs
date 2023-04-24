@@ -1,12 +1,8 @@
 use super::algorithm::{Algorithm, Result};
 
+#[derive(Default)]
 pub struct RatcliffObershelp {}
 
-impl Default for RatcliffObershelp {
-    fn default() -> Self {
-        Self {}
-    }
-}
 impl Algorithm for RatcliffObershelp {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
     where
