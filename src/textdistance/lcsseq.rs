@@ -4,13 +4,7 @@ use super::algorithm::{Algorithm, Result};
 pub struct LCSSeq {}
 
 impl Algorithm for LCSSeq {
-    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
-    where
-        C: Iterator<Item = E>,
-        E: Eq + Copy,
-    {
-        let s1: Vec<E> = s1.collect();
-        let s2: Vec<E> = s2.collect();
+    fn for_vec<E: Eq + Copy>(&self, s1: &[E], s2: &[E]) -> Result {
         let l1 = s1.len();
         let l2 = s2.len();
         let mut lengths = vec![vec![0; l2 + 1]; l1 + 1];

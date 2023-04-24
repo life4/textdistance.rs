@@ -39,13 +39,7 @@ impl Default for DamerauLevenshtein {
 }
 
 impl DamerauLevenshtein {
-    fn get_unrestricted<C, E>(&self, s1: C, s2: C) -> Result
-    where
-        C: Iterator<Item = E>,
-        E: Eq + Hash,
-    {
-        let s1: Vec<E> = s1.collect();
-        let s2: Vec<E> = s2.collect();
+    fn get_unrestricted<E: Eq + Hash>(&self, s1: &[E], s2: &[E]) -> Result {
         let l1 = s1.len();
         let l2 = s2.len();
         let max_dist = l2 + l1;
@@ -96,13 +90,7 @@ impl DamerauLevenshtein {
     }
 
     #[allow(clippy::needless_range_loop)]
-    fn get_restricted<C, E>(&self, s1: C, s2: C) -> Result
-    where
-        C: Iterator<Item = E>,
-        E: Eq + Hash,
-    {
-        let s1: Vec<E> = s1.collect();
-        let s2: Vec<E> = s2.collect();
+    fn get_restricted<E: Eq + Hash>(&self, s1: &[E], s2: &[E]) -> Result {
         let l1 = s1.len();
         let l2 = s2.len();
 
@@ -149,11 +137,7 @@ impl DamerauLevenshtein {
 }
 
 impl Algorithm for DamerauLevenshtein {
-    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
-    where
-        C: Iterator<Item = E>,
-        E: Eq + Hash,
-    {
+    fn for_vec<E: Eq + Hash>(&self, s1: &[E], s2: &[E]) -> Result {
         if self.restricted {
             self.get_restricted(s1, s2)
         } else {

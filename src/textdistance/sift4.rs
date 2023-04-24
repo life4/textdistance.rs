@@ -20,13 +20,7 @@ impl Default for Sift4 {
 }
 
 impl Sift4 {
-    fn get_simple<C, E>(&self, s1: C, s2: C) -> Result
-    where
-        C: Iterator<Item = E>,
-        E: Eq,
-    {
-        let s1: Vec<E> = s1.collect();
-        let s2: Vec<E> = s2.collect();
+    fn get_simple<E: Eq>(&self, s1: &[E], s2: &[E]) -> Result {
         let l1 = s1.len();
         let l2 = s2.len();
 
@@ -77,10 +71,9 @@ impl Sift4 {
 }
 
 impl Algorithm for Sift4 {
-    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
+    fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result
     where
-        C: Iterator<Item = E>,
-        E: Eq,
+        E: Eq + Copy + std::hash::Hash,
     {
         assert!(self.simple);
         self.get_simple(s1, s2)
