@@ -1,7 +1,13 @@
 use super::algorithm::{Algorithm, Result};
 
+/// [Hamming distance] for two strings is the number of positions at which
+/// the corresponding symbols are different.
+///
+/// [Hamming distance]: https://en.wikipedia.org/wiki/Hamming_distance
 #[derive(Default)]
 pub struct Hamming {
+    /// If false (default), the longer strings is truncated to the same length
+    /// as the shorter one.
     pub truncate: bool,
 }
 
