@@ -72,6 +72,7 @@ impl Algorithm<usize> for Levenshtein {
 #[cfg(test)]
 mod tests {
     use crate::textdistance::str::levenshtein;
+    use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;
 
@@ -91,7 +92,7 @@ mod tests {
     #[case("test", "tesst", 1)]
     #[case("test", "tet", 1)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
-        assert_eq!(levenshtein(s1, s2), exp);
+        assert!(levenshtein(s1, s2) == exp);
     }
 
     proptest! {

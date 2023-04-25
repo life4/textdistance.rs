@@ -158,6 +158,7 @@ fn min3(a: usize, b: usize, c: usize) -> usize {
 mod tests {
     use super::*;
     use crate::textdistance::str::{damerau_levenshtein, damerau_levenshtein_restricted};
+    use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;
 
@@ -192,8 +193,8 @@ mod tests {
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
         let res1 = damerau_levenshtein(s1, s2);
         let res2 = damerau_levenshtein_restricted(s1, s2);
-        assert_eq!(res1, res2);
-        assert_eq!(res1, exp);
+        assert!(res1 == res2);
+        assert!(res1 == exp);
     }
 
     #[test]
@@ -202,15 +203,15 @@ mod tests {
             restricted: true,
             ..Default::default()
         };
-        assert_eq!(a.for_str("ab", "bca").abs, 3);
-        assert_eq!(a.for_str("abcd", "bdac").abs, 4);
+        assert!(a.for_str("ab", "bca").abs == 3);
+        assert!(a.for_str("abcd", "bdac").abs == 4);
     }
 
     #[test]
     fn unrestricted() {
         let a: DamerauLevenshtein = Default::default();
-        assert_eq!(a.for_str("ab", "bca").abs, 2);
-        assert_eq!(a.for_str("abcd", "bdac").abs, 3);
+        assert!(a.for_str("ab", "bca").abs == 2);
+        assert!(a.for_str("abcd", "bdac").abs == 3);
     }
 
     proptest! {

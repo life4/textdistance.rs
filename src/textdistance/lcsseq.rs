@@ -48,6 +48,7 @@ impl Algorithm<usize> for LCSSeq {
 #[cfg(test)]
 mod tests {
     use crate::textdistance::str::lcsseq;
+    use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;
 
@@ -67,7 +68,7 @@ mod tests {
     #[case("aggtab", "gxtxayb", 4)] // "gtab"
     #[case("你好，世界", "再见世界", 2)] // "世界"
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
-        assert_eq!(lcsseq(s1, s2), exp);
+        assert!(lcsseq(s1, s2) == exp);
     }
 
     proptest! {

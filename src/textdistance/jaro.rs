@@ -99,6 +99,7 @@ impl Algorithm<f64> for Jaro {
 #[cfg(test)]
 mod tests {
     use crate::textdistance::str::jaro;
+    use assert2::assert;
     use rstest::rstest;
 
     fn is_close(a: f64, b: f64) -> bool {

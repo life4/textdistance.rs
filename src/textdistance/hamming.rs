@@ -60,6 +60,7 @@ impl Algorithm<usize> for Hamming {
 mod tests {
     use super::{Algorithm, Hamming};
     use crate::textdistance::str::hamming;
+    use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;
 
@@ -75,24 +76,24 @@ mod tests {
     #[case("Rust", "rust", 1)]
     #[case("hi mark", "hi markus", 2)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
-        assert_eq!(hamming(s1, s2), exp);
+        assert!(hamming(s1, s2) == exp);
     }
 
     #[test]
     fn default_struct_result() {
         let a: Hamming = Default::default();
         let r = a.for_iter("Rust".chars(), "rust".chars());
-        assert_eq!(r.dist(), 1);
-        assert_eq!(r.sim(), 3);
-        assert_eq!(r.max, 4);
-        assert_eq!(r.ndist(), 0.25);
+        assert!(r.dist() == 1);
+        assert!(r.sim() == 3);
+        assert!(r.max == 4);
+        assert!(r.ndist() == 0.25);
     }
 
     #[test]
     fn truncate() {
         let a = Hamming { truncate: true };
-        assert_eq!(a.for_str("hi mark", "hi markus").abs, 0);
-        assert_eq!(a.for_str("Hi mark", "hi markus").abs, 1);
+        assert!(a.for_str("hi mark", "hi markus").abs == 0);
+        assert!(a.for_str("Hi mark", "hi markus").abs == 1);
     }
 
     proptest! {

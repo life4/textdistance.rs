@@ -25,6 +25,8 @@ tasks:
   test:
     deps:
       - install-nextest
+    env:
+      CLICOLOR_FORCE: "yes"
     cmds:
       - cargo nextest run --no-fail-fast {{.CLI_ARGS}}
       # - cargo test {{.CLI_ARGS}}

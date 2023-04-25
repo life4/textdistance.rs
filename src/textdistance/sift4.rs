@@ -83,6 +83,7 @@ impl Algorithm<usize> for Sift4 {
 #[cfg(test)]
 mod tests {
     use crate::textdistance::str::sift4;
+    use assert2::assert;
     use rstest::rstest;
 
     #[rstest]
@@ -105,6 +106,6 @@ mod tests {
     #[case("123 nowhere ave", "123 n0where 4ve", 2)]
     #[case("bisectable6", "disectable6", 1)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
-        assert_eq!(sift4(s1, s2), exp);
+        assert!(sift4(s1, s2) == exp);
     }
 }

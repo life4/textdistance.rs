@@ -36,6 +36,7 @@ impl Algorithm<usize> for LCSStr {
 #[cfg(test)]
 mod tests {
     use crate::textdistance::str::lcsstr;
+    use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;
 
@@ -53,17 +54,17 @@ mod tests {
     #[case("zxabcdezy", "yzabcdezx", "abcdez")]
     #[case("OldSite:GeeksforGeeks.org", "NewSite:GeeksQuiz.com", "Site:Geeks")]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: &str) {
-        assert_eq!(lcsstr(s1, s2), exp.len());
+        assert!(lcsstr(s1, s2) == exp.len());
     }
 
     #[test]
     fn unicode() {
         let f = lcsstr;
-        assert_eq!(f("п", ""), 0);
-        assert_eq!(f("", "п"), 0);
-        assert_eq!(f("п", "п"), 1);
-        assert_eq!(f("привет", "пока"), 1);
-        assert_eq!(f("корвет", "привет"), 3);
+        assert!(f("п", "") == 0);
+        assert!(f("", "п") == 0);
+        assert!(f("п", "п") == 1);
+        assert!(f("привет", "пока") == 1);
+        assert!(f("корвет", "привет") == 3);
     }
 
     proptest! {

@@ -3,6 +3,28 @@
 version = 3
 
 [[package]]
+name = "assert2"
+version = "0.3.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b08f101feec0a9ef4ef850105353c3726da5db058e19b8c53a6ab1fc4b7f7e33"
+dependencies = [
+ "assert2-macros",
+ "is-terminal",
+ "yansi",
+]
+
+[[package]]
+name = "assert2-macros"
+version = "0.3.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7fabe93976c52f6ab5c8c356335953880c1030093b067500b13bd33ec0ea6377"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
 name = "autocfg"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -212,6 +234,18 @@ checksum = "9c66c74d2ae7e79a5a8f7ac924adbe38ee42a859c6539ad869eb51f0b52dc220"
 dependencies = [
  "hermit-abi",
  "libc",
+ "windows-sys 0.48.0",
+]
+
+[[package]]
+name = "is-terminal"
+version = "0.4.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "adcf93614601c8129ddf72e2d5633df827ba6551541c6d8c59520a371475be1f"
+dependencies = [
+ "hermit-abi",
+ "io-lifetimes",
+ "rustix",
  "windows-sys 0.48.0",
 ]
 
@@ -493,6 +527,7 @@ dependencies = [
 name = "textdistance"
 version = "0.1.0"
 dependencies = [
+ "assert2",
  "proptest",
  "rstest",
 ]
@@ -655,3 +690,9 @@ name = "windows_x86_64_msvc"
 version = "0.48.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1a515f5799fe4961cb532f983ce2b23082366b898e52ffbce459c86f67c8378a"
+
+[[package]]
+name = "yansi"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "09041cd90cf85f7f8b2df60c646f853b7f535ce68f85244eb6731cf89fa498ec"

@@ -69,6 +69,7 @@ impl Algorithm<usize> for RatcliffObershelp {
 mod tests {
     use super::{Algorithm, RatcliffObershelp};
     use crate::textdistance::str::ratcliff_obershelp;
+    use assert2::assert;
     use rstest::rstest;
 
     #[rstest]
@@ -77,21 +78,21 @@ mod tests {
     #[case("", "abc", 0.)]
     #[case("abc", "abc", 1.)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: f64) {
-        assert_eq!(ratcliff_obershelp(s1, s2), exp);
+        assert!(ratcliff_obershelp(s1, s2) == exp);
     }
 
     #[test]
     fn default_abs() {
         let a: RatcliffObershelp = Default::default();
-        assert_eq!(
+        assert!(
             a.for_str("GESTALT PATTERN MATCHING", "GESTALT PRACTICE")
-                .abs,
-            24
+                .abs
+                == 24
         );
-        assert_eq!(
+        assert!(
             a.for_str("GESTALT PRACTICE", "GESTALT PATTERN MATCHING")
-                .abs,
-            26
+                .abs
+                == 26
         );
     }
 }
