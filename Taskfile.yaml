@@ -1,7 +1,15 @@
 # https://taskfile.dev
 version: "3"
 
+vars:
+  CARGO_BIN: ~/.cargo/bin/
+
 tasks:
+  install-nextest:
+    status:
+      - test -f {{.CARGO_BIN}}/cargo-nextest
+    cmds:
+      - curl -LsSf https://get.nexte.st/latest/linux | tar zxf - -C {{.CARGO_BIN}}
   check:
     cmds:
       - cargo check --all {{.CLI_ARGS}}
@@ -15,8 +23,11 @@ tasks:
       - cargo clippy --all -- -D clippy::dbg-macro -D warnings
 
   test:
+    deps:
+      - install-nextest
     cmds:
-      - cargo test {{.CLI_ARGS}}
+      - cargo nextest run --no-fail-fast {{.CLI_ARGS}}
+      # - cargo test {{.CLI_ARGS}}
 
   all:
     - task: format
