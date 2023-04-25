@@ -37,23 +37,23 @@ impl Algorithm<usize> for LCSStr {
 mod tests {
     use crate::textdistance::str::lcsstr;
     use proptest::prelude::*;
+    use rstest::rstest;
 
-    #[test]
-    fn basic() {
-        let f = lcsstr;
-        assert_eq!(f("", ""), 0);
-        assert_eq!(f("a", ""), 0);
-        assert_eq!(f("", "a"), 0);
-        assert_eq!(f("a", "a"), 1); // "a"
-        assert_eq!(f("ab", "b"), 1); // "b"
-        assert_eq!(f("abcdef", "bcd"), 3); // "bcd"
-        assert_eq!(f("bcd", "abcdef"), 3); // "bcd"
-        assert_eq!(f("abcdef", "xabded"), 2); // "ab"
-        assert_eq!(f("GeeksforGeeks", "GeeksQuiz"), 5); // "Geeks"
-        assert_eq!(f("abcdxyz", "xyzabcd"), 4); // "abcd"
-        assert_eq!(f("zxabcdezy", "yzabcdezx"), 6); // "abcdez"
-        assert_eq!(f("OldSite:GeeksforGeeks.org", "NewSite:GeeksQuiz.com"), 10);
-        // "Site:Geeks"
+    #[rstest]
+    #[case("", "", "")]
+    #[case("a", "", "")]
+    #[case("", "a", "")]
+    #[case("a", "a", "a")]
+    #[case("ab", "b", "b")]
+    #[case("abcdef", "bcd", "bcd")]
+    #[case("bcd", "abcdef", "bcd")]
+    #[case("abcdef", "xabded", "ab")]
+    #[case("GeeksforGeeks", "GeeksQuiz", "Geeks")]
+    #[case("abcdxyz", "xyzabcd", "abcd")]
+    #[case("zxabcdezy", "yzabcdezx", "abcdez")]
+    #[case("OldSite:GeeksforGeeks.org", "NewSite:GeeksQuiz.com", "Site:Geeks")]
+    fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: &str) {
+        assert_eq!(lcsstr(s1, s2), exp.len());
     }
 
     #[test]

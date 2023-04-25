@@ -99,30 +99,28 @@ impl Algorithm<f64> for Jaro {
 #[cfg(test)]
 mod tests {
     use crate::textdistance::str::jaro;
+    use rstest::rstest;
 
     fn is_close(a: f64, b: f64) -> bool {
         (a - b).abs() < 1E-5
     }
 
-    #[test]
-    fn function() {
-        fn t(s1: &str, s2: &str, exp: f64) {
-            let act = jaro(s1, s2);
-            let ok = is_close(act, exp);
-            assert!(ok, "jaro({}, {}) is {}, not {}", s1, s2, act, exp);
-        }
-
-        // parity with strsim-rs
-        t("", "", 1.);
-        t("a", "a", 1.);
-        t("Jaro-Winkler", "Jaro-Winkler", 1.);
-        t("", "jaro-winkler", 0.);
-        t("distance", "", 0.);
-        t("a", "b", 0.);
-        t("dixon", "dicksonx", 0.76667);
-        t("a", "ab", 0.83333);
-        t("ab", "a", 0.83333);
-        t("dwayne", "duane", 0.82222);
-        t("Friedrich Nietzsche", "Jean-Paul Sartre", 0.39189);
+    #[rstest]
+    // parity with strsim-rs
+    #[case("", "", 1.)]
+    #[case("a", "a", 1.)]
+    #[case("Jaro-Winkler", "Jaro-Winkler", 1.)]
+    #[case("", "jaro-winkler", 0.)]
+    #[case("distance", "", 0.)]
+    #[case("a", "b", 0.)]
+    #[case("dixon", "dicksonx", 0.76667)]
+    #[case("a", "ab", 0.83333)]
+    #[case("ab", "a", 0.83333)]
+    #[case("dwayne", "duane", 0.82222)]
+    #[case("Friedrich Nietzsche", "Jean-Paul Sartre", 0.39189)]
+    fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: f64) {
+        let act = jaro(s1, s2);
+        let ok = is_close(act, exp);
+        assert!(ok, "jaro({}, {}) is {}, not {}", s1, s2, act, exp);
     }
 }

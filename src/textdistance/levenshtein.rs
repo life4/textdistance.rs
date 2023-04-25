@@ -73,24 +73,25 @@ impl Algorithm<usize> for Levenshtein {
 mod tests {
     use crate::textdistance::str::levenshtein;
     use proptest::prelude::*;
+    use rstest::rstest;
 
-    #[test]
-    fn function() {
-        let f = levenshtein;
-        assert_eq!(f("", ""), 0);
-        assert_eq!(f("", "\0"), 1);
-        assert_eq!(f("", "abc"), 3);
-        assert_eq!(f("abc", ""), 3);
-        assert_eq!(f("sitting", "sitting"), 0);
-        assert_eq!(f("sitting", "kitten"), 3);
-        assert_eq!(f("example", "samples"), 3);
-        assert_eq!(f("distance", "difference"), 5);
-        assert_eq!(f("test", "text"), 1);
-        assert_eq!(f("test", "tset"), 2);
-        assert_eq!(f("test", "qwe"), 4);
-        assert_eq!(f("test", "testit"), 2);
-        assert_eq!(f("test", "tesst"), 1);
-        assert_eq!(f("test", "tet"), 1);
+    #[rstest]
+    #[case("", "", 0)]
+    #[case("", "\0", 1)]
+    #[case("", "abc", 3)]
+    #[case("abc", "", 3)]
+    #[case("sitting", "sitting", 0)]
+    #[case("sitting", "kitten", 3)]
+    #[case("example", "samples", 3)]
+    #[case("distance", "difference", 5)]
+    #[case("test", "text", 1)]
+    #[case("test", "tset", 2)]
+    #[case("test", "qwe", 4)]
+    #[case("test", "testit", 2)]
+    #[case("test", "tesst", 1)]
+    #[case("test", "tet", 1)]
+    fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
+        assert_eq!(levenshtein(s1, s2), exp);
     }
 
     proptest! {

@@ -159,46 +159,41 @@ mod tests {
     use super::*;
     use crate::textdistance::str::{damerau_levenshtein, damerau_levenshtein_restricted};
     use proptest::prelude::*;
+    use rstest::rstest;
 
-    #[test]
-    fn function() {
-        fn f(s1: &str, s2: &str) -> usize {
-            let res1 = damerau_levenshtein(s1, s2);
-            let res2 = damerau_levenshtein_restricted(s1, s2);
-            assert_eq!(res1, res2);
-            res1
-        }
-
-        assert_eq!(f("", ""), 0);
-        assert_eq!(f("", "\0"), 1);
-        assert_eq!(f("", "abc"), 3);
-        assert_eq!(f("abc", ""), 3);
-        assert_eq!(f("hannah", "hannha"), 1);
-        assert_eq!(f("FOO", "BOR"), 2);
-        assert_eq!(f("BAR", "BOR"), 1);
-        assert_eq!(f("hansi", "hasni"), 1);
-        assert_eq!(f("zzaabbio", "zzababoi"), 2);
-        assert_eq!(f("zzaabb", "zzabab"), 1);
-        assert_eq!(f("abcdef", "badcfe"), 3);
-        assert_eq!(f("klmb", "klm"), 1);
-        assert_eq!(f("klm", "klmb"), 1);
-
-        assert_eq!(f("test", "text"), 1);
-        assert_eq!(f("test", "tset"), 1);
-        assert_eq!(f("test", "qwy"), 4);
-        assert_eq!(f("test", "testit"), 2);
-        assert_eq!(f("test", "tesst"), 1);
-        assert_eq!(f("test", "tet"), 1);
-
-        assert_eq!(f("cat", "hat"), 1);
-        assert_eq!(f("Niall", "Neil"), 3);
-        assert_eq!(f("aluminum", "Catalan"), 7);
-        assert_eq!(f("ATCG", "TAGC"), 2);
-
-        assert_eq!(f("ab", "ba"), 1);
-        assert_eq!(f("ab", "cde"), 3);
-        assert_eq!(f("ab", "ac"), 1);
-        assert_eq!(f("ab", "bc"), 2);
+    #[rstest]
+    #[case("", "", 0)]
+    #[case("", "\0", 1)]
+    #[case("", "abc", 3)]
+    #[case("abc", "", 3)]
+    #[case("hannah", "hannha", 1)]
+    #[case("FOO", "BOR", 2)]
+    #[case("BAR", "BOR", 1)]
+    #[case("hansi", "hasni", 1)]
+    #[case("zzaabbio", "zzababoi", 2)]
+    #[case("zzaabb", "zzabab", 1)]
+    #[case("abcdef", "badcfe", 3)]
+    #[case("klmb", "klm", 1)]
+    #[case("klm", "klmb", 1)]
+    #[case("test", "text", 1)]
+    #[case("test", "tset", 1)]
+    #[case("test", "qwy", 4)]
+    #[case("test", "testit", 2)]
+    #[case("test", "tesst", 1)]
+    #[case("test", "tet", 1)]
+    #[case("cat", "hat", 1)]
+    #[case("Niall", "Neil", 3)]
+    #[case("aluminum", "Catalan", 7)]
+    #[case("ATCG", "TAGC", 2)]
+    #[case("ab", "ba", 1)]
+    #[case("ab", "cde", 3)]
+    #[case("ab", "ac", 1)]
+    #[case("ab", "bc", 2)]
+    fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
+        let res1 = damerau_levenshtein(s1, s2);
+        let res2 = damerau_levenshtein_restricted(s1, s2);
+        assert_eq!(res1, res2);
+        assert_eq!(res1, exp);
     }
 
     #[test]

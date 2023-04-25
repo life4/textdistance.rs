@@ -61,20 +61,21 @@ mod tests {
     use super::{Algorithm, Hamming};
     use crate::textdistance::str::hamming;
     use proptest::prelude::*;
+    use rstest::rstest;
 
-    #[test]
-    fn function() {
-        let f = hamming;
-        assert_eq!(f("", ""), 0);
-        assert_eq!(f("", "\0"), 1);
-        assert_eq!(f("", "abc"), 3);
-        assert_eq!(f("abc", ""), 3);
-        assert_eq!(f("sitting", "sitting"), 0);
-        assert_eq!(f("abcdefg", "hijklmn"), 7);
-        assert_eq!(f("karolin", "kathrin"), 3);
-        assert_eq!(f("hello", "world"), 4);
-        assert_eq!(f("Rust", "rust"), 1);
-        assert_eq!(f("hi mark", "hi markus"), 2);
+    #[rstest]
+    #[case("", "", 0)]
+    #[case("", "\0", 1)]
+    #[case("", "abc", 3)]
+    #[case("abc", "", 3)]
+    #[case("sitting", "sitting", 0)]
+    #[case("abcdefg", "hijklmn", 7)]
+    #[case("karolin", "kathrin", 3)]
+    #[case("hello", "world", 4)]
+    #[case("Rust", "rust", 1)]
+    #[case("hi mark", "hi markus", 2)]
+    fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
+        assert_eq!(hamming(s1, s2), exp);
     }
 
     #[test]

@@ -49,24 +49,25 @@ impl Algorithm<usize> for LCSSeq {
 mod tests {
     use crate::textdistance::str::lcsseq;
     use proptest::prelude::*;
+    use rstest::rstest;
 
-    #[test]
-    fn basic() {
-        let f = lcsseq;
-        assert_eq!(f("", ""), 0);
-        assert_eq!(f("", "abcd"), 0);
-        assert_eq!(f("abcd", ""), 0);
-        assert_eq!(f("ab", "cd"), 0);
-        assert_eq!(f("abcd", "abcd"), 4); // "abcd"
-        assert_eq!(f("test", "text"), 3); // "tet"
-        assert_eq!(f("thisisatest", "testing123testing"), 7); // "tsitest"
-        assert_eq!(f("abcd", "c"), 1); // "c"
-        assert_eq!(f("abcd", "d"), 1); // "d"
-        assert_eq!(f("abcd", "e"), 0); // ""
-        assert_eq!(f("abcdefghi", "acegi"), 5); // "acegi"
-        assert_eq!(f("abcdgh", "aedfhr"), 3); // "adh"
-        assert_eq!(f("aggtab", "gxtxayb"), 4); // "gtab"
-        assert_eq!(f("你好，世界", "再见世界"), 2); // "世界"
+    #[rstest]
+    #[case("", "", 0)]
+    #[case("", "abcd", 0)]
+    #[case("abcd", "", 0)]
+    #[case("ab", "cd", 0)]
+    #[case("abcd", "abcd", 4)] // "abcd"
+    #[case("test", "text", 3)] // "tet"
+    #[case("thisisatest", "testing123testing", 7)] // "tsitest"
+    #[case("abcd", "c", 1)] // "c"
+    #[case("abcd", "d", 1)] // "d"
+    #[case("abcd", "e", 0)] // ""
+    #[case("abcdefghi", "acegi", 5)] // "acegi"
+    #[case("abcdgh", "aedfhr", 3)] // "adh"
+    #[case("aggtab", "gxtxayb", 4)] // "gtab"
+    #[case("你好，世界", "再见世界", 2)] // "世界"
+    fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
+        assert_eq!(lcsseq(s1, s2), exp);
     }
 
     proptest! {

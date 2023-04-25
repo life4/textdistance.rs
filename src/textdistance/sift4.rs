@@ -83,29 +83,28 @@ impl Algorithm<usize> for Sift4 {
 #[cfg(test)]
 mod tests {
     use crate::textdistance::str::sift4;
+    use rstest::rstest;
 
-    #[test]
-    fn function() {
-        let f = sift4;
-
-        // parity with another Rust implementation
-        assert_eq!(f("London", "Lond"), 2);
-        assert_eq!(f("Chicago", "Chiag"), 2);
-        assert_eq!(f("Los Angeles", "Angeles"), 4);
-        assert_eq!(f("Bangkok", "Bagrok"), 2);
-        assert_eq!(f("San Francisco", "san Francisco"), 1);
-        assert_eq!(f("New York", "new York"), 1);
-        assert_eq!(f("San Francisco", ""), 13);
-        assert_eq!(f("", "New York"), 8);
-
-        // parity with Swift implementation
-        assert_eq!(f("a", "a"), 0);
-        assert_eq!(f("a", "b"), 1);
-        assert_eq!(f("aa", "aabb"), 2);
-        assert_eq!(f("aaaa", "aabb"), 2);
-        assert_eq!(f("abba", "aabb"), 1);
-        assert_eq!(f("aaaa", "abbb"), 3);
-        assert_eq!(f("123 nowhere ave", "123 n0where 4ve"), 2);
-        assert_eq!(f("bisectable6", "disectable6"), 1);
+    #[rstest]
+    // parity with another Rust implementation
+    #[case("London", "Lond", 2)]
+    #[case("Chicago", "Chiag", 2)]
+    #[case("Los Angeles", "Angeles", 4)]
+    #[case("Bangkok", "Bagrok", 2)]
+    #[case("San Francisco", "san Francisco", 1)]
+    #[case("New York", "new York", 1)]
+    #[case("San Francisco", "", 13)]
+    #[case("", "New York", 8)]
+    // parity with Swift implementation
+    #[case("a", "a", 0)]
+    #[case("a", "b", 1)]
+    #[case("aa", "aabb", 2)]
+    #[case("aaaa", "aabb", 2)]
+    #[case("abba", "aabb", 1)]
+    #[case("aaaa", "abbb", 3)]
+    #[case("123 nowhere ave", "123 n0where 4ve", 2)]
+    #[case("bisectable6", "disectable6", 1)]
+    fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
+        assert_eq!(sift4(s1, s2), exp);
     }
 }
