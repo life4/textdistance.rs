@@ -3,6 +3,7 @@
 use super::algorithm::Algorithm;
 use super::damerau_levenshtein::DamerauLevenshtein;
 use super::hamming::Hamming;
+use super::jaro::Jaro;
 use super::lcsseq::LCSSeq;
 use super::lcsstr::LCSStr;
 use super::levenshtein::Levenshtein;
@@ -85,4 +86,9 @@ pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
 pub fn sift4(s1: &str, s2: &str) -> usize {
     let a: Sift4 = Default::default();
     a.for_str(s1, s2).val()
+}
+
+pub fn jaro(s1: &str, s2: &str) -> f64 {
+    let a: Jaro = Default::default();
+    a.for_str(s1, s2).nval()
 }

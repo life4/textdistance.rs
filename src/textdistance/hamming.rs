@@ -11,8 +11,8 @@ pub struct Hamming {
     pub truncate: bool,
 }
 
-impl Algorithm for Hamming {
-    fn for_iter<C, E>(&self, mut s1: C, mut s2: C) -> Result
+impl Algorithm<usize> for Hamming {
+    fn for_iter<C, E>(&self, mut s1: C, mut s2: C) -> Result<usize>
     where
         C: Iterator<Item = E>,
         E: Eq,

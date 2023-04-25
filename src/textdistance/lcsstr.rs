@@ -3,8 +3,8 @@ use super::algorithm::{Algorithm, Result};
 #[derive(Default)]
 pub struct LCSStr {}
 
-impl Algorithm for LCSStr {
-    fn for_vec<E: Eq>(&self, s1: &[E], s2: &[E]) -> Result {
+impl Algorithm<usize> for LCSStr {
+    fn for_vec<E: Eq>(&self, s1: &[E], s2: &[E]) -> Result<usize> {
         let l1 = s1.len();
         let l2 = s2.len();
         let mut dp = vec![vec![0; l2 + 1]; l1 + 1];

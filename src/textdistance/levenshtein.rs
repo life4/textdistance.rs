@@ -3,8 +3,8 @@ use super::algorithm::{Algorithm, Result};
 #[derive(Default)]
 pub struct Levenshtein {}
 
-impl Algorithm for Levenshtein {
-    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
+impl Algorithm<usize> for Levenshtein {
+    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result<usize>
     where
         C: Iterator<Item = E>,
         E: Eq,

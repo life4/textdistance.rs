@@ -3,8 +3,8 @@ use super::algorithm::{Algorithm, Result};
 #[derive(Default)]
 pub struct LCSSeq {}
 
-impl Algorithm for LCSSeq {
-    fn for_vec<E: Eq + Copy>(&self, s1: &[E], s2: &[E]) -> Result {
+impl Algorithm<usize> for LCSSeq {
+    fn for_vec<E: Eq + Copy>(&self, s1: &[E], s2: &[E]) -> Result<usize> {
         let l1 = s1.len();
         let l2 = s2.len();
         let mut lengths = vec![vec![0; l2 + 1]; l1 + 1];

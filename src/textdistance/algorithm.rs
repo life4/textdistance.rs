@@ -1,9 +1,9 @@
 use std::hash::Hash;
 
 /// A base trait for all distance/similarity algorithms.
-pub trait Algorithm {
+pub trait Algorithm<R> {
     /// Calculate distance/similarity for iterators.
-    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result
+    fn for_iter<C, E>(&self, s1: C, s2: C) -> Result<R>
     where
         C: Iterator<Item = E>,
         E: Eq + Copy + Hash,
@@ -14,7 +14,7 @@ pub trait Algorithm {
     }
 
     /// Calculate distance/similarity for vectors.
-    fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result
+    fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result<R>
     where
         E: Eq + Copy + Hash,
     {
@@ -22,21 +22,21 @@ pub trait Algorithm {
     }
 
     /// Calculate distance/similarity for strings.
-    fn for_str(&self, s1: &str, s2: &str) -> Result {
+    fn for_str(&self, s1: &str, s2: &str) -> Result<R> {
         self.for_iter(s1.chars(), s2.chars())
     }
 }
 
 /// Result of a distance/similarity algorithm.
-pub struct Result {
+pub struct Result<R> {
     pub is_distance: bool,
-    pub abs: usize,
-    pub max: usize,
+    pub abs: R,
+    pub max: R,
     pub len1: usize,
     pub len2: usize,
 }
 
-impl Result {
+impl Result<usize> {
     pub fn val(&self) -> usize {
         self.abs
     }
@@ -104,6 +104,32 @@ impl Result {
             1.0
         } else {
             self.sim() as f64 / self.max as f64
+        }
+    }
+}
+
+impl Result<f64> {
+    pub fn nval(&self) -> f64 {
+        self.abs
+    }
+    pub fn ndist(&self) -> f64 {
+        if self.is_distance {
+            self.abs
+        } else {
+            self.max - self.abs
+        }
+    }
+
+    /// Normalized similarity.
+    ///
+    /// A number from 0.0 to 1.0 showing how similar the two sequences are.
+    /// 0.0 indicates that the sequences are very different,
+    /// and 1.0 indicates that the sequences are the same.
+    pub fn nsim(&self) -> f64 {
+        if self.is_distance {
+            self.max - self.abs
+        } else {
+            self.abs
         }
     }
 }

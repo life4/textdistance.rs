@@ -4,6 +4,7 @@ pub mod textdistance {
     mod algorithm;
     mod damerau_levenshtein;
     mod hamming;
+    mod jaro;
     mod lcsseq;
     mod lcsstr;
     mod levenshtein;
@@ -13,6 +14,7 @@ pub mod textdistance {
     pub use self::algorithm::{Algorithm, Result};
     pub use self::damerau_levenshtein::DamerauLevenshtein;
     pub use self::hamming::Hamming;
+    pub use self::jaro::Jaro;
     pub use self::lcsseq::LCSSeq;
     pub use self::lcsstr::LCSStr;
     pub use self::levenshtein::Levenshtein;
@@ -25,42 +27,42 @@ mod tests {
     use crate::textdistance::*;
     use proptest::prelude::*;
 
-    fn hamming(s1: &str, s2: &str) -> Result {
+    fn hamming(s1: &str, s2: &str) -> Result<usize> {
         let a: Hamming = Default::default();
         a.for_str(s1, s2)
     }
 
-    fn lcsseq(s1: &str, s2: &str) -> Result {
+    fn lcsseq(s1: &str, s2: &str) -> Result<usize> {
         let a: LCSSeq = Default::default();
         a.for_str(s1, s2)
     }
 
-    fn lcsstr(s1: &str, s2: &str) -> Result {
+    fn lcsstr(s1: &str, s2: &str) -> Result<usize> {
         let a: LCSStr = Default::default();
         a.for_str(s1, s2)
     }
 
-    fn ratcliff_obershelp(s1: &str, s2: &str) -> Result {
+    fn ratcliff_obershelp(s1: &str, s2: &str) -> Result<usize> {
         let a: RatcliffObershelp = Default::default();
         a.for_str(s1, s2)
     }
 
-    fn levenshtein(s1: &str, s2: &str) -> Result {
+    fn levenshtein(s1: &str, s2: &str) -> Result<usize> {
         let a: Levenshtein = Default::default();
         a.for_str(s1, s2)
     }
 
-    fn damerau_levenshtein(s1: &str, s2: &str) -> Result {
+    fn damerau_levenshtein(s1: &str, s2: &str) -> Result<usize> {
         let a: DamerauLevenshtein = Default::default();
         a.for_str(s1, s2)
     }
 
-    fn sift4(s1: &str, s2: &str) -> Result {
+    fn sift4(s1: &str, s2: &str) -> Result<usize> {
         let a: Sift4 = Default::default();
         a.for_str(s1, s2)
     }
 
-    type AlgFn = dyn Fn(&str, &str) -> Result;
+    type AlgFn = dyn Fn(&str, &str) -> Result<usize>;
 
     fn get_algs() -> Vec<Box<AlgFn>> {
         vec![
@@ -86,7 +88,7 @@ mod tests {
     }
 
     fn is_close(a: f64, b: f64) -> bool {
-        a - b < 1E-9 && b - a < 1E-9
+        (a - b).abs() < 1E-9
     }
 
     proptest! {

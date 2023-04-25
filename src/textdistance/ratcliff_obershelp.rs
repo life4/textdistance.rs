@@ -3,8 +3,8 @@ use super::algorithm::{Algorithm, Result};
 #[derive(Default)]
 pub struct RatcliffObershelp {}
 
-impl Algorithm for RatcliffObershelp {
-    fn for_vec<E: Eq>(&self, s1: &[E], s2: &[E]) -> Result {
+impl Algorithm<usize> for RatcliffObershelp {
+    fn for_vec<E: Eq>(&self, s1: &[E], s2: &[E]) -> Result<usize> {
         let l1 = s1.len();
         let l2 = s2.len();
         let mut stack: Vec<((usize, usize), (usize, usize))> = Vec::new();
