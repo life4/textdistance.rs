@@ -25,66 +25,39 @@ pub mod textdistance {
 #[cfg(test)]
 mod tests {
     use crate::textdistance::*;
+    use assert2::assert;
     use proptest::prelude::*;
+    use rstest::rstest;
 
-    fn hamming(s1: &str, s2: &str) -> Result<usize> {
-        let a: Hamming = Default::default();
-        a.for_str(s1, s2)
-    }
+    const ALGS: usize = 7;
 
-    fn lcsseq(s1: &str, s2: &str) -> Result<usize> {
-        let a: LCSSeq = Default::default();
-        a.for_str(s1, s2)
-    }
-
-    fn lcsstr(s1: &str, s2: &str) -> Result<usize> {
-        let a: LCSStr = Default::default();
-        a.for_str(s1, s2)
-    }
-
-    fn ratcliff_obershelp(s1: &str, s2: &str) -> Result<usize> {
-        let a: RatcliffObershelp = Default::default();
-        a.for_str(s1, s2)
-    }
-
-    fn levenshtein(s1: &str, s2: &str) -> Result<usize> {
-        let a: Levenshtein = Default::default();
-        a.for_str(s1, s2)
-    }
-
-    fn damerau_levenshtein(s1: &str, s2: &str) -> Result<usize> {
-        let a: DamerauLevenshtein = Default::default();
-        a.for_str(s1, s2)
-    }
-
-    fn sift4(s1: &str, s2: &str) -> Result<usize> {
-        let a: Sift4 = Default::default();
-        a.for_str(s1, s2)
-    }
-
-    type AlgFn = dyn Fn(&str, &str) -> Result<usize>;
-
-    fn get_algs() -> Vec<Box<AlgFn>> {
-        vec![
-            Box::new(damerau_levenshtein),
-            Box::new(hamming),
-            Box::new(lcsseq),
-            Box::new(lcsstr),
-            Box::new(levenshtein),
-            Box::new(ratcliff_obershelp),
-            Box::new(sift4),
-        ]
-    }
-
-    #[test]
-    fn basic() {
-        for alg in get_algs() {
-            assert_eq!(alg("", "").dist(), 0);
-            assert!(alg("ab", "cde").dist() > 0);
-            assert!(alg("spam", "qwer").sim() == 0);
-            assert_eq!(alg("", "").ndist(), 0.);
-            assert_eq!(alg("", "").nsim(), 1.);
+    fn get_result(alg: usize, s1: &str, s2: &str) -> Result<usize> {
+        match alg {
+            1 => Hamming::default().for_str(s1, s2),
+            2 => LCSSeq::default().for_str(s1, s2),
+            3 => LCSStr::default().for_str(s1, s2),
+            4 => RatcliffObershelp::default().for_str(s1, s2),
+            5 => Levenshtein::default().for_str(s1, s2),
+            6 => DamerauLevenshtein::default().for_str(s1, s2),
+            7 => Sift4::default().for_str(s1, s2),
+            _ => panic!("there are not so many algorithms!"),
         }
+    }
+
+    #[rstest]
+    #[case::hamming(1)]
+    #[case::lcsseq(2)]
+    #[case::lcsstr(3)]
+    #[case::ratcliff_obershelp(4)]
+    #[case::levenshtein(5)]
+    #[case::damerau_levenshtein(6)]
+    #[case::sift4(7)]
+    fn basic(#[case] alg: usize) {
+        assert!(get_result(alg, "", "").dist() == 0);
+        assert!(get_result(alg, "ab", "cde").dist() > 0);
+        assert!(get_result(alg, "spam", "qwer").sim() == 0);
+        assert!(get_result(alg, "", "").ndist() == 0.);
+        assert!(get_result(alg, "", "").nsim() == 1.);
     }
 
     fn is_close(a: f64, b: f64) -> bool {
@@ -94,45 +67,46 @@ mod tests {
     proptest! {
         #[test]
         fn prop(s1 in ".*", s2 in ".*") {
-            for alg in get_algs() {
-                let res = alg(&s1, &s2);
+            for alg in 1..ALGS {
+                let res = get_result(alg, &s1, &s2);
                 let d = res.dist();
                 let s = res.sim();
 
                 let nd = res.ndist();
-                assert!(nd.is_finite());
-                assert!(nd >= 0.);
-                assert!(nd <= 1.);
+                prop_assert!(nd.is_finite());
+                prop_assert!(nd >= 0.);
+                prop_assert!(nd <= 1.);
 
                 let ns = res.nsim();
-                assert!(ns.is_finite());
-                assert!(ns >= 0.);
-                assert!(ns <= 1.);
+                prop_assert!(ns.is_finite());
+                prop_assert!(ns >= 0.);
+                prop_assert!(ns <= 1.);
 
-                assert!(is_close(ns + nd, 1.), "{} + {} == 1", nd, ns);
+                prop_assert!(is_close(ns + nd, 1.), "{} + {} == 1", nd, ns);
 
                 if d < s {
-                    assert!(nd < ns, "{} < {}", nd, ns);
+                    prop_assert!(nd < ns, "{} < {}", nd, ns);
                 } else if d > s {
-                    assert!(nd > ns, "{} > {}", nd, ns);
+                    prop_assert!(nd > ns, "{} > {}", nd, ns);
                 } else if !s1.is_empty() && !s2.is_empty() {
-                    assert!(nd == ns, "{} == {}", nd, ns);
+                    prop_assert!(nd == ns, "{} == {}", nd, ns);
                 }
-                assert!(res.abs == d || res.abs == s);
+                prop_assert!(res.abs == d || res.abs == s);
 
-                assert_eq!(res.len1, s1.chars().count());
-                assert_eq!(res.len2, s2.chars().count());
-                assert!(res.max >= res.len1.min(res.len2));
+                prop_assert_eq!(res.len1, s1.chars().count());
+                prop_assert_eq!(res.len2, s2.chars().count());
+                prop_assert!(res.max >= res.len1.min(res.len2));
             }
         }
 
+        #[test]
         fn prop_same(s in ".*") {
-            for alg in get_algs() {
-                let nd = alg(&s, &s).ndist();
-                assert_eq!(nd, 0., "{} == 0.0", nd);
-
-                let ns = alg(&s, &s).nsim();
-                assert_eq!(ns, 1., "{} == 1.0", ns);
+            for alg in 1..ALGS {
+                let res = get_result(alg, &s, &s);
+                let nd = res.ndist();
+                prop_assert_eq!(nd, 0., "{} == 0.0", nd);
+                let ns = res.nsim();
+                prop_assert_eq!(ns, 1., "{} == 1.0", ns);
             }
         }
     }
