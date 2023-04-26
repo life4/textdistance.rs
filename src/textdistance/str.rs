@@ -3,6 +3,7 @@
 use super::algorithm::Algorithm;
 use super::damerau_levenshtein::DamerauLevenshtein;
 use super::hamming::Hamming;
+use super::jaccard::Jaccard;
 use super::jaro::Jaro;
 use super::jaro_winkler::JaroWinkler;
 use super::lcsseq::LCSSeq;
@@ -98,4 +99,8 @@ pub fn yujian_bo(s1: &str, s2: &str) -> f64 {
 
 pub fn mlipns(s1: &str, s2: &str) -> usize {
     MLIPNS::default().for_str(s1, s2).val()
+}
+
+pub fn jaccard(s1: &str, s2: &str) -> f64 {
+    Jaccard::default().for_str(s1, s2).nval()
 }

@@ -2,8 +2,10 @@ pub mod textdistance {
     pub mod str;
 
     mod algorithm;
+    mod counter;
     mod damerau_levenshtein;
     mod hamming;
+    mod jaccard;
     mod jaro;
     mod jaro_winkler;
     mod lcsseq;
@@ -17,6 +19,7 @@ pub mod textdistance {
     pub use self::algorithm::{Algorithm, Result};
     pub use self::damerau_levenshtein::DamerauLevenshtein;
     pub use self::hamming::Hamming;
+    pub use self::jaccard::Jaccard;
     pub use self::jaro::Jaro;
     pub use self::jaro_winkler::JaroWinkler;
     pub use self::lcsseq::LCSSeq;
@@ -56,6 +59,7 @@ mod tests {
             1 => Jaro::default().for_str(s1, s2),
             2 => JaroWinkler::default().for_str(s1, s2),
             3 => YujianBo::default().for_str(s1, s2),
+            4 => Jaccard::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -84,6 +88,7 @@ mod tests {
     #[case::jaro(1)]
     #[case::jaro_winkler(2)]
     #[case::yujian_bo(3)]
+    #[case::jaccard(4)]
     fn basic_f64(#[case] alg: usize) {
         let empty_res = get_result_f64(alg, "", "");
         assert!(get_result_f64(alg, "ab", "cde").ndist() > 0.);
