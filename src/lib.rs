@@ -14,6 +14,7 @@ pub mod textdistance {
     mod mlipns;
     mod ratcliff_obershelp;
     mod sift4;
+    mod sorensen_dice;
     mod yujian_bo;
 
     pub use self::algorithm::{Algorithm, Result};
@@ -28,6 +29,7 @@ pub mod textdistance {
     pub use self::mlipns::MLIPNS;
     pub use self::ratcliff_obershelp::RatcliffObershelp;
     pub use self::sift4::Sift4;
+    pub use self::sorensen_dice::SorensenDice;
     pub use self::yujian_bo::YujianBo;
 }
 
@@ -60,6 +62,7 @@ mod tests {
             2 => JaroWinkler::default().for_str(s1, s2),
             3 => YujianBo::default().for_str(s1, s2),
             4 => Jaccard::default().for_str(s1, s2),
+            5 => SorensenDice::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -72,12 +75,14 @@ mod tests {
     #[case::levenshtein(5)]
     #[case::damerau_levenshtein(6)]
     #[case::sift4(7)]
-    // #[case::mlipns(8)]
+    #[case::mlipns(8)]
     fn basic_usize(#[case] alg: usize) {
         let empty_res = get_result(alg, "", "");
         assert!(empty_res.dist() == 0);
-        assert!(get_result(alg, "ab", "cde").dist() > 0);
-        assert!(get_result(alg, "ab", "cde").ndist() > 0.);
+        if alg != 8 {
+            assert!(get_result(alg, "ab", "cde").dist() > 0);
+            assert!(get_result(alg, "ab", "cde").ndist() > 0.);
+        }
         assert!(get_result(alg, "spam", "qwer").sim() == 0);
         assert!(get_result(alg, "spam", "qwer").nsim() == 0.);
         assert!(empty_res.ndist() == 0.);
@@ -89,6 +94,7 @@ mod tests {
     #[case::jaro_winkler(2)]
     #[case::yujian_bo(3)]
     #[case::jaccard(4)]
+    #[case::sorensen_dice(5)]
     fn basic_f64(#[case] alg: usize) {
         let empty_res = get_result_f64(alg, "", "");
         assert!(get_result_f64(alg, "ab", "cde").ndist() > 0.);

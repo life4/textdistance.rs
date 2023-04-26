@@ -12,6 +12,7 @@ use super::levenshtein::Levenshtein;
 use super::mlipns::MLIPNS;
 use super::ratcliff_obershelp::RatcliffObershelp;
 use super::sift4::Sift4;
+use super::sorensen_dice::SorensenDice;
 use super::yujian_bo::YujianBo;
 
 /// Calculate unrestricted [Damerau-Levenshtein distance] for two strings.
@@ -103,4 +104,8 @@ pub fn mlipns(s1: &str, s2: &str) -> usize {
 
 pub fn jaccard(s1: &str, s2: &str) -> f64 {
     Jaccard::default().for_str(s1, s2).nval()
+}
+
+pub fn sorensen_dice(s1: &str, s2: &str) -> f64 {
+    SorensenDice::default().for_str(s1, s2).nval()
 }
