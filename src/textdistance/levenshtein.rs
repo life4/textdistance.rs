@@ -1,7 +1,25 @@
 use super::algorithm::{Algorithm, Result};
 
-#[derive(Default)]
-pub struct Levenshtein {}
+pub struct Levenshtein {
+    /// The cost of removing a character.
+    pub del_cost: usize,
+
+    /// The cost of adding a new character.
+    pub ins_cost: usize,
+
+    /// The cost of replacing a character with another one.
+    pub sub_cost: usize,
+}
+
+impl Default for Levenshtein {
+    fn default() -> Self {
+        Self {
+            del_cost: 1,
+            ins_cost: 1,
+            sub_cost: 1,
+        }
+    }
+}
 
 impl Algorithm<usize> for Levenshtein {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result<usize>
@@ -34,16 +52,20 @@ impl Algorithm<usize> for Levenshtein {
             l2 += 1;
 
             for (i1, c1) in s1.iter().enumerate() {
-                dist2 = if c1 == &c2 { dist1 } else { dist1 + 1 };
+                dist2 = if c1 == &c2 {
+                    dist1
+                } else {
+                    dist1 + self.sub_cost
+                };
                 dist1 = cache[i1];
                 result = if dist1 > result {
                     if dist2 > result {
-                        result + 1
+                        result + self.del_cost
                     } else {
                         dist2
                     }
                 } else if dist2 > dist1 {
-                    dist1 + 1
+                    dist1 + self.ins_cost
                 } else {
                     dist2
                 };

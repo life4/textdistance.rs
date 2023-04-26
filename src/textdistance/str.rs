@@ -11,6 +11,7 @@ use super::levenshtein::Levenshtein;
 use super::mlipns::MLIPNS;
 use super::ratcliff_obershelp::RatcliffObershelp;
 use super::sift4::Sift4;
+use super::yujian_bo::YujianBo;
 
 /// Calculate unrestricted [Damerau-Levenshtein distance] for two strings.
 ///
@@ -89,6 +90,10 @@ pub fn jaro(s1: &str, s2: &str) -> f64 {
 
 pub fn jaro_winkler(s1: &str, s2: &str) -> f64 {
     JaroWinkler::default().for_str(s1, s2).nval()
+}
+
+pub fn yujian_bo(s1: &str, s2: &str) -> f64 {
+    YujianBo::default().for_str(s1, s2).nval()
 }
 
 pub fn mlipns(s1: &str, s2: &str) -> usize {
