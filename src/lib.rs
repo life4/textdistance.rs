@@ -44,6 +44,13 @@ mod tests {
         }
     }
 
+    fn get_result_f64(alg: usize, s1: &str, s2: &str) -> Result<f64> {
+        match alg {
+            1 => Jaro::default().for_str(s1, s2),
+            _ => panic!("there are not so many algorithms!"),
+        }
+    }
+
     #[rstest]
     #[case::hamming(1)]
     #[case::lcsseq(2)]
@@ -52,12 +59,25 @@ mod tests {
     #[case::levenshtein(5)]
     #[case::damerau_levenshtein(6)]
     #[case::sift4(7)]
-    fn basic(#[case] alg: usize) {
-        assert!(get_result(alg, "", "").dist() == 0);
+    fn basic_usize(#[case] alg: usize) {
+        let empty_res = get_result(alg, "", "");
+        assert!(empty_res.dist() == 0);
         assert!(get_result(alg, "ab", "cde").dist() > 0);
+        assert!(get_result(alg, "ab", "cde").ndist() > 0.);
         assert!(get_result(alg, "spam", "qwer").sim() == 0);
-        assert!(get_result(alg, "", "").ndist() == 0.);
-        assert!(get_result(alg, "", "").nsim() == 1.);
+        assert!(get_result(alg, "spam", "qwer").nsim() == 0.);
+        assert!(empty_res.ndist() == 0.);
+        assert!(empty_res.nsim() == 1.);
+    }
+
+    #[rstest]
+    #[case::jaro(1)]
+    fn basic_f64(#[case] alg: usize) {
+        let empty_res = get_result_f64(alg, "", "");
+        assert!(get_result_f64(alg, "ab", "cde").ndist() > 0.);
+        assert!(get_result_f64(alg, "spam", "qwer").nsim() == 0.);
+        assert!(empty_res.ndist() == 0.);
+        assert!(empty_res.nsim() == 1.);
     }
 
     fn is_close(a: f64, b: f64) -> bool {
