@@ -4,10 +4,7 @@ use super::algorithm::{Algorithm, Result};
 pub struct Jaro {}
 
 impl Algorithm<f64> for Jaro {
-    fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result<f64>
-    where
-        E: Eq + Copy + std::hash::Hash,
-    {
+    fn for_vec<E: Eq>(&self, s1: &[E], s2: &[E]) -> Result<f64> {
         let l1 = s1.len();
         let l2 = s2.len();
 
@@ -45,7 +42,7 @@ impl Algorithm<f64> for Jaro {
         let search_range = l1.max(l2) / 2 - 1;
 
         let mut s2_consumed = vec![false; l2];
-        let mut matches = 0.0;
+        let mut matches = 0;
 
         let mut n_trans = 0.0;
         let mut b_match_index = 0;
@@ -68,7 +65,7 @@ impl Algorithm<f64> for Jaro {
             for (j, b_elem) in s2.iter().enumerate() {
                 if min_bound <= j && j <= max_bound && a_elem == b_elem && !s2_consumed[j] {
                     s2_consumed[j] = true;
-                    matches += 1.0;
+                    matches += 1;
 
                     if j < b_match_index {
                         n_trans += 1.0;
@@ -80,10 +77,11 @@ impl Algorithm<f64> for Jaro {
             }
         }
 
-        let result = if matches == 0.0 {
+        let result = if matches == 0 {
             0.0
         } else {
-            ((matches / l1 as f64) + (matches / l2 as f64) + ((matches - n_trans) / matches)) / 3.0
+            let ms = matches as f64;
+            ((ms / l1 as f64) + (ms / l2 as f64) + ((ms - n_trans) / ms)) / 3.0
         };
 
         Result {

@@ -4,6 +4,7 @@ use super::algorithm::Algorithm;
 use super::damerau_levenshtein::DamerauLevenshtein;
 use super::hamming::Hamming;
 use super::jaro::Jaro;
+use super::jaro_winkler::JaroWinkler;
 use super::lcsseq::LCSSeq;
 use super::lcsstr::LCSStr;
 use super::levenshtein::Levenshtein;
@@ -83,4 +84,8 @@ pub fn sift4(s1: &str, s2: &str) -> usize {
 
 pub fn jaro(s1: &str, s2: &str) -> f64 {
     Jaro::default().for_str(s1, s2).nval()
+}
+
+pub fn jaro_winkler(s1: &str, s2: &str) -> f64 {
+    JaroWinkler::default().for_str(s1, s2).nval()
 }
