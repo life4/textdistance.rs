@@ -9,6 +9,7 @@ pub mod textdistance {
     mod lcsseq;
     mod lcsstr;
     mod levenshtein;
+    mod mlipns;
     mod ratcliff_obershelp;
     mod sift4;
 
@@ -20,6 +21,7 @@ pub mod textdistance {
     pub use self::lcsseq::LCSSeq;
     pub use self::lcsstr::LCSStr;
     pub use self::levenshtein::Levenshtein;
+    pub use self::mlipns::MLIPNS;
     pub use self::ratcliff_obershelp::RatcliffObershelp;
     pub use self::sift4::Sift4;
 }
@@ -31,7 +33,7 @@ mod tests {
     use proptest::prelude::*;
     use rstest::rstest;
 
-    const ALGS: usize = 7;
+    const ALGS: usize = 8;
 
     fn get_result(alg: usize, s1: &str, s2: &str) -> Result<usize> {
         match alg {
@@ -42,6 +44,7 @@ mod tests {
             5 => Levenshtein::default().for_str(s1, s2),
             6 => DamerauLevenshtein::default().for_str(s1, s2),
             7 => Sift4::default().for_str(s1, s2),
+            8 => MLIPNS::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -62,6 +65,7 @@ mod tests {
     #[case::levenshtein(5)]
     #[case::damerau_levenshtein(6)]
     #[case::sift4(7)]
+    // #[case::mlipns(8)]
     fn basic_usize(#[case] alg: usize) {
         let empty_res = get_result(alg, "", "");
         assert!(empty_res.dist() == 0);
