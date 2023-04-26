@@ -209,7 +209,7 @@ mod tests {
 
     #[test]
     fn unrestricted() {
-        let a: DamerauLevenshtein = Default::default();
+        let a = DamerauLevenshtein::default();
         assert!(a.for_str("ab", "bca").abs == 2);
         assert!(a.for_str("abcd", "bdac").abs == 3);
     }

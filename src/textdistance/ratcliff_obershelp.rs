@@ -83,7 +83,7 @@ mod tests {
 
     #[test]
     fn default_abs() {
-        let a: RatcliffObershelp = Default::default();
+        let a = RatcliffObershelp::default();
         assert!(
             a.for_str("GESTALT PATTERN MATCHING", "GESTALT PRACTICE")
                 .abs

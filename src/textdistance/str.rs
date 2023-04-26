@@ -16,8 +16,7 @@ use super::sift4::Sift4;
 ///
 /// [Damerau-Levenshtein distance]: https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
 pub fn damerau_levenshtein(s1: &str, s2: &str) -> usize {
-    let a: DamerauLevenshtein = Default::default();
-    a.for_str(s1, s2).val()
+    DamerauLevenshtein::default().for_str(s1, s2).val()
 }
 
 /// Calculate restricted [Damerau-Levenshtein distance] for two strings.
@@ -39,8 +38,7 @@ pub fn damerau_levenshtein_restricted(s1: &str, s2: &str) -> usize {
 ///
 /// [Hamming distance]: https://en.wikipedia.org/wiki/Hamming_distance
 pub fn hamming(s1: &str, s2: &str) -> usize {
-    let a: Hamming = Default::default();
-    a.for_str(s1, s2).val()
+    Hamming::default().for_str(s1, s2).val()
 }
 
 /// Calculate the length of the [Longest Common SubSequence] for two strings.
@@ -49,8 +47,7 @@ pub fn hamming(s1: &str, s2: &str) -> usize {
 ///
 /// [Longest Common SubSequence]: https://en.wikipedia.org/wiki/Longest_common_subsequence
 pub fn lcsseq(s1: &str, s2: &str) -> usize {
-    let a: LCSSeq = Default::default();
-    a.for_str(s1, s2).val()
+    LCSSeq::default().for_str(s1, s2).val()
 }
 
 /// Calculate the length of the [Longest Common SubString] for two strings.
@@ -59,8 +56,7 @@ pub fn lcsseq(s1: &str, s2: &str) -> usize {
 ///
 /// [Longest Common SubString]: https://en.wikipedia.org/wiki/Longest_common_substring
 pub fn lcsstr(s1: &str, s2: &str) -> usize {
-    let a: LCSStr = Default::default();
-    a.for_str(s1, s2).val()
+    LCSStr::default().for_str(s1, s2).val()
 }
 
 /// Calculate [Levenshtein distance] for two strings.
@@ -69,8 +65,7 @@ pub fn lcsstr(s1: &str, s2: &str) -> usize {
 ///
 /// [Levenshtein distance]: https://en.wikipedia.org/wiki/Levenshtein_distance
 pub fn levenshtein(s1: &str, s2: &str) -> usize {
-    let a: Levenshtein = Default::default();
-    a.for_str(s1, s2).val()
+    Levenshtein::default().for_str(s1, s2).val()
 }
 
 /// Calculate [Ratcliff-Obershelp normalized similarity] for two strings.
@@ -79,16 +74,13 @@ pub fn levenshtein(s1: &str, s2: &str) -> usize {
 ///
 /// [Ratcliff-Obershelp normalized similarity]: https://en.wikipedia.org/wiki/Gestalt_pattern_matching
 pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
-    let a: RatcliffObershelp = Default::default();
-    a.for_str(s1, s2).nval()
+    RatcliffObershelp::default().for_str(s1, s2).nval()
 }
 
 pub fn sift4(s1: &str, s2: &str) -> usize {
-    let a: Sift4 = Default::default();
-    a.for_str(s1, s2).val()
+    Sift4::default().for_str(s1, s2).val()
 }
 
 pub fn jaro(s1: &str, s2: &str) -> f64 {
-    let a: Jaro = Default::default();
-    a.for_str(s1, s2).nval()
+    Jaro::default().for_str(s1, s2).nval()
 }

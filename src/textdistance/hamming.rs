@@ -81,8 +81,7 @@ mod tests {
 
     #[test]
     fn default_struct_result() {
-        let a: Hamming = Default::default();
-        let r = a.for_iter("Rust".chars(), "rust".chars());
+        let r = Hamming::default().for_str("Rust", "rust");
         assert!(r.dist() == 1);
         assert!(r.sim() == 3);
         assert!(r.max == 4);
