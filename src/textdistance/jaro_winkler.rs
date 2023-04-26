@@ -1,16 +1,26 @@
 use super::algorithm::{Algorithm, Result};
 use super::jaro::Jaro;
 
-#[derive(Default)]
 pub struct JaroWinkler {
     jaro: Jaro,
+    prefix_weight: f64,
 }
 
-impl Algorithm<f64> for JaroWinkler {
-    fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result<f64>
+impl Default for JaroWinkler {
+    fn default() -> Self {
+        Self {
+            jaro: Default::default(),
+            prefix_weight: 0.1,
+        }
+    }
+}
+
+impl JaroWinkler {
+    fn winklerize<E>(&self, jaro: f64, s1: &[E], s2: &[E]) -> f64
     where
         E: Eq + Copy + std::hash::Hash,
     {
+        debug_assert!(self.prefix_weight <= 0.25);
         let mut prefix_len = 0;
         for (e1, e2) in s1.iter().zip(s2.iter()) {
             if e1 == e2 {
@@ -19,15 +29,23 @@ impl Algorithm<f64> for JaroWinkler {
                 break;
             }
         }
+        let sim = jaro + (self.prefix_weight * prefix_len as f64 * (1.0 - jaro));
+        sim.min(1.0)
+    }
+}
 
-        let jaro_res = self.jaro.for_vec(s1, s2);
-        let sim = jaro_res.abs + (0.1 * prefix_len as f64 * (1.0 - jaro_res.abs));
+impl Algorithm<f64> for JaroWinkler {
+    fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result<f64>
+    where
+        E: Eq + Copy + std::hash::Hash,
+    {
+        let jaro = self.jaro.for_vec(s1, s2).nval();
         Result {
-            abs: sim.min(1.0),
+            abs: self.winklerize(jaro, s1, s2),
             is_distance: false,
             max: 1.0,
-            len1: jaro_res.len1,
-            len2: jaro_res.len2,
+            len1: s1.len(),
+            len2: s2.len(),
         }
     }
 }
