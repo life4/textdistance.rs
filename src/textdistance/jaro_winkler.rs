@@ -2,8 +2,16 @@ use super::algorithm::{Algorithm, Result};
 use super::jaro::Jaro;
 
 pub struct JaroWinkler {
+    // The Jaro instance to use to calculate the classic Jaro similarity.
     jaro: Jaro,
+
+    /// `p` is a scailing factor for how much Jaro score is adjusted
+    /// for the common prefix. The default is 0.1, must not be higher than
+    /// `1/ℓ` where ℓ is the `max_prefix` value (4 by default).
     prefix_weight: f64,
+
+    /// `ℓ` is the maximum length of the common prefix. The default is 4.
+    max_prefix: usize,
 }
 
 impl Default for JaroWinkler {
@@ -11,26 +19,30 @@ impl Default for JaroWinkler {
         Self {
             jaro: Default::default(),
             prefix_weight: 0.1,
+            max_prefix: 4,
         }
     }
 }
 
 impl JaroWinkler {
-    fn winklerize<E>(&self, jaro: f64, s1: &[E], s2: &[E]) -> f64
+    fn winklerize<C, E>(&self, jaro: f64, s1: C, s2: C) -> f64
     where
+        C: Iterator<Item = E>,
         E: Eq + Copy + std::hash::Hash,
     {
-        debug_assert!(self.prefix_weight <= 0.25);
+        debug_assert!(self.prefix_weight * self.max_prefix as f64 <= 1.0);
         let mut prefix_len = 0;
-        for (e1, e2) in s1.iter().zip(s2.iter()) {
+        for (e1, e2) in s1.zip(s2) {
             if e1 == e2 {
                 prefix_len += 1;
+                if prefix_len == self.max_prefix {
+                    break;
+                }
             } else {
                 break;
             }
         }
-        let sim = jaro + (self.prefix_weight * prefix_len as f64 * (1.0 - jaro));
-        sim.min(1.0)
+        jaro + (self.prefix_weight * prefix_len as f64 * (1.0 - jaro))
     }
 }
 
@@ -41,7 +53,7 @@ impl Algorithm<f64> for JaroWinkler {
     {
         let jaro = self.jaro.for_vec(s1, s2).nval();
         Result {
-            abs: self.winklerize(jaro, s1, s2),
+            abs: self.winklerize(jaro, s1.iter(), s2.iter()),
             is_distance: false,
             max: 1.0,
             len1: s1.len(),
@@ -74,10 +86,30 @@ mod tests {
     #[case("dwayne", "duane", 0.8400000)]
     #[case("martha", "marhta", 0.9611111)]
     #[case("Friedrich Nietzsche", "Fran-Paul Sartre", 0.561988)]
-    #[case("cheeseburger", "cheese fries", 0.911111)]
     #[case("Thorkel", "Thorgier", 0.867857)]
     #[case("Dinsdale", "D", 0.737500)]
-    #[case("thequickbrownfoxjumpedoverx", "thequickbrownfoxjumpedovery", 1.0)]
+    // These fail because strsim doesn't limit the max prefix length:
+    // #[case("cheeseburger", "cheese fries", 0.911111)]
+    // #[case("thequickbrownfoxjumpedoverx", "thequickbrownfoxjumpedovery", 1.0)]
+
+    // parity with jellyfish
+    #[case("dixon", "dicksonx", 0.81333333)]
+    #[case("martha", "marhta", 0.961111111)]
+    #[case("dwayne", "duane", 0.84)]
+    #[case("William", "Williams", 0.975)]
+    #[case("", "foo", 0.)]
+    #[case("a", "a", 1.)]
+    #[case("abc", "xyz", 0.)]
+    #[case("aaaa", "aaaaa", 0.96)]
+    #[case("orangutan-kumquat", "orangutan kumquat", 0.97647058)]
+    #[case("jaz", "jal", 0.8222222)]
+    #[case("@", "@@", 0.85)]
+    #[case("0", "0@", 0.85)]
+    #[case("a", "ab", 0.85)]
+    #[case("012345", "0123456", 0.9714285)]
+    #[case("012abc", "012abcd", 0.9714285)]
+    #[case("012abc", "013abcd", 0.879365079)]
+    #[case("a1bc", "a1be", 0.8833333)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: f64) {
         let act = jaro_winkler(s1, s2);
         let ok = is_close(act, exp);
