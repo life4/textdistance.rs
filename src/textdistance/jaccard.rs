@@ -12,9 +12,13 @@ impl Algorithm<f64> for Jaccard {
     {
         let c1 = Counter::from_iter(s1);
         let c2 = Counter::from_iter(s2);
-        let ic = c1.intersect_count(&c2);
         let uc = c1.union_count(&c2);
-        let res = if uc == 0 { 1.0 } else { ic as f64 / uc as f64 };
+        let res = if uc == 0 {
+            1.
+        } else {
+            let ic = c1.intersect_count(&c2);
+            ic as f64 / uc as f64
+        };
         Result {
             abs: res,
             is_distance: false,

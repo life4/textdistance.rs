@@ -10,6 +10,7 @@ use super::lcsseq::LCSSeq;
 use super::lcsstr::LCSStr;
 use super::levenshtein::Levenshtein;
 use super::mlipns::MLIPNS;
+use super::overlap::Overlap;
 use super::ratcliff_obershelp::RatcliffObershelp;
 use super::sift4::Sift4;
 use super::sorensen_dice::SorensenDice;
@@ -113,4 +114,8 @@ pub fn sorensen_dice(s1: &str, s2: &str) -> f64 {
 
 pub fn tversky(s1: &str, s2: &str) -> f64 {
     Tversky::default().for_str(s1, s2).nval()
+}
+
+pub fn overlap(s1: &str, s2: &str) -> f64 {
+    Overlap::default().for_str(s1, s2).nval()
 }

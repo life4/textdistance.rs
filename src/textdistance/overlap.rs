@@ -2,9 +2,9 @@ use super::algorithm::{Algorithm, Result};
 use super::counter::Counter;
 
 #[derive(Default)]
-pub struct SorensenDice {}
+pub struct Overlap {}
 
-impl Algorithm<f64> for SorensenDice {
+impl Algorithm<f64> for Overlap {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result<f64>
     where
         C: Iterator<Item = E>,
@@ -12,12 +12,16 @@ impl Algorithm<f64> for SorensenDice {
     {
         let c1 = Counter::from_iter(s1);
         let c2 = Counter::from_iter(s2);
-        let cn = c1.count() + c2.count();
-        let res = if cn == 0 {
-            1.
-        } else {
-            let ic = c1.intersect_count(&c2);
-            (2 * ic) as f64 / cn as f64
+        let n1 = c1.count();
+        let n2 = c2.count();
+        let res = match (n1, n2) {
+            (0, 0) => 1.,
+            (_, 0) => 0.,
+            (0, _) => 0.,
+            (_, _) => {
+                let ic = c1.intersect_count(&c2);
+                ic as f64 / n1.min(n2) as f64
+            }
         };
         Result {
             abs: res,
@@ -31,7 +35,7 @@ impl Algorithm<f64> for SorensenDice {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::sorensen_dice;
+    use crate::textdistance::str::overlap;
     use assert2::assert;
     use rstest::rstest;
 
@@ -44,10 +48,12 @@ mod tests {
     #[case("nelson", "", 0.)]
     #[case("", "neilsen", 0.)]
     // parity with textdistance
-    #[case("test", "text", 2.0 * 3. / 8.)]
+    #[case("test", "text", 3. / 4.)]
+    #[case("testme", "textthis", 4. / 6.)]
+    #[case("nelson", "neilsen", 5. / 6.)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: f64) {
-        let act = sorensen_dice(s1, s2);
+        let act = overlap(s1, s2);
         let ok = is_close(act, exp);
-        assert!(ok, "sorensen_dice({}, {}) is {}, not {}", s1, s2, act, exp);
+        assert!(ok, "overlap({}, {}) is {}, not {}", s1, s2, act, exp);
     }
 }

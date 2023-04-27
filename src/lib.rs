@@ -12,6 +12,7 @@ pub mod textdistance {
     mod lcsstr;
     mod levenshtein;
     mod mlipns;
+    mod overlap;
     mod ratcliff_obershelp;
     mod sift4;
     mod sorensen_dice;
@@ -28,6 +29,7 @@ pub mod textdistance {
     pub use self::lcsstr::LCSStr;
     pub use self::levenshtein::Levenshtein;
     pub use self::mlipns::MLIPNS;
+    pub use self::overlap::Overlap;
     pub use self::ratcliff_obershelp::RatcliffObershelp;
     pub use self::sift4::Sift4;
     pub use self::sorensen_dice::SorensenDice;
@@ -66,6 +68,7 @@ mod tests {
             4 => Jaccard::default().for_str(s1, s2),
             5 => SorensenDice::default().for_str(s1, s2),
             6 => Tversky::default().for_str(s1, s2),
+            7 => Overlap::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -99,6 +102,7 @@ mod tests {
     #[case::jaccard(4)]
     #[case::sorensen_dice(5)]
     #[case::tversky(6)]
+    #[case::overlap(7)]
     fn basic_f64(#[case] alg: usize) {
         let empty_res = get_result_f64(alg, "", "");
         assert!(get_result_f64(alg, "ab", "cde").ndist() > 0.);
