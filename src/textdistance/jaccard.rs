@@ -18,7 +18,7 @@ impl Algorithm<f64> for Jaccard {
         Result {
             abs: res,
             is_distance: false,
-            max: 1.0,
+            max: 1.,
             len1: c1.count(),
             len2: c2.count(),
         }

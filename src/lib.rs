@@ -15,6 +15,7 @@ pub mod textdistance {
     mod ratcliff_obershelp;
     mod sift4;
     mod sorensen_dice;
+    mod tversky;
     mod yujian_bo;
 
     pub use self::algorithm::{Algorithm, Result};
@@ -30,6 +31,7 @@ pub mod textdistance {
     pub use self::ratcliff_obershelp::RatcliffObershelp;
     pub use self::sift4::Sift4;
     pub use self::sorensen_dice::SorensenDice;
+    pub use self::tversky::Tversky;
     pub use self::yujian_bo::YujianBo;
 }
 
@@ -63,6 +65,7 @@ mod tests {
             3 => YujianBo::default().for_str(s1, s2),
             4 => Jaccard::default().for_str(s1, s2),
             5 => SorensenDice::default().for_str(s1, s2),
+            6 => Tversky::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -95,6 +98,7 @@ mod tests {
     #[case::yujian_bo(3)]
     #[case::jaccard(4)]
     #[case::sorensen_dice(5)]
+    #[case::tversky(6)]
     fn basic_f64(#[case] alg: usize) {
         let empty_res = get_result_f64(alg, "", "");
         assert!(get_result_f64(alg, "ab", "cde").ndist() > 0.);

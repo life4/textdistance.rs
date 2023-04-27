@@ -15,14 +15,14 @@ impl Algorithm<f64> for SorensenDice {
         let ic = c1.intersect_count(&c2);
         let cn = c1.count() + c2.count();
         let res = if cn == 0 {
-            1.0
+            1.
         } else {
             (2 * ic) as f64 / cn as f64
         };
         Result {
             abs: res,
             is_distance: false,
-            max: 1.0,
+            max: 1.,
             len1: c1.count(),
             len2: c2.count(),
         }
