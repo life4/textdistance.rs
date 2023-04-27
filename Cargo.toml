@@ -5,5 +5,10 @@ edition = "2021"
 
 [dev-dependencies]
 assert2 = "0.3.10"
+criterion = "0.4.0"
 proptest = "1.1.0"
 rstest = "0.17.0"
+
+[[bench]]
+name = "str_benchmarks"
+harness = false

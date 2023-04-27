@@ -10,6 +10,13 @@ tasks:
       - test -f {{.CARGO_BIN}}/cargo-nextest
     cmds:
       - curl -LsSf https://get.nexte.st/latest/linux | tar zxf - -C {{.CARGO_BIN}}
+
+  clone-licenses:
+    status:
+      - test -d choosealicense.com
+    cmds:
+      - git clone --depth 1 https://github.com/github/choosealicense.com.git
+
   check:
     cmds:
       - cargo check --all {{.CLI_ARGS}}
@@ -30,6 +37,12 @@ tasks:
     cmds:
       - cargo nextest run --no-fail-fast {{.CLI_ARGS}}
       # - cargo test {{.CLI_ARGS}}
+
+  bench:
+    deps:
+      - clone-licenses
+    cmds:
+      - cargo bench
 
   all:
     - task: format
