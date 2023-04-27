@@ -36,13 +36,12 @@ tasks:
       CLICOLOR_FORCE: "yes"
     cmds:
       - cargo nextest run --no-fail-fast {{.CLI_ARGS}}
-      # - cargo test {{.CLI_ARGS}}
 
   bench:
     deps:
       - clone-licenses
     cmds:
-      - cargo bench
+      - cargo bench {{.CLI_ARGS}}
 
   all:
     - task: format
