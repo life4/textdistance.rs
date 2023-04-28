@@ -10,7 +10,7 @@ ROOT = Path(__file__).parent.parent
 
 
 def get_algorithms() -> Iterator[str]:
-    for fpath in (ROOT / 'src' / 'textdistance').iterdir():
+    for fpath in (ROOT / 'src' / 'algorithms').iterdir():
         alg_name = fpath.stem
         if alg_name not in SKIP:
             yield alg_name
@@ -43,7 +43,7 @@ def test_is_exported(alg: str) -> None:
     fpath = (ROOT / 'src' / 'lib.rs')
     text = fpath.read_text()
     assert f'pub mod {alg}' in text
-    assert f'pub use self::textdistance::{alg}::' in text
+    assert f'pub use self::algorithms::{alg}::' in text
 
 
 @pytest.mark.parametrize('alg', ALGORITHMS)
@@ -55,5 +55,5 @@ def test_is_smoke_tested(alg: str) -> None:
 
 @pytest.mark.parametrize('alg', ALGORITHMS)
 def test_is_tested(alg: str) -> None:
-    fpath = (ROOT / 'src' / 'textdistance' / f'{alg}.rs')
+    fpath = (ROOT / 'src' / 'algorithms' / f'{alg}.rs')
     assert '#[rstest]' in fpath.read_text()

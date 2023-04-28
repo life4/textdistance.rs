@@ -2,7 +2,7 @@
 
 pub mod str;
 
-mod textdistance {
+mod algorithms {
     pub mod algorithm;
     pub mod cosine;
     pub mod counter;
@@ -25,25 +25,25 @@ mod textdistance {
     pub mod yujian_bo;
 }
 
-pub use self::textdistance::algorithm::{Algorithm, Result};
-pub use self::textdistance::cosine::Cosine;
-pub use self::textdistance::damerau_levenshtein::DamerauLevenshtein;
-pub use self::textdistance::hamming::Hamming;
-pub use self::textdistance::jaccard::Jaccard;
-pub use self::textdistance::jaro::Jaro;
-pub use self::textdistance::jaro_winkler::JaroWinkler;
-pub use self::textdistance::lcsseq::LCSSeq;
-pub use self::textdistance::lcsstr::LCSStr;
-pub use self::textdistance::levenshtein::Levenshtein;
-pub use self::textdistance::mlipns::MLIPNS;
-pub use self::textdistance::overlap::Overlap;
-pub use self::textdistance::prefix::Prefix;
-pub use self::textdistance::ratcliff_obershelp::RatcliffObershelp;
-pub use self::textdistance::sift4::Sift4;
-pub use self::textdistance::sorensen_dice::SorensenDice;
-pub use self::textdistance::suffix::Suffix;
-pub use self::textdistance::tversky::Tversky;
-pub use self::textdistance::yujian_bo::YujianBo;
+pub use self::algorithms::algorithm::{Algorithm, Result};
+pub use self::algorithms::cosine::Cosine;
+pub use self::algorithms::damerau_levenshtein::DamerauLevenshtein;
+pub use self::algorithms::hamming::Hamming;
+pub use self::algorithms::jaccard::Jaccard;
+pub use self::algorithms::jaro::Jaro;
+pub use self::algorithms::jaro_winkler::JaroWinkler;
+pub use self::algorithms::lcsseq::LCSSeq;
+pub use self::algorithms::lcsstr::LCSStr;
+pub use self::algorithms::levenshtein::Levenshtein;
+pub use self::algorithms::mlipns::MLIPNS;
+pub use self::algorithms::overlap::Overlap;
+pub use self::algorithms::prefix::Prefix;
+pub use self::algorithms::ratcliff_obershelp::RatcliffObershelp;
+pub use self::algorithms::sift4::Sift4;
+pub use self::algorithms::sorensen_dice::SorensenDice;
+pub use self::algorithms::suffix::Suffix;
+pub use self::algorithms::tversky::Tversky;
+pub use self::algorithms::yujian_bo::YujianBo;
 
 #[cfg(test)]
 mod tests {
