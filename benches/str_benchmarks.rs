@@ -2,7 +2,7 @@ use criterion::BenchmarkId;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use std::fs;
 use std::time::Duration;
-use textdistance::textdistance::str::{damerau_levenshtein, hamming, levenshtein};
+use textdistance::textdistance::str;
 
 fn read_licenses() -> Vec<(String, String)> {
     let mut licenses: Vec<(String, String)> = Vec::new();
@@ -12,10 +12,13 @@ fn read_licenses() -> Vec<(String, String)> {
         let lpath = lfile.unwrap();
         let ltext = fs::read_to_string(lpath.path()).unwrap();
         let lname = lpath.file_name().to_str().unwrap().to_owned();
+        // shorten the text to speed up benchmarks run
+        let ltext = ltext[1..200].to_string();
         licenses.push((lname, ltext));
 
+        // take only a subset of licenses to speed up benchmarks run
         i += 1;
-        if i == 5 {
+        if i == 10 {
             break;
         }
     }
@@ -33,9 +36,25 @@ fn criterion_benchmark(c: &mut Criterion) {
     // group.sampling_mode(criterion::SamplingMode::Flat);
 
     let algs: Vec<(&str, Box<AlgFn>)> = vec![
-        ("hamming", Box::new(hamming)),
-        ("levenshtein", Box::new(levenshtein)),
-        ("damerau_levenshtein", Box::new(damerau_levenshtein)),
+        ("damerau_levenshtein", Box::new(str::damerau_levenshtein)),
+        (
+            "damerau_levenshtein_restricted",
+            Box::new(str::damerau_levenshtein_restricted),
+        ),
+        ("hamming", Box::new(str::hamming)),
+        ("lcsseq", Box::new(str::lcsseq)),
+        ("lcsstr", Box::new(str::lcsstr)),
+        ("levenshtein", Box::new(str::levenshtein)),
+        // ("ratcliff_obershelp", Box::new(str::ratcliff_obershelp)),
+        ("sift4", Box::new(str::sift4)),
+        // ("jaro", Box::new(str::jaro)),
+        // ("jaro_winkler", Box::new(str::jaro_winkler)),
+        // ("yujian_bo", Box::new(str::yujian_bo)),
+        ("mlipns", Box::new(str::mlipns)),
+        // ("jaccard", Box::new(str::jaccard)),
+        // ("sorensen_dice", Box::new(str::sorensen_dice)),
+        // ("tversky", Box::new(str::tversky)),
+        // ("overlap", Box::new(str::overlap)),
     ];
 
     for (alg_name, alg_fn) in algs {
