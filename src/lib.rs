@@ -1,11 +1,11 @@
 // #![deny(missing_docs)]
 
+mod algorithm;
+mod counter;
 pub mod str;
 
 mod algorithms {
-    pub mod algorithm;
     pub mod cosine;
-    pub mod counter;
     pub mod damerau_levenshtein;
     pub mod hamming;
     pub mod jaccard;
@@ -25,7 +25,7 @@ mod algorithms {
     pub mod yujian_bo;
 }
 
-pub use self::algorithms::algorithm::{Algorithm, Result};
+pub use self::algorithm::{Algorithm, Result};
 pub use self::algorithms::cosine::Cosine;
 pub use self::algorithms::damerau_levenshtein::DamerauLevenshtein;
 pub use self::algorithms::hamming::Hamming;

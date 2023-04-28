@@ -1,4 +1,4 @@
-use super::algorithm::{Algorithm, Result};
+use crate::algorithm::{Algorithm, Result};
 
 /// [Sift4] is a distance algorithm designed to be "fast and relatively accurate".
 ///

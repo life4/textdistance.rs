@@ -1,4 +1,4 @@
-use super::algorithm::{Algorithm, Result};
+use crate::algorithm::{Algorithm, Result};
 
 /// [Hamming distance] for two strings is the number of positions at which
 /// the corresponding symbols are different.

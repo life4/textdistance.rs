@@ -1,4 +1,4 @@
-use super::algorithm::{Algorithm, Result};
+use crate::algorithm::{Algorithm, Result};
 
 #[derive(Default)]
 pub struct Prefix {}

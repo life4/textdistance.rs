@@ -150,8 +150,8 @@ impl Result<f64> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::hamming::Hamming;
     use super::Algorithm;
+    use crate::Hamming;
     use assert2::assert;
     // use proptest::prelude::*;
     use rstest::rstest;

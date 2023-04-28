@@ -1,4 +1,4 @@
-use super::algorithm::{Algorithm, Result};
+use crate::algorithm::{Algorithm, Result};
 
 pub struct Levenshtein {
     /// The cost of removing a character.

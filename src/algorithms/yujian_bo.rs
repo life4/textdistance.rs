@@ -1,5 +1,5 @@
-use super::algorithm::{Algorithm, Result};
 use super::levenshtein::Levenshtein;
+use crate::algorithm::{Algorithm, Result};
 use std::hash::Hash;
 
 #[derive(Default)]

@@ -1,5 +1,5 @@
-use super::algorithm::{Algorithm, Result};
 use super::jaro::Jaro;
+use crate::algorithm::{Algorithm, Result};
 
 pub struct JaroWinkler {
     // The Jaro instance to use to calculate the classic Jaro similarity.

@@ -1,5 +1,5 @@
-use super::algorithm::{Algorithm, Result};
 use super::hamming::Hamming;
+use crate::algorithm::{Algorithm, Result};
 use std::hash::Hash;
 
 pub struct MLIPNS {

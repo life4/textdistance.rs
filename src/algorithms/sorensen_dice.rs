@@ -1,5 +1,5 @@
-use super::algorithm::{Algorithm, Result};
-use super::counter::Counter;
+use crate::algorithm::{Algorithm, Result};
+use crate::counter::Counter;
 
 #[derive(Default)]
 pub struct SorensenDice {}
