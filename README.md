@@ -5,6 +5,7 @@ Rust library with different algorithms to compare how similar two sequences are.
 Features:
 
 + Based on popular and battle-tested [textdistance](https://github.com/life4/textdistance) Python library (and written by the same author).
++ Includes state of the art algorithms like `EntropyNCD` and `Sift4`.
 + Zero dependency.
 + Works with any iterators, including bytes, code points, unicode grapheme clusters, words, and numbers.
 + Friendly and consistent API for all algorithms.
@@ -48,10 +49,6 @@ Normalization for other metrics:
 1. `MLIPNS` normallization for `Hamming`
 1. `YujianBo` normallization for `Levenshtein`
 
-## Versioning
-
-...
-
 ## Installation
 
 ```shell
@@ -61,3 +58,11 @@ cargo add textdistance
 ## Usage
 
 ...
+
+## Versioning
+
+We stick to SemVer:
+
+1. The **patch** number is for bug fixes. It is possible that the results of an algorithm will change in some corner cases if we found that the previous implementation doesn't match the algorithm described in the original paper.
+1. The **minor** number is for new algorithms and features.
+1. The **major** number is for big changes in the API. We try to avoid breaking stuff but we prefer to provide a friendly and convenient API over keeping a backward compatibility.

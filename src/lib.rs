@@ -175,9 +175,22 @@ mod tests {
             for alg in 1..ALGS {
                 let res = get_result(alg, &s, &s);
                 let nd = res.ndist();
-                prop_assert_eq!(nd, 0., "{} == 0.0", nd);
+                prop_assert_eq!(nd, 0., "{}: {} == 0.0", alg, nd);
                 let ns = res.nsim();
-                prop_assert_eq!(ns, 1., "{} == 1.0", ns);
+                prop_assert_eq!(ns, 1., "{}: {} == 1.0", alg, ns);
+            }
+        }
+
+        // strings should have lower distance if you add the same prefix to them
+        fn prop_prefix(prefix in ".+", s1 in ".+", s2 in ".+") {
+            for alg in 1..ALGS {
+                let r1 = get_result(alg, &s1, &s2).ndist();
+                let mut p1 = prefix.to_owned();
+                let mut p2 = prefix.to_owned();
+                p1.push_str(&s1);
+                p2.push_str(&s2);
+                let r2 = get_result(alg, &p1, &p2).ndist();
+                prop_assert!(r1 > r2, "{}: {} > {}", alg, r1, r2);
             }
         }
     }
