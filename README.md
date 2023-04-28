@@ -37,6 +37,10 @@ Sequence-based:
 1. `LCSStr` (Longest Common SubString)
 1. `RatcliffObershelp` (aka Gestalt pattern matching)
 
+Naive:
+
+1. `Prefix`
+
 Normalization for other metrics:
 
 1. `MLIPNS` normallization for `Hamming`

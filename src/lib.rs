@@ -14,6 +14,7 @@ pub mod textdistance {
     mod levenshtein;
     mod mlipns;
     mod overlap;
+    mod prefix;
     mod ratcliff_obershelp;
     mod sift4;
     mod sorensen_dice;
@@ -32,6 +33,7 @@ pub mod textdistance {
     pub use self::levenshtein::Levenshtein;
     pub use self::mlipns::MLIPNS;
     pub use self::overlap::Overlap;
+    pub use self::prefix::Prefix;
     pub use self::ratcliff_obershelp::RatcliffObershelp;
     pub use self::sift4::Sift4;
     pub use self::sorensen_dice::SorensenDice;
@@ -58,6 +60,7 @@ mod tests {
             6 => DamerauLevenshtein::default().for_str(s1, s2),
             7 => Sift4::default().for_str(s1, s2),
             8 => MLIPNS::default().for_str(s1, s2),
+            9 => Prefix::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -85,6 +88,7 @@ mod tests {
     #[case::damerau_levenshtein(6)]
     #[case::sift4(7)]
     #[case::mlipns(8)]
+    #[case::prefix(8)]
     fn basic_usize(#[case] alg: usize) {
         let empty_res = get_result(alg, "", "");
         assert!(empty_res.dist() == 0);
