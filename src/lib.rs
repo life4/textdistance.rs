@@ -2,6 +2,7 @@ pub mod textdistance {
     pub mod str;
 
     mod algorithm;
+    mod cosine;
     mod counter;
     mod damerau_levenshtein;
     mod hamming;
@@ -20,6 +21,7 @@ pub mod textdistance {
     mod yujian_bo;
 
     pub use self::algorithm::{Algorithm, Result};
+    pub use self::cosine::Cosine;
     pub use self::damerau_levenshtein::DamerauLevenshtein;
     pub use self::hamming::Hamming;
     pub use self::jaccard::Jaccard;
@@ -69,6 +71,7 @@ mod tests {
             5 => SorensenDice::default().for_str(s1, s2),
             6 => Tversky::default().for_str(s1, s2),
             7 => Overlap::default().for_str(s1, s2),
+            8 => Cosine::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -103,6 +106,7 @@ mod tests {
     #[case::sorensen_dice(5)]
     #[case::tversky(6)]
     #[case::overlap(7)]
+    #[case::cosine(8)]
     fn basic_f64(#[case] alg: usize) {
         let empty_res = get_result_f64(alg, "", "");
         assert!(get_result_f64(alg, "ab", "cde").ndist() > 0.);

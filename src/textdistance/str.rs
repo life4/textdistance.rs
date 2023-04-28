@@ -1,6 +1,7 @@
 //! Helper functions providing the default implementation of distance/similarity algorithms for strings.
 
 use super::algorithm::Algorithm;
+use super::cosine::Cosine;
 use super::damerau_levenshtein::DamerauLevenshtein;
 use super::hamming::Hamming;
 use super::jaccard::Jaccard;
@@ -118,4 +119,8 @@ pub fn tversky(s1: &str, s2: &str) -> f64 {
 
 pub fn overlap(s1: &str, s2: &str) -> f64 {
     Overlap::default().for_str(s1, s2).nval()
+}
+
+pub fn cosine(s1: &str, s2: &str) -> f64 {
+    Cosine::default().for_str(s1, s2).nval()
 }
