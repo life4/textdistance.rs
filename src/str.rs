@@ -3,6 +3,7 @@
 use super::Algorithm;
 use super::Cosine;
 use super::DamerauLevenshtein;
+use super::EntropyNCD;
 use super::Hamming;
 use super::Jaccard;
 use super::Jaro;
@@ -133,4 +134,8 @@ pub fn prefix(s1: &str, s2: &str) -> usize {
 
 pub fn suffix(s1: &str, s2: &str) -> usize {
     Suffix::default().for_str(s1, s2).val()
+}
+
+pub fn entropy_ncd(s1: &str, s2: &str) -> f64 {
+    EntropyNCD::default().for_str(s1, s2).nval()
 }

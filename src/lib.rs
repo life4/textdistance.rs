@@ -7,6 +7,7 @@ pub mod str;
 mod algorithms {
     pub mod cosine;
     pub mod damerau_levenshtein;
+    pub mod entropy_ncd;
     pub mod hamming;
     pub mod jaccard;
     pub mod jaro;
@@ -28,6 +29,7 @@ mod algorithms {
 pub use self::algorithm::{Algorithm, Result};
 pub use self::algorithms::cosine::Cosine;
 pub use self::algorithms::damerau_levenshtein::DamerauLevenshtein;
+pub use self::algorithms::entropy_ncd::EntropyNCD;
 pub use self::algorithms::hamming::Hamming;
 pub use self::algorithms::jaccard::Jaccard;
 pub use self::algorithms::jaro::Jaro;
@@ -80,6 +82,7 @@ mod tests {
             6 => Tversky::default().for_str(s1, s2),
             7 => Overlap::default().for_str(s1, s2),
             8 => Cosine::default().for_str(s1, s2),
+            9 => EntropyNCD::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -117,10 +120,11 @@ mod tests {
     #[case::tversky(6)]
     #[case::overlap(7)]
     #[case::cosine(8)]
+    #[case::entropy_ncd(9)]
     fn basic_f64(#[case] alg: usize) {
         let empty_res = get_result_f64(alg, "", "");
         assert!(get_result_f64(alg, "ab", "cde").ndist() > 0.);
-        if alg != 3 {
+        if alg != 3 && alg != 9 {
             assert!(get_result_f64(alg, "spam", "qwer").nsim() == 0.);
         }
         assert!(empty_res.ndist() == 0.);

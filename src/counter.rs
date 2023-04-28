@@ -38,16 +38,16 @@ where
         self.map.values().sum()
     }
 
-    // pub fn intersect(&self, rhs: &Counter<K>) -> Counter<K> {
-    //     let mut result: Counter<K> = Counter::new();
-    //     for (key, lhs_count) in &self.map {
-    //         if let Some(rhs_count) = rhs.map.get(key) {
-    //             let count = lhs_count.min(rhs_count);
-    //             result.map.insert(*key, *count);
-    //         }
-    //     }
-    //     result
-    // }
+    pub fn values(&self) -> impl Iterator<Item = &usize> {
+        self.map.values()
+    }
+
+    pub fn merge(&self, rhs: &Counter<K>) -> Counter<K> {
+        let mut result: Counter<K> = Counter::new();
+        result.map.extend(&self.map);
+        result.map.extend(&rhs.map);
+        result
+    }
 
     pub fn intersect_count(&self, rhs: &Counter<K>) -> usize {
         let mut result = 0;
