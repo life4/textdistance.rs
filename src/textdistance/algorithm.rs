@@ -25,6 +25,20 @@ pub trait Algorithm<R> {
     fn for_str(&self, s1: &str, s2: &str) -> Result<R> {
         self.for_iter(s1.chars(), s2.chars())
     }
+
+    /// Calculate distance/similarity for words in strings.
+    fn for_words(&self, s1: &str, s2: &str) -> Result<R> {
+        self.for_iter(s1.split_whitespace(), s2.split_whitespace())
+    }
+
+    /// Calculate distance/similarity for bigrams in strings.
+    fn for_bigrams(&self, s1: &str, s2: &str) -> Result<R> {
+        self.for_iter(bigrams(s1), bigrams(s2))
+    }
+}
+
+fn bigrams(s: &str) -> impl Iterator<Item = (char, char)> + '_ {
+    s.chars().zip(s.chars().skip(1))
 }
 
 /// Result of a distance/similarity algorithm.
@@ -131,5 +145,63 @@ impl Result<f64> {
         } else {
             self.abs
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::super::hamming::Hamming;
+    use super::Algorithm;
+    use assert2::assert;
+    // use proptest::prelude::*;
+    use rstest::rstest;
+
+    #[rstest]
+    #[case(vec![], vec![], 0)]
+    #[case(vec![1], vec![1], 0)]
+    #[case(vec![1], vec![5], 1)]
+    #[case(vec![3], vec![5], 1)]
+    #[case(vec![3, 4, 5, 6], vec![1, 4, 5, 6, 7], 2)]
+    fn for_vec(#[case] s1: Vec<usize>, #[case] s2: Vec<usize>, #[case] exp: usize) {
+        let h = Hamming::default();
+        assert!(h.for_vec(&s1, &s2).val() == exp);
+    }
+
+    #[rstest]
+    #[case("", "", 0)]
+    #[case("", "\0", 1)]
+    #[case("", "abc", 3)]
+    #[case("abc", "", 3)]
+    #[case("sitting", "sitting", 0)]
+    #[case("abcdefg", "hijklmn", 7)]
+    #[case("karolin", "kathrin", 3)]
+    #[case("hello", "world", 4)]
+    fn for_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
+        let h = Hamming::default();
+        assert!(h.for_str(s1, s2).val() == exp);
+    }
+
+    #[rstest]
+    #[case("", "", 0)]
+    #[case("", "\0", 1)]
+    #[case("", "abc", 1)]
+    #[case("abc", "", 1)]
+    #[case("oh hi mark", "oh hi world", 1)]
+    #[case("oh hi mark", "oh hi mad world", 2)]
+    #[case("oh hi mark", "greeting you mad world", 4)]
+    fn for_words(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
+        let h = Hamming::default();
+        assert!(h.for_words(s1, s2).val() == exp);
+    }
+
+    #[rstest]
+    #[case("", "", 0)]
+    // #[case("", "a", 1)]
+    #[case("", "abc", 2)]
+    #[case("abc", "", 2)]
+    #[case("oh hi mark", "oh ho mark", 2)]
+    fn for_bigrams(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
+        let h = Hamming::default();
+        assert!(h.for_bigrams(s1, s2).val() == exp);
     }
 }
