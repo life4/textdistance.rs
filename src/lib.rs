@@ -18,6 +18,7 @@ pub mod textdistance {
     mod ratcliff_obershelp;
     mod sift4;
     mod sorensen_dice;
+    mod suffix;
     mod tversky;
     mod yujian_bo;
 
@@ -37,6 +38,7 @@ pub mod textdistance {
     pub use self::ratcliff_obershelp::RatcliffObershelp;
     pub use self::sift4::Sift4;
     pub use self::sorensen_dice::SorensenDice;
+    pub use self::suffix::Suffix;
     pub use self::tversky::Tversky;
     pub use self::yujian_bo::YujianBo;
 }
@@ -61,6 +63,7 @@ mod tests {
             7 => Sift4::default().for_str(s1, s2),
             8 => MLIPNS::default().for_str(s1, s2),
             9 => Prefix::default().for_str(s1, s2),
+            10 => Suffix::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -89,6 +92,7 @@ mod tests {
     #[case::sift4(7)]
     #[case::mlipns(8)]
     #[case::prefix(8)]
+    #[case::suffix(8)]
     fn basic_usize(#[case] alg: usize) {
         let empty_res = get_result(alg, "", "");
         assert!(empty_res.dist() == 0);

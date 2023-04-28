@@ -16,6 +16,7 @@ use super::prefix::Prefix;
 use super::ratcliff_obershelp::RatcliffObershelp;
 use super::sift4::Sift4;
 use super::sorensen_dice::SorensenDice;
+use super::suffix::Suffix;
 use super::tversky::Tversky;
 use super::yujian_bo::YujianBo;
 
@@ -128,4 +129,8 @@ pub fn cosine(s1: &str, s2: &str) -> f64 {
 
 pub fn prefix(s1: &str, s2: &str) -> usize {
     Prefix::default().for_str(s1, s2).val()
+}
+
+pub fn suffix(s1: &str, s2: &str) -> usize {
+    Suffix::default().for_str(s1, s2).val()
 }

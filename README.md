@@ -40,6 +40,7 @@ Sequence-based:
 Naive:
 
 1. `Prefix`
+1. `Suffix`
 
 Normalization for other metrics:
 

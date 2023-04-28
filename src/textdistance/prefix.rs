@@ -21,7 +21,7 @@ impl Algorithm<usize> for Prefix {
                     if c1 != c2 {
                         prev_match = false;
                     } else if prev_match {
-                        result += 1
+                        result += 1;
                     }
                 }
                 (Some(_), None) => {
@@ -59,6 +59,7 @@ mod tests {
     #[case("a", "b", 0)]
     #[case("abcde", "abcef", 3)]
     #[case("abcde", "abcfde", 3)]
+    #[case("abcd", "bcd", 0)]
 
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
         assert!(prefix(s1, s2) == exp);
