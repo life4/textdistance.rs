@@ -24,6 +24,19 @@ ALGORITHMS = tuple(get_algorithms())
 
 
 @pytest.mark.parametrize('alg', ALGORITHMS)
+def test_name_is_ascii(alg: str) -> None:
+    assert alg.replace('_', '').isalnum()
+    assert alg.isascii()
+
+
+@pytest.mark.parametrize('alg', ALGORITHMS)
+def test_is_in_readme(alg: str) -> None:
+    text = (ROOT / 'README.md').read_text()
+    alg = alg.replace('_', '')
+    assert f'1. `{alg}`' in text.lower()
+
+
+@pytest.mark.parametrize('alg', ALGORITHMS)
 def test_str_shortcut_exists(alg: str) -> None:
     fpath = (ROOT / 'src' / 'textdistance' / 'str.rs')
     assert f'fn {alg}(' in fpath.read_text()

@@ -25,15 +25,17 @@ Edit-based:
 
 Token-based:
 
-1. `Jaccard` (Tanimoto)
-1. `SorensenDice`
+1. `Cosine` (aka Orchini, Tucker, Otsuka–Ochiai)
+1. `Jaccard` (aka Tanimoto)
+1. `Overlap` (aka Szymkiewicz–Simpson)
+1. `SorensenDice` (aka F1, Czekanowski, Zijdenbos)
 1. `Tversky`
 
 Sequence-based:
 
 1. `LCSSeq` (Longest Common SubSequence)
 1. `LCSStr` (Longest Common SubString)
-1. `RatcliffObershelp` (Gestalt pattern matching)
+1. `RatcliffObershelp` (aka Gestalt pattern matching)
 
 Normalization for other metrics:
 
