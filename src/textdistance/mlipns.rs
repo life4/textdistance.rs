@@ -57,7 +57,7 @@ impl Algorithm<usize> for MLIPNS {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::mlipns;
+    use crate::str::mlipns;
     use assert2::assert;
     use rstest::rstest;
 

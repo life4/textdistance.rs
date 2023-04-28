@@ -1,5 +1,8 @@
+// #![deny(missing_docs)]
+
+pub mod str;
+
 pub mod textdistance {
-    pub mod str;
 
     mod algorithm;
     mod cosine;

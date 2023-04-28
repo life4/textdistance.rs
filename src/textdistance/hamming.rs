@@ -59,7 +59,7 @@ impl Algorithm<usize> for Hamming {
 #[cfg(test)]
 mod tests {
     use super::{Algorithm, Hamming};
-    use crate::textdistance::str::hamming;
+    use crate::str::hamming;
     use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;

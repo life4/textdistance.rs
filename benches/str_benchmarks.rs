@@ -2,7 +2,7 @@ use criterion::BenchmarkId;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use std::fs;
 use std::time::Duration;
-use textdistance::textdistance::str;
+use textdistance::str;
 
 fn read_licenses() -> Vec<(String, String)> {
     let mut licenses: Vec<(String, String)> = Vec::new();

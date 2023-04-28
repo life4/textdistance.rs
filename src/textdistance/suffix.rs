@@ -27,7 +27,7 @@ impl Algorithm<usize> for Suffix {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::suffix;
+    use crate::str::suffix;
     use assert2::assert;
     use rstest::rstest;
 

@@ -82,7 +82,7 @@ impl Algorithm<usize> for Sift4 {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::sift4;
+    use crate::str::sift4;
     use assert2::assert;
     use rstest::rstest;
 

@@ -35,7 +35,7 @@ impl Algorithm<f64> for Cosine {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::cosine;
+    use crate::str::cosine;
     use assert2::assert;
     use rstest::rstest;
 

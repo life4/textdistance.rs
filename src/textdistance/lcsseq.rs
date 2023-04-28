@@ -47,7 +47,7 @@ impl Algorithm<usize> for LCSSeq {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::lcsseq;
+    use crate::str::lcsseq;
     use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;

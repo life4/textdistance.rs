@@ -33,7 +33,7 @@ impl Algorithm<f64> for YujianBo {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::yujian_bo;
+    use crate::str::yujian_bo;
     use assert2::assert;
     use rstest::rstest;
 

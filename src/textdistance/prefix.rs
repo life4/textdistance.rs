@@ -47,7 +47,7 @@ impl Algorithm<usize> for Prefix {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::prefix;
+    use crate::str::prefix;
     use assert2::assert;
     use rstest::rstest;
 

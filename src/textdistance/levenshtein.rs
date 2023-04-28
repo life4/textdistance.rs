@@ -93,7 +93,7 @@ impl Algorithm<usize> for Levenshtein {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::levenshtein;
+    use crate::str::levenshtein;
     use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;

@@ -96,7 +96,7 @@ impl Algorithm<f64> for Jaro {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::jaro;
+    use crate::str::jaro;
     use assert2::assert;
     use rstest::rstest;
 

@@ -1,24 +1,24 @@
 //! Helper functions providing the default implementation of distance/similarity algorithms for strings.
 
-use super::algorithm::Algorithm;
-use super::cosine::Cosine;
-use super::damerau_levenshtein::DamerauLevenshtein;
-use super::hamming::Hamming;
-use super::jaccard::Jaccard;
-use super::jaro::Jaro;
-use super::jaro_winkler::JaroWinkler;
-use super::lcsseq::LCSSeq;
-use super::lcsstr::LCSStr;
-use super::levenshtein::Levenshtein;
-use super::mlipns::MLIPNS;
-use super::overlap::Overlap;
-use super::prefix::Prefix;
-use super::ratcliff_obershelp::RatcliffObershelp;
-use super::sift4::Sift4;
-use super::sorensen_dice::SorensenDice;
-use super::suffix::Suffix;
-use super::tversky::Tversky;
-use super::yujian_bo::YujianBo;
+use super::textdistance::Algorithm;
+use super::textdistance::Cosine;
+use super::textdistance::DamerauLevenshtein;
+use super::textdistance::Hamming;
+use super::textdistance::Jaccard;
+use super::textdistance::Jaro;
+use super::textdistance::JaroWinkler;
+use super::textdistance::LCSSeq;
+use super::textdistance::LCSStr;
+use super::textdistance::Levenshtein;
+use super::textdistance::Overlap;
+use super::textdistance::Prefix;
+use super::textdistance::RatcliffObershelp;
+use super::textdistance::Sift4;
+use super::textdistance::SorensenDice;
+use super::textdistance::Suffix;
+use super::textdistance::Tversky;
+use super::textdistance::YujianBo;
+use super::textdistance::MLIPNS;
 
 /// Calculate unrestricted [Damerau-Levenshtein distance] for two strings.
 ///

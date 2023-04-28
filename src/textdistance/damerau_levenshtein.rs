@@ -157,7 +157,7 @@ fn min3(a: usize, b: usize, c: usize) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::textdistance::str::{damerau_levenshtein, damerau_levenshtein_restricted};
+    use crate::str::{damerau_levenshtein, damerau_levenshtein_restricted};
     use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;

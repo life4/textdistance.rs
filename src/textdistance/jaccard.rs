@@ -31,7 +31,7 @@ impl Algorithm<f64> for Jaccard {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::jaccard;
+    use crate::str::jaccard;
     use assert2::assert;
     use rstest::rstest;
 

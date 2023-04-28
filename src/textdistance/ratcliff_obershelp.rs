@@ -68,7 +68,7 @@ impl Algorithm<usize> for RatcliffObershelp {
 #[cfg(test)]
 mod tests {
     use super::{Algorithm, RatcliffObershelp};
-    use crate::textdistance::str::ratcliff_obershelp;
+    use crate::str::ratcliff_obershelp;
     use assert2::assert;
     use rstest::rstest;
 

@@ -35,7 +35,7 @@ impl Algorithm<f64> for Overlap {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::overlap;
+    use crate::str::overlap;
     use assert2::assert;
     use rstest::rstest;
 

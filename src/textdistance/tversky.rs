@@ -54,7 +54,7 @@ impl Algorithm<f64> for Tversky {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::textdistance::str::{jaccard, sorensen_dice, tversky};
+    use crate::str::{jaccard, sorensen_dice, tversky};
     use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;

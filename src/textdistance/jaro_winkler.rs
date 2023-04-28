@@ -64,7 +64,7 @@ impl Algorithm<f64> for JaroWinkler {
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::str::jaro_winkler;
+    use crate::str::jaro_winkler;
     use assert2::assert;
     use rstest::rstest;
 
