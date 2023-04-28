@@ -35,6 +35,7 @@ tasks:
     env:
       CLICOLOR_FORCE: "yes"
     cmds:
+      - python3 -m pytest
       - cargo nextest run --no-fail-fast {{.CLI_ARGS}}
 
   bench:
