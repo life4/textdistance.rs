@@ -59,6 +59,10 @@ cargo add textdistance
 
 ...
 
+## Unicode support
+
+...
+
 ## Versioning
 
 We stick to SemVer:
