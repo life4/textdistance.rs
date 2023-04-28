@@ -42,8 +42,8 @@ def test_str_shortcut_exists(alg: str) -> None:
 def test_is_exported(alg: str) -> None:
     fpath = (ROOT / 'src' / 'lib.rs')
     text = fpath.read_text()
-    assert f'mod {alg}' in text
-    assert f'pub use self::{alg}::' in text
+    assert f'pub mod {alg}' in text
+    assert f'pub use self::textdistance::{alg}::' in text
 
 
 @pytest.mark.parametrize('alg', ALGORITHMS)

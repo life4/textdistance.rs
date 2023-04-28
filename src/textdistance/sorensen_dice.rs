@@ -32,7 +32,7 @@ impl Algorithm<f64> for SorensenDice {
 #[cfg(test)]
 mod tests {
     use crate::str::sorensen_dice;
-    use crate::textdistance::{Algorithm, SorensenDice};
+    use crate::{Algorithm, SorensenDice};
     use assert2::assert;
     use rstest::rstest;
 

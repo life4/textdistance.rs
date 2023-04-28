@@ -2,53 +2,52 @@
 
 pub mod str;
 
-pub mod textdistance {
-
-    mod algorithm;
-    mod cosine;
-    mod counter;
-    mod damerau_levenshtein;
-    mod hamming;
-    mod jaccard;
-    mod jaro;
-    mod jaro_winkler;
-    mod lcsseq;
-    mod lcsstr;
-    mod levenshtein;
-    mod mlipns;
-    mod overlap;
-    mod prefix;
-    mod ratcliff_obershelp;
-    mod sift4;
-    mod sorensen_dice;
-    mod suffix;
-    mod tversky;
-    mod yujian_bo;
-
-    pub use self::algorithm::{Algorithm, Result};
-    pub use self::cosine::Cosine;
-    pub use self::damerau_levenshtein::DamerauLevenshtein;
-    pub use self::hamming::Hamming;
-    pub use self::jaccard::Jaccard;
-    pub use self::jaro::Jaro;
-    pub use self::jaro_winkler::JaroWinkler;
-    pub use self::lcsseq::LCSSeq;
-    pub use self::lcsstr::LCSStr;
-    pub use self::levenshtein::Levenshtein;
-    pub use self::mlipns::MLIPNS;
-    pub use self::overlap::Overlap;
-    pub use self::prefix::Prefix;
-    pub use self::ratcliff_obershelp::RatcliffObershelp;
-    pub use self::sift4::Sift4;
-    pub use self::sorensen_dice::SorensenDice;
-    pub use self::suffix::Suffix;
-    pub use self::tversky::Tversky;
-    pub use self::yujian_bo::YujianBo;
+mod textdistance {
+    pub mod algorithm;
+    pub mod cosine;
+    pub mod counter;
+    pub mod damerau_levenshtein;
+    pub mod hamming;
+    pub mod jaccard;
+    pub mod jaro;
+    pub mod jaro_winkler;
+    pub mod lcsseq;
+    pub mod lcsstr;
+    pub mod levenshtein;
+    pub mod mlipns;
+    pub mod overlap;
+    pub mod prefix;
+    pub mod ratcliff_obershelp;
+    pub mod sift4;
+    pub mod sorensen_dice;
+    pub mod suffix;
+    pub mod tversky;
+    pub mod yujian_bo;
 }
+
+pub use self::textdistance::algorithm::{Algorithm, Result};
+pub use self::textdistance::cosine::Cosine;
+pub use self::textdistance::damerau_levenshtein::DamerauLevenshtein;
+pub use self::textdistance::hamming::Hamming;
+pub use self::textdistance::jaccard::Jaccard;
+pub use self::textdistance::jaro::Jaro;
+pub use self::textdistance::jaro_winkler::JaroWinkler;
+pub use self::textdistance::lcsseq::LCSSeq;
+pub use self::textdistance::lcsstr::LCSStr;
+pub use self::textdistance::levenshtein::Levenshtein;
+pub use self::textdistance::mlipns::MLIPNS;
+pub use self::textdistance::overlap::Overlap;
+pub use self::textdistance::prefix::Prefix;
+pub use self::textdistance::ratcliff_obershelp::RatcliffObershelp;
+pub use self::textdistance::sift4::Sift4;
+pub use self::textdistance::sorensen_dice::SorensenDice;
+pub use self::textdistance::suffix::Suffix;
+pub use self::textdistance::tversky::Tversky;
+pub use self::textdistance::yujian_bo::YujianBo;
 
 #[cfg(test)]
 mod tests {
-    use crate::textdistance::*;
+    use super::*;
     use assert2::assert;
     use proptest::prelude::*;
     use rstest::rstest;
