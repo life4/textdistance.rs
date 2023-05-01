@@ -2,7 +2,10 @@ use crate::algorithm::{Algorithm, Result};
 use std::collections::HashMap;
 use std::hash::Hash;
 
-/// [Damerau-Levenshtein distance] is the edit distance between two sequences.
+/// [Damerau-Levenshtein distance] is an edit distance between two sequences.
+///
+/// It is an improved version of [Levenshtein](crate::Levenshtein) that also includes
+/// transpositions.
 ///
 /// It is the minimum number of operations (consisting of insertions, deletions or
 /// substitutions of a single character, or transposition of two adjacent characters)

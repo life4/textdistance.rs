@@ -1,5 +1,10 @@
 use crate::algorithm::{Algorithm, Result};
 
+/// Length distance is the absolute difference between the lengths of the two sequences.
+///
+/// It's a very dumb algorithm that says that "qwer" and "zxcv" are the same.
+/// Still, it works surprisingly well in some specific scenarios, especially on big
+/// sequences.
 #[derive(Default)]
 pub struct Length {}
 

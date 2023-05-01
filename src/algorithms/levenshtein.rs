@@ -1,5 +1,14 @@
 use crate::algorithm::{Algorithm, Result};
 
+/// [Levenshtein distance] is an edit distance between two sequences.
+///
+/// It is the minimum number of single-character edits (insertions, deletions or substitutions)
+/// required to change one word into the other.
+///
+/// See also [DamerauLevenshtein](crate::DamerauLevenshtein) which is an extended
+/// version of this algorithm that also includes transpositions.
+///
+/// [Levenshtein distance]: https://en.wikipedia.org/wiki/Levenshtein_distance
 pub struct Levenshtein {
     /// The cost of removing a character.
     pub del_cost: usize,
@@ -113,6 +122,23 @@ mod tests {
     #[case("test", "testit", 2)]
     #[case("test", "tesst", 1)]
     #[case("test", "tet", 1)]
+    // parity with levenshtein-rs
+    #[case("sitting", "kitten", 3)]
+    #[case("gumbo", "gambol", 2)]
+    #[case("saturday", "sunday", 3)]
+    #[case("a", "b", 1)]
+    #[case("ab", "ac", 1)]
+    #[case("ac", "bc", 1)]
+    #[case("abc", "axc", 1)]
+    #[case("xabxcdxxefxgx", "1ab2cd34ef5g6", 6)]
+    #[case("xabxcdxxefxgx", "abcdefg", 6)]
+    #[case("javawasneat", "scalaisgreat", 7)]
+    #[case("example", "samples", 3)]
+    #[case("sturgeon", "urgently", 6)]
+    #[case("levenshtein", "frankenstein", 6)]
+    #[case("distance", "difference", 5)]
+    #[case("kitten", "sitting", 3)]
+    #[case("Tier", "Tor", 2)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
         assert!(levenshtein(s1, s2) == exp);
     }
