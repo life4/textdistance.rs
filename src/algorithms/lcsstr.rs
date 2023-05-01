@@ -1,5 +1,11 @@
 use crate::algorithm::{Algorithm, Result};
 
+/// The length of the [Longest common substring].
+///
+/// A longest common substring of two or more strings is a longest string
+/// that is a substring of all of them.
+///
+/// [Longest common substring]: https://en.wikipedia.org/wiki/Longest_common_substring
 #[derive(Default)]
 pub struct LCSStr {}
 

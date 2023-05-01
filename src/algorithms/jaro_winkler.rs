@@ -1,17 +1,22 @@
 use super::jaro::Jaro;
 use crate::algorithm::{Algorithm, Result};
 
+/// [Jaro-Winkler similarity] is a variation of [Jaro] with a better rating for strings with a matching prefix.
+///
+/// The metric is always normalized on the interval from 0.0 to 1.0.
+///
+/// [Jaro-Winkler similarity]: https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance
 pub struct JaroWinkler {
-    // The Jaro instance to use to calculate the classic Jaro similarity.
-    jaro: Jaro,
+    /// The Jaro instance to use to calculate the classic Jaro similarity.
+    pub jaro: Jaro,
 
     /// `p` is a scailing factor for how much Jaro score is adjusted
     /// for the common prefix. The default is 0.1, must not be higher than
     /// `1/ℓ` where ℓ is the `max_prefix` value (4 by default).
-    prefix_weight: f64,
+    pub prefix_weight: f64,
 
     /// `ℓ` is the maximum length of the common prefix. The default is 4.
-    max_prefix: usize,
+    pub max_prefix: usize,
 }
 
 impl Default for JaroWinkler {

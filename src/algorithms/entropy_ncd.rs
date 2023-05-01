@@ -2,19 +2,34 @@ use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
 use std::hash::Hash;
 
+/// Entropy-based [Normalized Compression Distance].
+///
+/// It shows how different two inputs are based on their [Entropy].
+///
+/// [Normalized Compression Distance]: https://en.wikipedia.org/wiki/Normalized_compression_distance
+/// [Entropy]: https://en.wikipedia.org/wiki/Entropy_(information_theory)
 pub struct EntropyNCD {
-    base: usize,
-    coef: f64,
+    /// The base of logarithm for the entropy calculation. Default: 2.
+    pub base: usize,
+
+    /// A non-negative base value to add to entropy of all inputs,
+    /// so that the entropy is never zero. It accounts for all real-world compression
+    /// algorithms having a fixed header with metadata. Default: 1.
+    pub correction: f64,
 }
 
 impl Default for EntropyNCD {
     fn default() -> Self {
-        Self { base: 2, coef: 1. }
+        Self {
+            base: 2,
+            correction: 1.,
+        }
     }
 }
 
 impl EntropyNCD {
     fn compress<E: Hash + Eq + Copy>(&self, c: &Counter<E>) -> f64 {
+        debug_assert!(self.correction >= 0.);
         let total_count = c.count();
         let mut entropy = 0.0;
         for element_count in c.values() {
@@ -22,7 +37,7 @@ impl EntropyNCD {
             entropy -= p * p.log(self.base as f64);
         }
         debug_assert!(entropy >= 0.);
-        self.coef + entropy
+        self.correction + entropy
     }
 }
 
@@ -89,8 +104,12 @@ mod tests {
     #[case("testnani", 2.5)]
     fn compress(#[case] s: &str, #[case] exp: f64) {
         let c = Counter::from_iter(s.chars());
-        let act = EntropyNCD::default().compress(&c);
-        let ok = is_close(act - 1., exp);
+        let alg = EntropyNCD {
+            correction: 0.,
+            ..Default::default()
+        };
+        let act = alg.compress(&c);
+        let ok = is_close(act, exp);
         assert!(ok, "compress({}) is {}, not {}", s, act, exp);
     }
 

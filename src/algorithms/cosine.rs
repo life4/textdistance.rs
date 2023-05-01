@@ -1,6 +1,12 @@
 use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
 
+/// [Cosine similarity] is the cosine of the angle between two vectors.
+///
+/// This is how many symbols the given strings have in common
+/// divided by the square root of the product of the strings' lengths.
+///
+/// [Cosine similarity]: https://en.wikipedia.org/wiki/Cosine_similarity
 #[derive(Default)]
 pub struct Cosine {}
 

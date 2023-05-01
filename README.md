@@ -28,7 +28,7 @@ Token-based:
 
 1. `Cosine` (aka Orchini, Tucker, Otsuka–Ochiai)
 1. `EntropyNCD` (Entropy-based Normalized Compression Distance)
-1. `Jaccard` (aka Tanimoto)
+1. `Jaccard` (aka Tanimoto, Critical Success Index)
 1. `Overlap` (aka Szymkiewicz–Simpson)
 1. `SorensenDice` (aka F1, Czekanowski, Zijdenbos)
 1. `Tversky`

@@ -1,5 +1,12 @@
 use crate::algorithm::{Algorithm, Result};
 
+/// [Jaro similarity] is calculated based on the number of transpositions to turn one string into the other.
+///
+/// The metric is always normalized on the interval from 0.0 to 1.0.
+///
+/// See also [JaroWinkler](crate::JaroWinkler).
+///
+/// [Jaro similarity]: https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance#Jaro_similarity
 #[derive(Default)]
 pub struct Jaro {}
 
@@ -8,20 +15,10 @@ impl Algorithm<f64> for Jaro {
         let l1 = s1.len();
         let l2 = s2.len();
 
-        // // The check for lengths of one here is to prevent integer overflow when
-        // // calculating the search range.
-        if l1 == 0 && l2 == 0 {
-            return Result {
-                abs: 1.0,
-                is_distance: false,
-                max: 1.0,
-                len1: l1,
-                len2: l2,
-            };
-        }
         if l1 == 0 || l2 == 0 {
+            let result = if l1 == 0 && l2 == 0 { 1. } else { 0. };
             return Result {
-                abs: 0.0,
+                abs: result,
                 is_distance: false,
                 max: 1.0,
                 len1: l1,
@@ -42,9 +39,9 @@ impl Algorithm<f64> for Jaro {
         let search_range = l1.max(l2) / 2 - 1;
 
         let mut s2_consumed = vec![false; l2];
-        let mut matches = 0;
+        let mut matches: usize = 0;
 
-        let mut n_trans = 0.0;
+        let mut n_trans = 0.;
         let mut b_match_index = 0;
 
         for (i, a_elem) in s1.iter().enumerate() {
@@ -68,7 +65,7 @@ impl Algorithm<f64> for Jaro {
                     matches += 1;
 
                     if j < b_match_index {
-                        n_trans += 1.0;
+                        n_trans += 1.;
                     }
                     b_match_index = j;
 
@@ -78,16 +75,16 @@ impl Algorithm<f64> for Jaro {
         }
 
         let result = if matches == 0 {
-            0.0
+            0.
         } else {
             let ms = matches as f64;
-            ((ms / l1 as f64) + (ms / l2 as f64) + ((ms - n_trans) / ms)) / 3.0
+            ((ms / l1 as f64) + (ms / l2 as f64) + ((ms - n_trans) / ms)) / 3.
         };
 
         Result {
             abs: result,
             is_distance: false,
-            max: 1.0,
+            max: 1.,
             len1: l1,
             len2: l2,
         }

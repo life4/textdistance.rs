@@ -1,6 +1,14 @@
 use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
 
+/// [Jaccard similarity] is a ratio of intersection to union of two sets.
+///
+/// The metric works with the set of input elements, so strings "abc" and "bca"
+/// are the same if compared by letters.
+///
+/// The metric is always normalized on the interval from 0.0 to 1.0.
+///
+/// [Jaccard similarity]: https://en.wikipedia.org/wiki/Jaccard_index
 #[derive(Default)]
 pub struct Jaccard {}
 
@@ -43,6 +51,8 @@ mod tests {
     #[case("", "", 1.)]
     #[case("nelson", "", 0.)]
     #[case("", "neilsen", 0.)]
+    #[case("abc", "abc", 1.)]
+    #[case("abc", "bac", 1.)]
     // parity with textdistance
     #[case("nelson", "neilsen", 5. / 8.)]
     #[case("test", "text", 3. / 5.)]
