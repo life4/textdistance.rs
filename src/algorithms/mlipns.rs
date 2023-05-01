@@ -2,6 +2,11 @@ use super::hamming::Hamming;
 use crate::algorithm::{Algorithm, Result};
 use std::hash::Hash;
 
+/// [MLIPNS] similarity is a normalization for [Hamming] that returns either 0 or 1.
+///
+/// MLIPNS stands for Modified Language-Independent Product Name Search.
+///
+/// [MLIPNS]: https://www.sial.iias.spb.su/files/386-386-1-PB.pdf
 pub struct MLIPNS {
     hamming: Hamming,
     threshold: f64,
@@ -63,6 +68,11 @@ mod tests {
 
     #[rstest]
     #[case("", "", 1)]
+    // parity with abydos and talisman
+    #[case("cat", "hat", 1)]
+    #[case("Niall", "Neil", 0)]
+    #[case("aluminum", "Catalan", 0)]
+    #[case("ATCG", "TAGC", 0)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
         assert!(mlipns(s1, s2) == exp);
     }

@@ -1,7 +1,6 @@
 use crate::algorithm::{Algorithm, Result};
 
-/// [Hamming distance] for two strings is the number of positions at which
-/// the corresponding symbols are different.
+/// [Hamming distance] is the number of positions at which the corresponding symbols are different.
 ///
 /// [Hamming distance]: https://en.wikipedia.org/wiki/Hamming_distance
 #[derive(Default)]
