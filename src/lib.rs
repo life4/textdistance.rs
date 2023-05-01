@@ -135,6 +135,7 @@ mod tests {
         }
         assert!(empty_res.ndist() == 0.);
         assert!(empty_res.nsim() == 1.);
+        assert!(empty_res.max == 1.);
     }
 
     fn is_close(a: f64, b: f64) -> bool {

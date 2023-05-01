@@ -29,6 +29,10 @@ tasks:
     cmds:
       - cargo clippy --all -- -D clippy::dbg-macro -D warnings
 
+  doc:
+    cmds:
+      - cargo doc {{.CLI_ARGS}}
+
   test:
     deps:
       - install-nextest
@@ -48,4 +52,5 @@ tasks:
     - task: format
     - task: check
     - task: lint
+    - task: doc
     - task: test
