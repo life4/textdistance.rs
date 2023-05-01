@@ -60,7 +60,6 @@ mod tests {
     #[case("abcde", "abcef", 3)]
     #[case("abcde", "abcfde", 3)]
     #[case("abcd", "bcd", 0)]
-
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
         assert!(prefix(s1, s2) == exp);
     }

@@ -14,6 +14,7 @@ mod algorithms {
     pub mod jaro_winkler;
     pub mod lcsseq;
     pub mod lcsstr;
+    pub mod length;
     pub mod levenshtein;
     pub mod mlipns;
     pub mod overlap;
@@ -36,6 +37,7 @@ pub use self::algorithms::jaro::Jaro;
 pub use self::algorithms::jaro_winkler::JaroWinkler;
 pub use self::algorithms::lcsseq::LCSSeq;
 pub use self::algorithms::lcsstr::LCSStr;
+pub use self::algorithms::length::Length;
 pub use self::algorithms::levenshtein::Levenshtein;
 pub use self::algorithms::mlipns::MLIPNS;
 pub use self::algorithms::overlap::Overlap;
@@ -68,6 +70,7 @@ mod tests {
             8 => MLIPNS::default().for_str(s1, s2),
             9 => Prefix::default().for_str(s1, s2),
             10 => Suffix::default().for_str(s1, s2),
+            11 => Length::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -96,8 +99,9 @@ mod tests {
     #[case::damerau_levenshtein(6)]
     #[case::sift4(7)]
     #[case::mlipns(8)]
-    #[case::prefix(8)]
-    #[case::suffix(8)]
+    #[case::prefix(9)]
+    #[case::suffix(10)]
+    #[case::length(11)]
     fn basic_usize(#[case] alg: usize) {
         let empty_res = get_result(alg, "", "");
         assert!(empty_res.dist() == 0);
@@ -105,8 +109,10 @@ mod tests {
             assert!(get_result(alg, "ab", "cde").dist() > 0);
             assert!(get_result(alg, "ab", "cde").ndist() > 0.);
         }
-        assert!(get_result(alg, "spam", "qwer").sim() == 0);
-        assert!(get_result(alg, "spam", "qwer").nsim() == 0.);
+        if alg != 11 {
+            assert!(get_result(alg, "spam", "qwer").sim() == 0);
+            assert!(get_result(alg, "spam", "qwer").nsim() == 0.);
+        }
         assert!(empty_res.ndist() == 0.);
         assert!(empty_res.nsim() == 1.);
     }

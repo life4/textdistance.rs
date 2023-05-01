@@ -10,6 +10,7 @@ use super::Jaro;
 use super::JaroWinkler;
 use super::LCSSeq;
 use super::LCSStr;
+use super::Length;
 use super::Levenshtein;
 use super::Overlap;
 use super::Prefix;
@@ -134,6 +135,10 @@ pub fn prefix(s1: &str, s2: &str) -> usize {
 
 pub fn suffix(s1: &str, s2: &str) -> usize {
     Suffix::default().for_str(s1, s2).val()
+}
+
+pub fn length(s1: &str, s2: &str) -> usize {
+    Length::default().for_str(s1, s2).val()
 }
 
 pub fn entropy_ncd(s1: &str, s2: &str) -> f64 {

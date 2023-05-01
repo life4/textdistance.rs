@@ -43,6 +43,7 @@ Naive:
 
 1. `Prefix`
 1. `Suffix`
+1. `Length`
 
 Normalization for other metrics:
 
