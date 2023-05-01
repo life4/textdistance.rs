@@ -71,3 +71,17 @@ We stick to SemVer:
 1. The **patch** number is for bug fixes. It is possible that the results of an algorithm will change in some corner cases if we found that the previous implementation doesn't match the algorithm described in the original paper.
 1. The **minor** number is for new algorithms and features.
 1. The **major** number is for big changes in the API. We try to avoid breaking stuff but we prefer to provide a friendly and convenient API over keeping a backward compatibility.
+
+## Limitations
+
++ In the original textdisance, most of the algorithms are adjusted to work on any number of the input sequences. However, Rust doesn't support variadic arguments, so all algorithms currently are implemented only for exactly two inputs.
++ All algorithms in the crate implement the same `Algorithm` trait. Hence metrics that have additional limitations on the input sequence elements beyond `Eq` (like Editex and MRA that work only with ASCII letters) currently cannot be implemented.
++ Most of the implemented algorithms have certain properties (like [commutative property](https://en.wikipedia.org/wiki/Commutative_property)) that make their behavior more like what you would expect and make normalization simple. So, I haven't implemented yet Needleman-Wunsch and Gotoh, mostly because they are tricky to normalize and I'm still not 100% sure that I did it correctly in the original textdistance.
+
+## Acknowledgments
+
+There are the libraries that I used as a reference implementation and the source of test cases:
+
++ Python: [textdistance](https://github.com/life4/textdistance), [abydos](https://github.com/chrislit/abydos), [jellyfish](https://github.com/jamesturk/jellyfish).
++ JS: [talisman](https://github.com/Yomguithereal/talisman).
++ Rust: [strsim](https://github.com/dguo/strsim-rs), [distance](https://github.com/mbrlabs/distance), [levenshtein-rs](https://github.com/wooorm/levenshtein-rs).
