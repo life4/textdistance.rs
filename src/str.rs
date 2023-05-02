@@ -1,6 +1,7 @@
 //! Helper functions providing the default implementation of distance/similarity algorithms for strings.
 
 use super::Algorithm;
+use super::Bag;
 use super::Cosine;
 use super::DamerauLevenshtein;
 use super::EntropyNCD;
@@ -133,6 +134,15 @@ pub fn yujian_bo(s1: &str, s2: &str) -> f64 {
 /// [1]: https://www.sial.iias.spb.su/files/386-386-1-PB.pdf
 pub fn mlipns(s1: &str, s2: &str) -> usize {
     MLIPNS::default().for_str(s1, s2).val()
+}
+
+/// Calculate [Bag distance][1] for two strings.
+///
+/// A wrapper for [Bag].
+///
+/// [1]: http://www-db.disi.unibo.it/research/papers/SPIRE02.pdf
+pub fn bag(s1: &str, s2: &str) -> usize {
+    Bag::default().for_str(s1, s2).val()
 }
 
 /// Calculate [LIG3 normalization][1] of [Hamming] by [Levenshtein] for two strings.

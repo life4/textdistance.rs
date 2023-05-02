@@ -5,6 +5,7 @@ mod counter;
 pub mod str;
 
 mod algorithms {
+    pub mod bag;
     pub mod cosine;
     pub mod damerau_levenshtein;
     pub mod entropy_ncd;
@@ -29,6 +30,7 @@ mod algorithms {
 }
 
 pub use self::algorithm::{Algorithm, Result};
+pub use self::algorithms::bag::Bag;
 pub use self::algorithms::cosine::Cosine;
 pub use self::algorithms::damerau_levenshtein::DamerauLevenshtein;
 pub use self::algorithms::entropy_ncd::EntropyNCD;
@@ -73,6 +75,7 @@ mod tests {
             9 => Prefix::default().for_str(s1, s2),
             10 => Suffix::default().for_str(s1, s2),
             11 => Length::default().for_str(s1, s2),
+            12 => Bag::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -105,6 +108,7 @@ mod tests {
     #[case::prefix(9)]
     #[case::suffix(10)]
     #[case::length(11)]
+    #[case::bag(12)]
     fn basic_usize(#[case] alg: usize) {
         let empty_res = get_result(alg, "", "");
         assert!(empty_res.dist() == 0);

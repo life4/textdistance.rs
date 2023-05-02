@@ -26,6 +26,7 @@ Edit-based:
 
 Token-based:
 
+1. `Bag`
 1. `Cosine` (aka Orchini, Tucker, Otsuka–Ochiai)
 1. `EntropyNCD` (Entropy-based Normalized Compression Distance)
 1. `Jaccard` (aka Tanimoto, Critical Success Index)
@@ -47,9 +48,9 @@ Naive:
 
 Normalization for other metrics:
 
+1. `LIG3` normallization for `Hamming` by `Levenshtein`
 1. `MLIPNS` normallization for `Hamming`
 1. `YujianBo` normallization for `Levenshtein`
-1. `LIG3` normallization for `Hamming` by `Levenshtein`
 
 ## Installation
 

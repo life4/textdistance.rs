@@ -49,6 +49,7 @@ where
         result
     }
 
+    /// how many there are common items in the given multisets.
     pub fn intersect_count(&self, rhs: &Counter<K>) -> usize {
         let mut result = 0;
         for (key, lhs_count) in &self.map {
@@ -59,6 +60,7 @@ where
         result
     }
 
+    /// how many there are items in total in both multisets.
     pub fn union_count(&self, rhs: &Counter<K>) -> usize {
         let mut result = 0;
         for (key, lhs_count) in &self.map {
@@ -68,6 +70,18 @@ where
         for (key, rhs_count) in &rhs.map {
             if self.map.get(key).is_none() {
                 result += rhs_count;
+            }
+        }
+        result
+    }
+
+    /// How many there are item in left that aren't in the right
+    pub fn diff_count(&self, rhs: &Counter<K>) -> usize {
+        let mut result = 0;
+        for (key, lhs_count) in &self.map {
+            let rhs_count = rhs.map.get(key).unwrap_or(&0);
+            if lhs_count > rhs_count {
+                result += lhs_count - rhs_count;
             }
         }
         result
