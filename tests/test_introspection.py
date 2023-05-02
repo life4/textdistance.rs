@@ -35,7 +35,11 @@ def test_is_in_readme(alg: str) -> None:
 @pytest.mark.parametrize('alg', ALGORITHMS)
 def test_str_shortcut_exists(alg: str) -> None:
     fpath = (ROOT / 'src' / 'str.rs')
-    assert f'fn {alg}(' in fpath.read_text()
+    text = fpath.read_text()
+    assert f'fn {alg}(' in text
+    alg = alg.replace('_', '')
+    assert f'{alg}::default().for_str(s1, s2).' in text.lower()
+    assert f'/// a wrapper for [{alg}].\n' in text.lower()
 
 
 @pytest.mark.parametrize('alg', ALGORITHMS)

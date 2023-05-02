@@ -20,6 +20,7 @@ use super::SorensenDice;
 use super::Suffix;
 use super::Tversky;
 use super::YujianBo;
+use super::LIG3;
 use super::MLIPNS;
 
 /// Calculate unrestricted [Damerau-Levenshtein distance][1] for two strings.
@@ -132,6 +133,15 @@ pub fn yujian_bo(s1: &str, s2: &str) -> f64 {
 /// [1]: https://www.sial.iias.spb.su/files/386-386-1-PB.pdf
 pub fn mlipns(s1: &str, s2: &str) -> usize {
     MLIPNS::default().for_str(s1, s2).val()
+}
+
+/// Calculate [LIG3 normalization][1] of [Hamming] by [Levenshtein] for two strings.
+///
+/// A wrapper for [LIG3].
+///
+/// [1]: https://github.com/chrislit/abydos/blob/master/abydos/distance/_lig3.py
+pub fn lig3(s1: &str, s2: &str) -> f64 {
+    LIG3::default().for_str(s1, s2).nval()
 }
 
 /// Calculate [Jaccard normalized similarity][1] for two strings.

@@ -49,6 +49,7 @@ Normalization for other metrics:
 
 1. `MLIPNS` normallization for `Hamming`
 1. `YujianBo` normallization for `Levenshtein`
+1. `LIG3` normallization for `Hamming` by `Levenshtein`
 
 ## Installation
 

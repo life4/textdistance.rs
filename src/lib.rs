@@ -16,6 +16,7 @@ mod algorithms {
     pub mod lcsstr;
     pub mod length;
     pub mod levenshtein;
+    pub mod lig3;
     pub mod mlipns;
     pub mod overlap;
     pub mod prefix;
@@ -39,6 +40,7 @@ pub use self::algorithms::lcsseq::LCSSeq;
 pub use self::algorithms::lcsstr::LCSStr;
 pub use self::algorithms::length::Length;
 pub use self::algorithms::levenshtein::Levenshtein;
+pub use self::algorithms::lig3::LIG3;
 pub use self::algorithms::mlipns::MLIPNS;
 pub use self::algorithms::overlap::Overlap;
 pub use self::algorithms::prefix::Prefix;
@@ -86,6 +88,7 @@ mod tests {
             7 => Overlap::default().for_str(s1, s2),
             8 => Cosine::default().for_str(s1, s2),
             9 => EntropyNCD::default().for_str(s1, s2),
+            10 => LIG3::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -127,6 +130,7 @@ mod tests {
     #[case::overlap(7)]
     #[case::cosine(8)]
     #[case::entropy_ncd(9)]
+    #[case::lig3(10)]
     fn basic_f64(#[case] alg: usize) {
         let empty_res = get_result_f64(alg, "", "");
         assert!(get_result_f64(alg, "ab", "cde").ndist() > 0.);
