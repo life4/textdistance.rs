@@ -2,6 +2,9 @@ use super::levenshtein::Levenshtein;
 use crate::algorithm::{Algorithm, Result};
 use std::hash::Hash;
 
+/// [Yujian-Bo distance] is a normalization of [Levenshtein].
+///
+/// [Yujian-Bo distance]: https://ieeexplore.ieee.org/document/4160958
 #[derive(Default)]
 pub struct YujianBo {
     levenshtein: Levenshtein,

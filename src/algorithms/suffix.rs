@@ -1,5 +1,9 @@
 use crate::algorithm::{Algorithm, Result};
 
+/// Suffix similarity is the length of the longest common suffix of the given sequences.
+///
+/// It's a very dumb metric but it can work surprisingly well for compairing words
+/// in languages with an active use of [prefixes](https://en.wikipedia.org/wiki/Prefix).
 #[derive(Default)]
 pub struct Suffix {}
 

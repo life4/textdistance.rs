@@ -1,5 +1,16 @@
 use crate::algorithm::{Algorithm, Result};
 
+/// [Ratcliff/Obershelp similarity] is [LCSStr] that recursively finds matches
+/// on both sides of the longest substring.
+///
+/// The non-normalized result is a double number of matching characters defined as the first
+/// longest common substring plus recursively the number of matching characters in
+/// the non-matching regions on both sides of the longest common substring.
+///
+/// The normalized result is the non-normalized one divided by the sum of the input string lengths.
+///
+/// [Ratcliff/Obershelp similarity]: https://en.wikipedia.org/wiki/Gestalt_pattern_matching
+/// [LCSStr]: crate::LCSStr
 #[derive(Default)]
 pub struct RatcliffObershelp {}
 

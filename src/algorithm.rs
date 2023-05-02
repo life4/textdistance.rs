@@ -51,6 +51,10 @@ pub struct Result<R> {
 }
 
 impl Result<usize> {
+    /// Raw value of the metric.
+    ///
+    /// It is equivalent to `dist` for distance metrics
+    /// and to `sim` for similarity metrics.
     pub fn val(&self) -> usize {
         self.abs
     }
@@ -87,6 +91,10 @@ impl Result<usize> {
         }
     }
 
+    /// Normalized raw value of the metric.
+    ///
+    /// It is equivalent to `ndist` for distance metrics
+    /// and to `nsim` for similarity metrics.
     pub fn nval(&self) -> f64 {
         if self.is_distance {
             self.ndist()
@@ -123,9 +131,19 @@ impl Result<usize> {
 }
 
 impl Result<f64> {
+    /// Normalized raw value of the metric.
+    ///
+    /// It is equivalent to `ndist` for distance metrics
+    /// and to `nsim` for similarity metrics.
     pub fn nval(&self) -> f64 {
         self.abs
     }
+
+    /// Normalized distance.
+    ///
+    /// A number from 0.0 to 1.0 showing how different the two sequences are.
+    /// 0.0 indicates that the sequences are the same,
+    /// and 1.0 indicates that the sequences are very different.
     pub fn ndist(&self) -> f64 {
         if self.is_distance {
             self.abs

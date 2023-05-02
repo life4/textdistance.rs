@@ -2,11 +2,11 @@ use super::hamming::Hamming;
 use crate::algorithm::{Algorithm, Result};
 use std::hash::Hash;
 
-/// [MLIPNS] similarity is a normalization for [Hamming] that returns either 0 or 1.
+/// [MLIPNS similarity] is a normalization for [Hamming] that returns either 0 or 1.
 ///
 /// MLIPNS stands for Modified Language-Independent Product Name Search.
 ///
-/// [MLIPNS]: https://www.sial.iias.spb.su/files/386-386-1-PB.pdf
+/// [MLIPNS similarity]: https://www.sial.iias.spb.su/files/386-386-1-PB.pdf
 pub struct MLIPNS {
     hamming: Hamming,
     threshold: f64,

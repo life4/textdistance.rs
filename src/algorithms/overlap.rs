@@ -1,9 +1,9 @@
 use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
 
-/// [Overlap] similarity is the size of the intersection divided by the smaller of the size of the two sets.
+/// [Overlap similarity] is the size of the intersection divided by the smaller of the size of the two sets.
 ///
-/// [Overlap]: https://en.wikipedia.org/wiki/Overlap_coefficient
+/// [Overlap similarity]: https://en.wikipedia.org/wiki/Overlap_coefficient
 #[derive(Default)]
 pub struct Overlap {}
 

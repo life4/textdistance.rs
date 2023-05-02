@@ -1,8 +1,8 @@
 use crate::algorithm::{Algorithm, Result};
 
-/// [Sift4] is a distance algorithm designed to be "fast and relatively accurate".
+/// [Sift4 distance] is an edit algorithm designed to be "fast and relatively accurate".
 ///
-/// [Sift4]: https://siderite.dev/blog/super-fast-and-accurate-string-distance.html
+/// [Sift4 distance]: https://siderite.dev/blog/super-fast-and-accurate-string-distance.html
 pub struct Sift4 {
     simple: bool,
     // max_distance: usize,

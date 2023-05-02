@@ -1,6 +1,9 @@
 use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
 
+/// [Sørensen–Dice similarity] is a ratio of common chars to total chars in the given strings.
+///
+/// [Sørensen–Dice similarity]: https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient
 #[derive(Default)]
 pub struct SorensenDice {}
 
