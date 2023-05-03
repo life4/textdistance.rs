@@ -1,3 +1,4 @@
+//! Jaro-Winkler similarity
 use super::jaro::Jaro;
 use crate::algorithm::{Algorithm, Result};
 

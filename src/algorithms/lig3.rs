@@ -1,3 +1,4 @@
+//! LIG3 similarity
 use super::hamming::Hamming;
 use super::levenshtein::Levenshtein;
 use crate::algorithm::{Algorithm, Result};

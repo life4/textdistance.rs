@@ -1,3 +1,4 @@
+//! Longest common subsequence
 use crate::algorithm::{Algorithm, Result};
 
 /// The length of the [Longest common subsequence].

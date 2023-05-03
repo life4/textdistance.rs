@@ -79,10 +79,19 @@ fn bigrams(s: &str) -> impl Iterator<Item = (char, char)> + '_ {
 
 /// Result of a distance/similarity algorithm.
 pub struct Result<R> {
+    /// Indicates if it is a distance or a similarity metric.
     pub is_distance: bool,
+
+    /// Absolute raw value of the metric.
     pub abs: R,
+
+    /// Maximum possible value for the input of the given length.
     pub max: R,
+
+    /// Length of the first analyzed sequence.
     pub len1: usize,
+
+    /// Length of the second analyzed sequence.
     pub len2: usize,
 }
 

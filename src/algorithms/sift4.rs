@@ -1,3 +1,4 @@
+//! Sift4 distance
 use crate::algorithm::{Algorithm, Result};
 
 /// [Sift4 distance] is an edit algorithm designed to be "fast and relatively accurate".

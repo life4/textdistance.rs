@@ -1,3 +1,5 @@
+//! Bag distance
+
 use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
 

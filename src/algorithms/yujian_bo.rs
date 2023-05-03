@@ -1,3 +1,4 @@
+//! Yujian-Bo distance
 use super::levenshtein::Levenshtein;
 use crate::algorithm::{Algorithm, Result};
 use std::hash::Hash;

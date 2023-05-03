@@ -1,3 +1,4 @@
+//! Gestalt pattern matching
 use crate::algorithm::{Algorithm, Result};
 
 /// [Ratcliff/Obershelp similarity] is [LCSStr] that recursively finds matches

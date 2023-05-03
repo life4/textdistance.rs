@@ -1,3 +1,4 @@
+//! MLIPNS similarity
 use super::hamming::Hamming;
 use crate::algorithm::{Algorithm, Result};
 use std::hash::Hash;

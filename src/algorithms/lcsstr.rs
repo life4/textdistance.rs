@@ -1,3 +1,4 @@
+//! Longest common substring
 use crate::algorithm::{Algorithm, Result};
 
 /// The length of the [Longest common substring].

@@ -4,14 +4,14 @@ Rust library with different algorithms to compare how similar two sequences are.
 
 Features:
 
-+ Based on popular and battle-tested [textdistance](https://github.com/life4/textdistance) Python library (and written by the same author).
-+ Includes state of the art algorithms like `EntropyNCD` and `Sift4`.
-+ Zero dependency.
-+ Works with any iterators, including bytes, code points, unicode grapheme clusters, words, and numbers.
-+ Friendly and consistent API for all algorithms.
-+ Optional normalization of the result on 0.0-1.0 interval.
-+ No unsafe code.
-+ Pure Rust.
++ 💪 Based on popular and battle-tested [textdistance](https://github.com/life4/textdistance) Python library (and written by the same author).
++ 🔬 Includes state of the art algorithms like `EntropyNCD` and `Sift4`.
++ 🪶 Zero dependency.
++ 🔨 Works with any iterators, including bytes, code points, unicode grapheme clusters, words, and numbers.
++ ❤️ Friendly and consistent API for all algorithms.
++ 📏 Optional normalization of the result on 0.0-1.0 interval.
++ 🛡 No unsafe code.
++ 🦀 Pure Rust.
 
 ## Available algorithms
 
@@ -87,3 +87,7 @@ There are the libraries that I used as a reference implementation and the source
 + Python: [textdistance](https://github.com/life4/textdistance), [abydos](https://github.com/chrislit/abydos), [jellyfish](https://github.com/jamesturk/jellyfish).
 + JS: [talisman](https://github.com/Yomguithereal/talisman).
 + Rust: [strsim](https://github.com/dguo/strsim-rs), [distance](https://github.com/mbrlabs/distance), [levenshtein-rs](https://github.com/wooorm/levenshtein-rs).
+
+## Testing locally
+
+To run everything locally, all you need is rust, python, and [task](https://taskfile.dev/installation/). Execute `task all` to run all code formatters, linters, and tests.
