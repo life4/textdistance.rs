@@ -28,6 +28,9 @@ use super::MLIPNS;
 ///
 /// A wrapper for [DamerauLevenshtein].
 ///
+///     use textdistance::str::damerau_levenshtein;
+///     assert!(damerau_levenshtein("abc", "acbd") == 2); // "bc" swapped and "d" added
+///
 /// [1]: https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
 pub fn damerau_levenshtein(s1: &str, s2: &str) -> usize {
     DamerauLevenshtein::default().for_str(s1, s2).val()
@@ -36,6 +39,9 @@ pub fn damerau_levenshtein(s1: &str, s2: &str) -> usize {
 /// Calculate restricted [Damerau-Levenshtein distance][1] for two strings.
 ///
 /// A wrapper for [DamerauLevenshtein].
+///
+///     use textdistance::str::damerau_levenshtein;
+///     assert!(damerau_levenshtein("abc", "acbd") == 2); // "bc" swapped and "d" added
 ///
 /// [1]: https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
 pub fn damerau_levenshtein_restricted(s1: &str, s2: &str) -> usize {
@@ -50,6 +56,9 @@ pub fn damerau_levenshtein_restricted(s1: &str, s2: &str) -> usize {
 ///
 /// A wrapper for [Hamming].
 ///
+///     use textdistance::str::hamming;
+///     assert!(hamming("abc", "acbd") == 3); // only "a" matches
+///
 /// [1]: https://en.wikipedia.org/wiki/Hamming_distance
 pub fn hamming(s1: &str, s2: &str) -> usize {
     Hamming::default().for_str(s1, s2).val()
@@ -58,6 +67,9 @@ pub fn hamming(s1: &str, s2: &str) -> usize {
 /// Calculate the length of the [Longest Common SubSequence][1] for two strings.
 ///
 /// A wrapper for [LCSSeq].
+///
+///     use textdistance::str::lcsseq;
+///     assert!(lcsseq("abcdef", "xbcegf") == 4); // "bcef"
 ///
 /// [1]: https://en.wikipedia.org/wiki/Longest_common_subsequence
 pub fn lcsseq(s1: &str, s2: &str) -> usize {
@@ -68,6 +80,9 @@ pub fn lcsseq(s1: &str, s2: &str) -> usize {
 ///
 /// A wrapper for [LCSStr].
 ///
+///     use textdistance::str::lcsstr;
+///     assert!(lcsstr("abcdef", "xbcegf") == 2); // "bc"
+///
 /// [1]: https://en.wikipedia.org/wiki/Longest_common_substring
 pub fn lcsstr(s1: &str, s2: &str) -> usize {
     LCSStr::default().for_str(s1, s2).val()
@@ -76,6 +91,9 @@ pub fn lcsstr(s1: &str, s2: &str) -> usize {
 /// Calculate [Levenshtein distance][1] for two strings.
 ///
 /// A wrapper for [Levenshtein].
+///
+///     use textdistance::str::levenshtein;
+///     assert!(levenshtein("abc", "acbd") == 2); // add "c" at 2 and then swap "c" with "d" at 4
 ///
 /// [1]: https://en.wikipedia.org/wiki/Levenshtein_distance
 pub fn levenshtein(s1: &str, s2: &str) -> usize {
@@ -86,6 +104,9 @@ pub fn levenshtein(s1: &str, s2: &str) -> usize {
 ///
 /// A wrapper for [RatcliffObershelp].
 ///
+///     use textdistance::str::ratcliff_obershelp;
+///     assert_eq!(ratcliff_obershelp("abc", "acbd"), 0.5714285714285714);
+///
 /// [1]: https://en.wikipedia.org/wiki/Gestalt_pattern_matching
 pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
     RatcliffObershelp::default().for_str(s1, s2).nval()
@@ -94,6 +115,9 @@ pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
 /// Calculate [Sift4 distance][1] for two strings.
 ///
 /// A wrapper for [Sift4].
+///
+///     use textdistance::str::sift4;
+///     assert!(sift4("abc", "acbd") == 2);
 ///
 /// [1]: https://siderite.dev/blog/super-fast-and-accurate-string-distance.html
 pub fn sift4(s1: &str, s2: &str) -> usize {
@@ -104,6 +128,9 @@ pub fn sift4(s1: &str, s2: &str) -> usize {
 ///
 /// A wrapper for [Jaro].
 ///
+///     use textdistance::str::jaro;
+///     assert_eq!(jaro("abc", "acbd"), 0.8055555555555555);
+///
 /// [1]: https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance#Jaro_similarity
 pub fn jaro(s1: &str, s2: &str) -> f64 {
     Jaro::default().for_str(s1, s2).nval()
@@ -112,6 +139,9 @@ pub fn jaro(s1: &str, s2: &str) -> f64 {
 /// Calculate [Jaro-Winkler normalized similarity][1] for two strings.
 ///
 /// A wrapper for [JaroWinkler].
+///
+///     use textdistance::str::jaro_winkler;
+///     assert_eq!(jaro_winkler("abc", "acbd"), 0.825);
 ///
 /// [1]: https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance
 pub fn jaro_winkler(s1: &str, s2: &str) -> f64 {
@@ -122,6 +152,9 @@ pub fn jaro_winkler(s1: &str, s2: &str) -> f64 {
 ///
 /// A wrapper for [YujianBo].
 ///
+///     use textdistance::str::yujian_bo;
+///     assert_eq!(yujian_bo("abc", "acbd"), 0.4444444444444444);
+///
 /// [1]: https://ieeexplore.ieee.org/document/4160958
 pub fn yujian_bo(s1: &str, s2: &str) -> f64 {
     YujianBo::default().for_str(s1, s2).nval()
@@ -130,6 +163,9 @@ pub fn yujian_bo(s1: &str, s2: &str) -> f64 {
 /// Calculate [MLIPNS normalization][1] of [Hamming] for two strings.
 ///
 /// A wrapper for [MLIPNS].
+///
+///     use textdistance::str::mlipns;
+///     assert!(mlipns("abc", "acbd") == 0);
 ///
 /// [1]: https://www.sial.iias.spb.su/files/386-386-1-PB.pdf
 pub fn mlipns(s1: &str, s2: &str) -> usize {
@@ -140,6 +176,9 @@ pub fn mlipns(s1: &str, s2: &str) -> usize {
 ///
 /// A wrapper for [Bag].
 ///
+///     use textdistance::str::bag;
+///     assert!(bag("abc", "acbd") == 1);
+///
 /// [1]: http://www-db.disi.unibo.it/research/papers/SPIRE02.pdf
 pub fn bag(s1: &str, s2: &str) -> usize {
     Bag::default().for_str(s1, s2).val()
@@ -148,6 +187,9 @@ pub fn bag(s1: &str, s2: &str) -> usize {
 /// Calculate [LIG3 normalization][1] of [Hamming] by [Levenshtein] for two strings.
 ///
 /// A wrapper for [LIG3].
+///
+///     use textdistance::str::lig3;
+///     assert_eq!(lig3("abc", "acbd"), 0.5);
 ///
 /// [1]: https://github.com/chrislit/abydos/blob/master/abydos/distance/_lig3.py
 pub fn lig3(s1: &str, s2: &str) -> f64 {
@@ -158,6 +200,9 @@ pub fn lig3(s1: &str, s2: &str) -> f64 {
 ///
 /// A wrapper for [Jaccard].
 ///
+///     use textdistance::str::jaccard;
+///     assert_eq!(jaccard("abc", "acbd"), 0.75);
+///
 /// [1]: https://en.wikipedia.org/wiki/Jaccard_index
 pub fn jaccard(s1: &str, s2: &str) -> f64 {
     Jaccard::default().for_str(s1, s2).nval()
@@ -166,6 +211,9 @@ pub fn jaccard(s1: &str, s2: &str) -> f64 {
 /// Calculate [Sørensen–Dice normalized similarity][1] for two strings.
 ///
 /// A wrapper for [SorensenDice].
+///
+///     use textdistance::str::sorensen_dice;
+///     assert_eq!(sorensen_dice("abc", "acbd"), 0.8571428571428571);
 ///
 /// [1]:https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient
 pub fn sorensen_dice(s1: &str, s2: &str) -> f64 {
@@ -176,6 +224,9 @@ pub fn sorensen_dice(s1: &str, s2: &str) -> f64 {
 ///
 /// A wrapper for [Tversky].
 ///
+///     use textdistance::str::tversky;
+///     assert_eq!(tversky("abc", "acbd"), 0.75);
+///
 /// [1]: https://en.wikipedia.org/wiki/Tversky_index
 pub fn tversky(s1: &str, s2: &str) -> f64 {
     Tversky::default().for_str(s1, s2).nval()
@@ -184,6 +235,9 @@ pub fn tversky(s1: &str, s2: &str) -> f64 {
 /// Calculate [Overlap normalized similarity][1] for two strings.
 ///
 /// A wrapper for [Overlap].
+///
+///     use textdistance::str::overlap;
+///     assert_eq!(overlap("abc", "acbd"), 1.0);
 ///
 /// [1]: https://en.wikipedia.org/wiki/Overlap_coefficient
 pub fn overlap(s1: &str, s2: &str) -> f64 {
@@ -194,37 +248,56 @@ pub fn overlap(s1: &str, s2: &str) -> f64 {
 ///
 /// A wrapper for [Cosine].
 ///
+///     use textdistance::str::cosine;
+///     assert_eq!(cosine("abc", "acbd"), 0.8660254037844387);
+///
 /// [1]: https://en.wikipedia.org/wiki/Cosine_similarity
 pub fn cosine(s1: &str, s2: &str) -> f64 {
     Cosine::default().for_str(s1, s2).nval()
 }
 
-/// Calculate prefix similarity for two strings.
+/// Calculate common prefix length for two strings.
 ///
 /// A wrapper for [Prefix].
+///
+///     use textdistance::str::prefix;
+///     assert!(prefix("abc", "acbd") == 1); // "a"
+///
 pub fn prefix(s1: &str, s2: &str) -> usize {
     Prefix::default().for_str(s1, s2).val()
 }
 
-/// Calculate suffix similarity for two strings.
+/// Calculate common suffix length for two strings.
 ///
 /// A wrapper for [Suffix].
+///
+///     use textdistance::str::suffix;
+///     assert!(suffix("abcd", "axcd") == 2); // "cd"
+///
 pub fn suffix(s1: &str, s2: &str) -> usize {
     Suffix::default().for_str(s1, s2).val()
 }
 
-/// Calculate length similarity for two strings.
+/// Calculate length distance for two strings.
 ///
 /// A wrapper for [Length].
+///
+///     use textdistance::str::length;
+///     assert!(length("abcd", "axc") == 4 - 3);
+///
 pub fn length(s1: &str, s2: &str) -> usize {
     Length::default().for_str(s1, s2).val()
 }
 
-/// Calculate Entropy-based [normalized compression distance][1] for two strings.
+/// Calculate [Entropy]-based [normalized compression distance][1] for two strings.
 ///
 /// A wrapper for [EntropyNCD].
 ///
+///     use textdistance::str::entropy_ncd;
+///     assert_eq!(entropy_ncd("abc", "acbd"), 0.13834583309294798);
+///
 /// [1]: https://en.wikipedia.org/wiki/Normalized_compression_distance
+/// [Entropy]: https://en.wikipedia.org/wiki/Entropy_(information_theory)
 pub fn entropy_ncd(s1: &str, s2: &str) -> f64 {
     EntropyNCD::default().for_str(s1, s2).nval()
 }

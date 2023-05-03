@@ -11,6 +11,12 @@ tasks:
     cmds:
       - curl -LsSf https://get.nexte.st/latest/linux | tar zxf - -C {{.CARGO_BIN}}
 
+  install-pytest:
+    status:
+      - which pytest
+    cmds:
+      - python3 -m pip install pytest
+
   clone-licenses:
     status:
       - test -d choosealicense.com
@@ -33,20 +39,34 @@ tasks:
     cmds:
       - cargo doc {{.CLI_ARGS}}
 
-  test:
+  pytest:
+    deps:
+      - install-pytest
+    cmds:
+      - pytest
+
+  nextest:
     deps:
       - install-nextest
     env:
       CLICOLOR_FORCE: "yes"
     cmds:
-      - python3 -m pytest
       - cargo nextest run --no-fail-fast {{.CLI_ARGS}}
+
+  doctest:
+    cmds:
+      - cargo test --doc
 
   bench:
     deps:
       - clone-licenses
     cmds:
       - cargo bench {{.CLI_ARGS}}
+
+  test:
+    - task: pytest
+    - task: nextest
+    - task: doctest
 
   all:
     - task: format
