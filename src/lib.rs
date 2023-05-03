@@ -24,6 +24,7 @@ mod algorithms {
     pub mod prefix;
     pub mod ratcliff_obershelp;
     pub mod sift4;
+    pub mod smith_waterman;
     pub mod sorensen_dice;
     pub mod suffix;
     pub mod tversky;
@@ -49,6 +50,7 @@ pub use self::algorithms::overlap::Overlap;
 pub use self::algorithms::prefix::Prefix;
 pub use self::algorithms::ratcliff_obershelp::RatcliffObershelp;
 pub use self::algorithms::sift4::Sift4;
+pub use self::algorithms::smith_waterman::SmithWaterman;
 pub use self::algorithms::sorensen_dice::SorensenDice;
 pub use self::algorithms::suffix::Suffix;
 pub use self::algorithms::tversky::Tversky;
@@ -77,6 +79,7 @@ mod tests {
             10 => Suffix::default().for_str(s1, s2),
             11 => Length::default().for_str(s1, s2),
             12 => Bag::default().for_str(s1, s2),
+            13 => SmithWaterman::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -110,6 +113,7 @@ mod tests {
     #[case::suffix(10)]
     #[case::length(11)]
     #[case::bag(12)]
+    #[case::smith_waterman(12)]
     fn basic_usize(#[case] alg: usize) {
         let empty_res = get_result(alg, "", "");
         assert!(empty_res.dist() == 0);

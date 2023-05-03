@@ -1,10 +1,15 @@
 # textdistance.rs
 
+[ [github.com](https://github.com/life4/textdistance.rs) ]
+[ [docs.rs](https://docs.rs/textdistance/) ]
+[ [crates.io](crates.io/crates/textdistance) ]
+
 Rust library with different algorithms to compare how similar two sequences are.
 
 Features:
 
 + 💪 Based on popular and battle-tested [textdistance](https://github.com/life4/textdistance) Python library (and written by the same author).
++ 📚 Contains 20+ algorithms for all purposes.
 + 🔬 Includes state of the art algorithms like `EntropyNCD` and `Sift4`.
 + 🪶 Zero dependency.
 + 🔨 Works with any iterators, including bytes, code points, unicode grapheme clusters, words, and numbers.
@@ -23,6 +28,7 @@ Edit-based:
 1. `JaroWinkler`
 1. `Levenshtein`
 1. `Sift4`
+1. `SmithWaterman`
 
 Token-based:
 

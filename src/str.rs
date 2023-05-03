@@ -17,6 +17,7 @@ use super::Overlap;
 use super::Prefix;
 use super::RatcliffObershelp;
 use super::Sift4;
+use super::SmithWaterman;
 use super::SorensenDice;
 use super::Suffix;
 use super::Tversky;
@@ -287,6 +288,18 @@ pub fn suffix(s1: &str, s2: &str) -> usize {
 ///
 pub fn length(s1: &str, s2: &str) -> usize {
     Length::default().for_str(s1, s2).val()
+}
+
+/// Calculate [Smith-Waterman similarity] for two strings.
+///
+/// A wrapper for [SmithWaterman].
+///
+///     use textdistance::str::smith_waterman;
+///     assert!(smith_waterman("abc", "acbd") == 1);
+///
+/// [Smith-Waterman similarity]: https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm
+pub fn smith_waterman(s1: &str, s2: &str) -> usize {
+    SmithWaterman::default().for_str(s1, s2).val()
 }
 
 /// Calculate [Entropy]-based [normalized compression distance][1] for two strings.
