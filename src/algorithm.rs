@@ -1,8 +1,20 @@
 use std::hash::Hash;
 
 /// A base trait for all distance/similarity algorithms.
+///
+///     use textdistance::{Algorithm, Hamming};
+///     let h = Hamming::default();
+///     let res = h.for_str("abc", "acbd");
+///     assert!(res.val() == 3);
+///
 pub trait Algorithm<R> {
     /// Calculate distance/similarity for iterators.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_iter(1..4, 1..6);
+    ///     assert!(res.val() == 2);
+    ///
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result<R>
     where
         C: Iterator<Item = E>,
@@ -14,6 +26,12 @@ pub trait Algorithm<R> {
     }
 
     /// Calculate distance/similarity for vectors.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_vec(&vec![1, 2, 3], &vec![1, 3, 2, 4]);
+    ///     assert!(res.val() == 3);
+    ///
     fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result<R>
     where
         E: Eq + Copy + Hash,
@@ -22,16 +40,34 @@ pub trait Algorithm<R> {
     }
 
     /// Calculate distance/similarity for strings.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_str("abc", "acbd");
+    ///     assert!(res.val() == 3);
+    ///
     fn for_str(&self, s1: &str, s2: &str) -> Result<R> {
         self.for_iter(s1.chars(), s2.chars())
     }
 
     /// Calculate distance/similarity for words in strings.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_words("the first edition", "the second edition");
+    ///     assert!(res.val() == 1);
+    ///
     fn for_words(&self, s1: &str, s2: &str) -> Result<R> {
         self.for_iter(s1.split_whitespace(), s2.split_whitespace())
     }
 
     /// Calculate distance/similarity for bigrams in strings.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_str("abd", "abcd");
+    ///     assert!(res.val() == 2); // 3 bigrams (ab, bc, cd), only "ab" matches
+    ///
     fn for_bigrams(&self, s1: &str, s2: &str) -> Result<R> {
         self.for_iter(bigrams(s1), bigrams(s2))
     }
@@ -55,6 +91,12 @@ impl Result<usize> {
     ///
     /// It is equivalent to `dist` for distance metrics
     /// and to `sim` for similarity metrics.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_str("abc", "acbd");
+    ///     assert!(res.val() == 3);
+    ///
     pub fn val(&self) -> usize {
         self.abs
     }
@@ -67,6 +109,12 @@ impl Result<usize> {
     /// The highest possible number varies based on the length of the input strings.
     /// Most often, each increment of this value indicates one symbol that differs
     /// in the input sequences.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_str("abc", "acbd");
+    ///     assert!(res.dist() == 3);
+    ///
     pub fn dist(&self) -> usize {
         if self.is_distance {
             self.abs
@@ -83,6 +131,12 @@ impl Result<usize> {
     /// The highest possible number varies based on the length of the input strings.
     /// Most often, each increment of this value indicates one symbol that is the same
     /// in both sequences.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_str("abc", "acbd");
+    ///     assert!(res.sim() == 1); // "a"
+    ///
     pub fn sim(&self) -> usize {
         if self.is_distance {
             self.max - self.abs
@@ -95,6 +149,12 @@ impl Result<usize> {
     ///
     /// It is equivalent to `ndist` for distance metrics
     /// and to `nsim` for similarity metrics.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_str("abc", "acbd");
+    ///     assert!(res.nval() == 3.0 / 4.0);
+    ///
     pub fn nval(&self) -> f64 {
         if self.is_distance {
             self.ndist()
@@ -108,6 +168,12 @@ impl Result<usize> {
     /// A number from 0.0 to 1.0 showing how different the two sequences are.
     /// 0.0 indicates that the sequences are the same,
     /// and 1.0 indicates that the sequences are very different.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_str("abc", "acbd");
+    ///     assert!(res.ndist() == 3.0 / 4.0);
+    ///
     pub fn ndist(&self) -> f64 {
         if self.max == 0 {
             self.dist() as f64
@@ -121,6 +187,12 @@ impl Result<usize> {
     /// A number from 0.0 to 1.0 showing how similar the two sequences are.
     /// 0.0 indicates that the sequences are very different,
     /// and 1.0 indicates that the sequences are the same.
+    ///
+    ///     use textdistance::{Algorithm, Hamming};
+    ///     let h = Hamming::default();
+    ///     let res = h.for_str("abc", "acbd");
+    ///     assert!(res.nsim() == 1.0 / 4.0);
+    ///
     pub fn nsim(&self) -> f64 {
         if self.max == 0 {
             1.0
@@ -135,6 +207,12 @@ impl Result<f64> {
     ///
     /// It is equivalent to `ndist` for distance metrics
     /// and to `nsim` for similarity metrics.
+    ///
+    ///     use textdistance::{Algorithm, Jaro};
+    ///     let h = Jaro::default();
+    ///     let res = h.for_str("test", "tset");
+    ///     assert_eq!(res.nval(), 0.9166666666666666);
+    ///
     pub fn nval(&self) -> f64 {
         self.abs
     }
@@ -144,6 +222,12 @@ impl Result<f64> {
     /// A number from 0.0 to 1.0 showing how different the two sequences are.
     /// 0.0 indicates that the sequences are the same,
     /// and 1.0 indicates that the sequences are very different.
+    ///
+    ///     use textdistance::{Algorithm, Jaro};
+    ///     let h = Jaro::default();
+    ///     let res = h.for_str("test", "tset");
+    ///     assert_eq!(res.ndist(), 0.08333333333333337);
+    ///
     pub fn ndist(&self) -> f64 {
         if self.is_distance {
             self.abs
@@ -157,6 +241,12 @@ impl Result<f64> {
     /// A number from 0.0 to 1.0 showing how similar the two sequences are.
     /// 0.0 indicates that the sequences are very different,
     /// and 1.0 indicates that the sequences are the same.
+    ///
+    ///     use textdistance::{Algorithm, Jaro};
+    ///     let h = Jaro::default();
+    ///     let res = h.for_str("test", "tset");
+    ///     assert_eq!(res.nsim(), 0.9166666666666666);
+    ///
     pub fn nsim(&self) -> f64 {
         if self.is_distance {
             self.max - self.abs

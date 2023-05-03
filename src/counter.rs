@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::hash::Hash;
 
+/// Multiset container inspired by Python's `collections.Counter`.
 pub struct Counter<K> {
     map: HashMap<K, usize>,
 }
@@ -9,12 +10,14 @@ impl<K> Counter<K>
 where
     K: Hash + Eq + Copy,
 {
+    /// make an empty Counter
     pub fn new() -> Counter<K> {
         Counter {
             map: HashMap::new(),
         }
     }
 
+    /// Create a counter from a sequence.
     pub fn from_iter<I>(iter: I) -> Counter<K>
     where
         I: IntoIterator<Item = K>,
@@ -24,6 +27,7 @@ where
         counter
     }
 
+    /// Merge items from a sequence into the Counter
     pub fn update<I>(&mut self, iter: I)
     where
         I: IntoIterator<Item = K>,
@@ -34,14 +38,17 @@ where
         }
     }
 
+    // How many items there are in total in the Counter.
     pub fn count(&self) -> usize {
         self.map.values().sum()
     }
 
+    /// The count of things without the things
     pub fn values(&self) -> impl Iterator<Item = &usize> {
         self.map.values()
     }
 
+    /// Merge two counters together.
     pub fn merge(&self, rhs: &Counter<K>) -> Counter<K> {
         let mut result: Counter<K> = Counter::new();
         result.map.extend(&self.map);
@@ -49,7 +56,7 @@ where
         result
     }
 
-    /// how many there are common items in the given multisets.
+    /// How many there are common items in the given multisets.
     pub fn intersect_count(&self, rhs: &Counter<K>) -> usize {
         let mut result = 0;
         for (key, lhs_count) in &self.map {
@@ -60,7 +67,7 @@ where
         result
     }
 
-    /// how many there are items in total in both multisets.
+    /// How many there are items in total in both multisets.
     pub fn union_count(&self, rhs: &Counter<K>) -> usize {
         let mut result = 0;
         for (key, lhs_count) in &self.map {
