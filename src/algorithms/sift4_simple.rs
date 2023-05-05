@@ -3,26 +3,27 @@ use crate::algorithm::{Algorithm, Result};
 
 /// [Sift4 distance] is an edit algorithm designed to be "fast and relatively accurate".
 ///
+/// The original blog post describes 3 different implementations of the algorithm,
+/// this is the "simplest" one.
+///
 /// [Sift4 distance]: https://siderite.dev/blog/super-fast-and-accurate-string-distance.html
-pub struct Sift4 {
-    simple: bool,
+pub struct Sift4Simple {
     /// The number of characters to search for matching letters.
     pub max_offset: usize,
     // max_distance: usize,
 }
 
-impl Default for Sift4 {
+impl Default for Sift4Simple {
     fn default() -> Self {
         Self {
-            simple: true,
             // max_distance: 0,
             max_offset: 5,
         }
     }
 }
 
-impl Sift4 {
-    fn get_simple<E: Eq>(&self, s1: &[E], s2: &[E]) -> Result<usize> {
+impl Algorithm<usize> for Sift4Simple {
+    fn for_vec<E: Eq>(&self, s1: &[E], s2: &[E]) -> Result<usize> {
         let l1 = s1.len();
         let l2 = s2.len();
 
@@ -72,19 +73,9 @@ impl Sift4 {
     }
 }
 
-impl Algorithm<usize> for Sift4 {
-    fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result<usize>
-    where
-        E: Eq + Copy + std::hash::Hash,
-    {
-        assert!(self.simple);
-        self.get_simple(s1, s2)
-    }
-}
-
 #[cfg(test)]
 mod tests {
-    use crate::str::sift4;
+    use crate::str::sift4_simple;
     use assert2::assert;
     use rstest::rstest;
 
@@ -108,6 +99,6 @@ mod tests {
     #[case("123 nowhere ave", "123 n0where 4ve", 2)]
     #[case("bisectable6", "disectable6", 1)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
-        assert!(sift4(s1, s2) == exp);
+        assert!(sift4_simple(s1, s2) == exp);
     }
 }

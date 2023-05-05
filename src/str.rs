@@ -16,7 +16,7 @@ use super::Levenshtein;
 use super::Overlap;
 use super::Prefix;
 use super::RatcliffObershelp;
-use super::Sift4;
+use super::Sift4Simple;
 use super::SmithWaterman;
 use super::SorensenDice;
 use super::Suffix;
@@ -113,16 +113,16 @@ pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
     RatcliffObershelp::default().for_str(s1, s2).nval()
 }
 
-/// Calculate [Sift4 distance][1] for two strings.
+/// Calculate [Sift4 distance][1] for two strings using the "simplest" algorithm.
 ///
-/// A wrapper for [Sift4].
+/// A wrapper for [Sift4Simple].
 ///
-///     use textdistance::str::sift4;
-///     assert!(sift4("abc", "acbd") == 2);
+///     use textdistance::str::sift4_simple;
+///     assert!(sift4_simple("abc", "acbd") == 2);
 ///
 /// [1]: https://siderite.dev/blog/super-fast-and-accurate-string-distance.html
-pub fn sift4(s1: &str, s2: &str) -> usize {
-    Sift4::default().for_str(s1, s2).val()
+pub fn sift4_simple(s1: &str, s2: &str) -> usize {
+    Sift4Simple::default().for_str(s1, s2).val()
 }
 
 /// Calculate [Jaro normalized similarity][1] for two strings.

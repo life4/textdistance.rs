@@ -23,7 +23,7 @@ mod algorithms {
     pub mod overlap;
     pub mod prefix;
     pub mod ratcliff_obershelp;
-    pub mod sift4;
+    pub mod sift4_simple;
     pub mod smith_waterman;
     pub mod sorensen_dice;
     pub mod suffix;
@@ -49,7 +49,7 @@ pub use self::algorithms::mlipns::MLIPNS;
 pub use self::algorithms::overlap::Overlap;
 pub use self::algorithms::prefix::Prefix;
 pub use self::algorithms::ratcliff_obershelp::RatcliffObershelp;
-pub use self::algorithms::sift4::Sift4;
+pub use self::algorithms::sift4_simple::Sift4Simple;
 pub use self::algorithms::smith_waterman::SmithWaterman;
 pub use self::algorithms::sorensen_dice::SorensenDice;
 pub use self::algorithms::suffix::Suffix;
@@ -73,7 +73,7 @@ mod tests {
             4 => RatcliffObershelp::default().for_str(s1, s2),
             5 => Levenshtein::default().for_str(s1, s2),
             6 => DamerauLevenshtein::default().for_str(s1, s2),
-            7 => Sift4::default().for_str(s1, s2),
+            7 => Sift4Simple::default().for_str(s1, s2),
             8 => MLIPNS::default().for_str(s1, s2),
             9 => Prefix::default().for_str(s1, s2),
             10 => Suffix::default().for_str(s1, s2),
@@ -107,7 +107,7 @@ mod tests {
     #[case::ratcliff_obershelp(4)]
     #[case::levenshtein(5)]
     #[case::damerau_levenshtein(6)]
-    #[case::sift4(7)]
+    #[case::sift4_simple(7)]
     #[case::mlipns(8)]
     #[case::prefix(9)]
     #[case::suffix(10)]

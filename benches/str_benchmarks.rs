@@ -46,7 +46,7 @@ fn criterion_benchmark(c: &mut Criterion) {
         ("lcsstr", Box::new(str::lcsstr)),
         ("levenshtein", Box::new(str::levenshtein)),
         // ("ratcliff_obershelp", Box::new(str::ratcliff_obershelp)),
-        ("sift4", Box::new(str::sift4)),
+        ("sift4", Box::new(str::sift4_simple)),
         // ("jaro", Box::new(str::jaro)),
         // ("jaro_winkler", Box::new(str::jaro_winkler)),
         // ("yujian_bo", Box::new(str::yujian_bo)),
