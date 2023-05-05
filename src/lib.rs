@@ -23,6 +23,7 @@ mod algorithms {
     pub mod overlap;
     pub mod prefix;
     pub mod ratcliff_obershelp;
+    pub mod sift4_common;
     pub mod sift4_simple;
     pub mod smith_waterman;
     pub mod sorensen_dice;
@@ -49,6 +50,7 @@ pub use self::algorithms::mlipns::MLIPNS;
 pub use self::algorithms::overlap::Overlap;
 pub use self::algorithms::prefix::Prefix;
 pub use self::algorithms::ratcliff_obershelp::RatcliffObershelp;
+pub use self::algorithms::sift4_common::Sift4Common;
 pub use self::algorithms::sift4_simple::Sift4Simple;
 pub use self::algorithms::smith_waterman::SmithWaterman;
 pub use self::algorithms::sorensen_dice::SorensenDice;
@@ -80,6 +82,7 @@ mod tests {
             11 => Length::default().for_str(s1, s2),
             12 => Bag::default().for_str(s1, s2),
             13 => SmithWaterman::default().for_str(s1, s2),
+            14 => Sift4Common::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -113,7 +116,8 @@ mod tests {
     #[case::suffix(10)]
     #[case::length(11)]
     #[case::bag(12)]
-    #[case::smith_waterman(12)]
+    #[case::smith_waterman(13)]
+    #[case::sift4_common(14)]
     fn basic_usize(#[case] alg: usize) {
         let empty_res = get_result(alg, "", "");
         assert!(empty_res.dist() == 0);

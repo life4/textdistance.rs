@@ -27,6 +27,7 @@ Edit-based:
 1. `Jaro`
 1. `JaroWinkler`
 1. `Levenshtein`
+1. `Sift4Common`
 1. `Sift4Simple`
 1. `SmithWaterman`
 
