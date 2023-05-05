@@ -8,8 +8,11 @@ use std::hash::Hash;
 ///
 /// [LIG3 similarity]: https://github.com/chrislit/abydos/blob/master/abydos/distance/_lig3.py
 pub struct LIG3 {
-    levenshtein: Levenshtein,
-    hamming: Hamming,
+    /// Algorithm instance to use for calculating Levenshtein distance.
+    pub levenshtein: Levenshtein,
+
+    /// Algorithm instance to use for calculating Hamming similarity.
+    pub hamming: Hamming,
 }
 
 impl Default for LIG3 {

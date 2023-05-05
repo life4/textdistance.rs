@@ -8,7 +8,8 @@ use std::hash::Hash;
 /// [Yujian-Bo distance]: https://ieeexplore.ieee.org/document/4160958
 #[derive(Default)]
 pub struct YujianBo {
-    levenshtein: Levenshtein,
+    /// Algorithm instance to use for calculating Levenshtein distance.
+    pub levenshtein: Levenshtein,
 }
 
 impl Algorithm<f64> for YujianBo {

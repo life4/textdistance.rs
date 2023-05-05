@@ -8,9 +8,12 @@ use crate::counter::Counter;
 /// [SorensenDice]: crate::SorensenDice
 /// [Jaccard]: crate::Jaccard
 pub struct Tversky {
-    alpha: f64,
-    beta: f64,
-    bias: f64,
+    /// α, the weight of the first sequence (the "prototype").
+    pub alpha: f64,
+    /// β, the weight of the second sequence (the "variant").
+    pub beta: f64,
+    /// The symmetric Tversky index bias parameter.
+    pub bias: f64,
 }
 
 impl Default for Tversky {

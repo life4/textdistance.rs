@@ -6,8 +6,9 @@ use crate::algorithm::{Algorithm, Result};
 /// [Sift4 distance]: https://siderite.dev/blog/super-fast-and-accurate-string-distance.html
 pub struct Sift4 {
     simple: bool,
+    /// The number of characters to search for matching letters.
+    pub max_offset: usize,
     // max_distance: usize,
-    max_offset: usize,
 }
 
 impl Default for Sift4 {
