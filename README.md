@@ -38,6 +38,7 @@ Token-based:
 1. `EntropyNCD` (Entropy-based Normalized Compression Distance)
 1. `Jaccard` (aka Tanimoto, Critical Success Index)
 1. `Overlap` (aka Szymkiewicz–Simpson)
+1. `Roberts`
 1. `SorensenDice` (aka F1, Czekanowski, Zijdenbos)
 1. `Tversky`
 

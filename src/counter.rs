@@ -43,9 +43,19 @@ where
         self.map.values().sum()
     }
 
+    /// Unique elements in the set
+    pub fn keys(&self) -> impl Iterator<Item = &K> {
+        self.map.keys()
+    }
+
     /// The count of things without the things
     pub fn values(&self) -> impl Iterator<Item = &usize> {
         self.map.values()
+    }
+
+    /// .
+    pub fn get(&self, key: &K) -> Option<&usize> {
+        self.map.get(key)
     }
 
     /// Merge two counters together.
@@ -80,6 +90,32 @@ where
             }
         }
         result
+    }
+
+    /// Intersection of the given multisets.
+    pub fn intersection(&self, rhs: &Counter<K>) -> Counter<K> {
+        let mut result: HashMap<K, usize> = HashMap::new();
+        for (key, lhs_count) in &self.map {
+            if let Some(rhs_count) = rhs.map.get(key) {
+                result.insert(*key, *lhs_count.min(rhs_count));
+            }
+        }
+        Counter { map: result }
+    }
+
+    /// Union of the given multisets.
+    pub fn union(&self, rhs: &Counter<K>) -> Counter<K> {
+        let mut result: HashMap<K, usize> = HashMap::new();
+        for (key, lhs_count) in &self.map {
+            let rhs_count = rhs.map.get(key).unwrap_or(&0);
+            result.insert(*key, *lhs_count.max(rhs_count));
+        }
+        for (key, rhs_count) in &rhs.map {
+            if self.map.get(key).is_none() {
+                result.insert(*key, *rhs_count);
+            }
+        }
+        Counter { map: result }
     }
 
     /// How many there are item in left that aren't in the right

@@ -23,6 +23,7 @@ mod algorithms {
     pub mod overlap;
     pub mod prefix;
     pub mod ratcliff_obershelp;
+    pub mod roberts;
     pub mod sift4_common;
     pub mod sift4_simple;
     pub mod smith_waterman;
@@ -50,6 +51,7 @@ pub use self::algorithms::mlipns::MLIPNS;
 pub use self::algorithms::overlap::Overlap;
 pub use self::algorithms::prefix::Prefix;
 pub use self::algorithms::ratcliff_obershelp::RatcliffObershelp;
+pub use self::algorithms::roberts::Roberts;
 pub use self::algorithms::sift4_common::Sift4Common;
 pub use self::algorithms::sift4_simple::Sift4Simple;
 pub use self::algorithms::smith_waterman::SmithWaterman;
@@ -99,6 +101,7 @@ mod tests {
             8 => Cosine::default().for_str(s1, s2),
             9 => EntropyNCD::default().for_str(s1, s2),
             10 => LIG3::default().for_str(s1, s2),
+            11 => Roberts::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -144,6 +147,7 @@ mod tests {
     #[case::cosine(8)]
     #[case::entropy_ncd(9)]
     #[case::lig3(10)]
+    #[case::roberts(11)]
     fn basic_f64(#[case] alg: usize) {
         let empty_res = get_result_f64(alg, "", "");
         assert!(get_result_f64(alg, "ab", "cde").ndist() > 0.);

@@ -16,6 +16,7 @@ use super::Levenshtein;
 use super::Overlap;
 use super::Prefix;
 use super::RatcliffObershelp;
+use super::Roberts;
 use super::Sift4Common;
 use super::Sift4Simple;
 use super::SmithWaterman;
@@ -326,4 +327,16 @@ pub fn smith_waterman(s1: &str, s2: &str) -> usize {
 /// [Entropy]: https://en.wikipedia.org/wiki/Entropy_(information_theory)
 pub fn entropy_ncd(s1: &str, s2: &str) -> f64 {
     EntropyNCD::default().for_str(s1, s2).nval()
+}
+
+/// Calculate [Roberts similarity] for two strings.
+///
+/// A wrapper for [Roberts].
+///
+///     use textdistance::str::roberts;
+///     assert_eq!(roberts("abc", "acbd"), 0.8571428571428571);
+///
+/// [Roberts similarity]: https://github.com/chrislit/abydos/blob/master/abydos/distance/_roberts.py
+pub fn roberts(s1: &str, s2: &str) -> f64 {
+    Roberts::default().for_str(s1, s2).nval()
 }

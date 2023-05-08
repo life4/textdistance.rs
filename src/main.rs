@@ -9,6 +9,7 @@ fn main() {
 
     let res: f64 = match alg_name.to_lowercase().borrow() {
         "hamming" => str::hamming(s1, s2) as f64,
+        "roberts" => str::roberts(s1, s2),
         _ => panic!("unknown algorithm name"),
     };
     println!("{}", res);
