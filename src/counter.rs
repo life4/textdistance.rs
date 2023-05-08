@@ -60,10 +60,17 @@ where
 
     /// Merge two counters together.
     pub fn merge(&self, rhs: &Counter<K>) -> Counter<K> {
-        let mut result: Counter<K> = Counter::new();
-        result.map.extend(&self.map);
-        result.map.extend(&rhs.map);
-        result
+        let mut result: HashMap<K, usize> = HashMap::new();
+        for (key, lhs_count) in &self.map {
+            let rhs_count = rhs.map.get(key).unwrap_or(&0);
+            result.insert(*key, *lhs_count + rhs_count);
+        }
+        for (key, rhs_count) in &rhs.map {
+            if self.map.get(key).is_none() {
+                result.insert(*key, *rhs_count);
+            }
+        }
+        Counter { map: result }
     }
 
     /// How many there are common items in the given multisets.

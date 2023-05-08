@@ -321,7 +321,7 @@ pub fn smith_waterman(s1: &str, s2: &str) -> usize {
 /// A wrapper for [EntropyNCD].
 ///
 ///     use textdistance::str::entropy_ncd;
-///     assert_eq!(entropy_ncd("abc", "acbd"), 0.13834583309294798);
+///     assert_eq!(entropy_ncd("abc", "acbd"), 0.12174985473119697);
 ///
 /// [1]: https://en.wikipedia.org/wiki/Normalized_compression_distance
 /// [Entropy]: https://en.wikipedia.org/wiki/Entropy_(information_theory)
