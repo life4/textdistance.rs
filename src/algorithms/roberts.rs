@@ -30,20 +30,16 @@ impl Algorithm<f64> for Roberts {
             };
         }
 
-        let ci = c1.intersection(&c2);
-        let cu = c1.union(&c2);
-
+        let cm = c1.merge(&c2);
+        let alphabet = cm.keys();
         let mut s1: f64 = 0.;
-        for key in ci.keys() {
-            let v1 = c1.get(key).unwrap();
-            let v2 = c2.get(key).unwrap();
-            s1 += ((v1 + v2) * v1.min(v2)) as f64 / *v1.max(v2) as f64;
-        }
-
         let mut s2: usize = 0;
-        for key in cu.keys() {
+        for key in alphabet {
             let v1 = c1.get(key).unwrap_or(&0);
             let v2 = c2.get(key).unwrap_or(&0);
+            if v1 != &0 && v2 != &0 {
+                s1 += ((v1 + v2) * v1.min(v2)) as f64 / *v1.max(v2) as f64;
+            }
             s2 += v1 + v2;
         }
 
