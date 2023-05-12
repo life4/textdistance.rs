@@ -3,9 +3,11 @@
 
 mod algorithm;
 mod counter;
+mod fraction;
 pub mod str;
 
 mod algorithms {
+    pub mod arith_ncd;
     pub mod bag;
     pub mod cosine;
     pub mod damerau_levenshtein;
@@ -34,6 +36,7 @@ mod algorithms {
 }
 
 pub use self::algorithm::{Algorithm, Result};
+pub use self::algorithms::arith_ncd::ArithNCD;
 pub use self::algorithms::bag::Bag;
 pub use self::algorithms::cosine::Cosine;
 pub use self::algorithms::damerau_levenshtein::DamerauLevenshtein;
@@ -102,6 +105,7 @@ mod tests {
             9 => EntropyNCD::default().for_str(s1, s2),
             10 => LIG3::default().for_str(s1, s2),
             11 => Roberts::default().for_str(s1, s2),
+            12 => ArithNCD::default().for_str(s1, s2),
             _ => panic!("there are not so many algorithms!"),
         }
     }
@@ -148,10 +152,11 @@ mod tests {
     #[case::entropy_ncd(9)]
     #[case::lig3(10)]
     #[case::roberts(11)]
+    #[case::arith_ncd(12)]
     fn basic_f64(#[case] alg: usize) {
         let empty_res = get_result_f64(alg, "", "");
         assert!(get_result_f64(alg, "ab", "cde").ndist() > 0.);
-        if alg != 3 && alg != 9 {
+        if alg != 3 && alg != 9 && alg != 12 {
             assert!(get_result_f64(alg, "spam", "qwer").nsim() == 0.);
         }
         assert!(empty_res.ndist() == 0.);

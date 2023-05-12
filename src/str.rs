@@ -1,6 +1,7 @@
 //! Helper functions providing the default implementation of distance/similarity algorithms for strings.
 
 use super::Algorithm;
+use super::ArithNCD;
 use super::Bag;
 use super::Cosine;
 use super::DamerauLevenshtein;
@@ -327,6 +328,18 @@ pub fn smith_waterman(s1: &str, s2: &str) -> usize {
 /// [Entropy]: https://en.wikipedia.org/wiki/Entropy_(information_theory)
 pub fn entropy_ncd(s1: &str, s2: &str) -> f64 {
     EntropyNCD::default().for_str(s1, s2).nval()
+}
+
+/// Calculate [Arithmetic coding]-based [normalized compression distance][1] for two strings.
+///
+/// A wrapper for [ArithNCD].
+///
+/// ...
+///
+/// [1]: https://en.wikipedia.org/wiki/Normalized_compression_distance
+/// [Arithmetic coding]: https://en.wikipedia.org/wiki/Arithmetic_coding
+pub fn arith_ncd(s1: &str, s2: &str) -> f64 {
+    ArithNCD::default().for_str(s1, s2).nval()
 }
 
 /// Calculate [Roberts similarity] for two strings.

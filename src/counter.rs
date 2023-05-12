@@ -110,6 +110,13 @@ where
         }
         result
     }
+
+    pub fn most_common(&self) -> Vec<(&K, usize)> {
+        let mut items: Vec<(&K, usize)> =
+            self.map.iter().map(|(key, count)| (key, *count)).collect();
+        items.sort_unstable_by(|(_, c1), (_, c2)| c2.cmp(c1));
+        items
+    }
 }
 
 #[cfg(test)]
