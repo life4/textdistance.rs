@@ -43,6 +43,16 @@ def test_str_shortcut_exists(alg: str) -> None:
 
 
 @pytest.mark.parametrize('alg', ALGORITHMS)
+def test_nstr_shortcut_exists(alg: str) -> None:
+    fpath = (ROOT / 'src' / 'nstr.rs')
+    text = fpath.read_text()
+    assert f'fn {alg}(' in text
+    alg = alg.replace('_', '')
+    assert f'{alg}::default().for_str(s1, s2).nval()' in text.lower()
+    assert f'/// a wrapper for [{alg}].\n' in text.lower()
+
+
+@pytest.mark.parametrize('alg', ALGORITHMS)
 def test_is_exported(alg: str) -> None:
     fpath = (ROOT / 'src' / 'lib.rs')
     text = fpath.read_text()

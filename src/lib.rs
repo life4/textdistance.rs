@@ -3,6 +3,7 @@
 
 mod algorithm;
 mod counter;
+pub mod nstr;
 pub mod str;
 
 mod algorithms {
