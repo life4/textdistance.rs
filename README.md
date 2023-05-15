@@ -115,6 +115,82 @@ let r = a.for_iter(g1, g2);
 assert!(r.val() == 1);
 ```
 
+## Choosing the algorithm
+
+The algorithm to use depends on your use case. First, you need to decide on the algorithm category:
+
+1. Edit-based algorithms work well on short sequences for detecting typos and minor changes.
+1. Token-based algorithms work well on longer sequences for comparing long texts with noticeable modifications.
+1. Sequence-based algorithms work well for calculating diff size between the original and the changed version of the sequence.
+
+If you go with edit-based, the next thing is to decide what kind of changes you need to detect:
+
++ ✏️ Substitution. One character is replaced by another.
++ ➕ Addition. A new character is added.
++ 🗑 Deletion. A character is removed.
++ 🔄 Transposition. Two sequentive characters are swapped.
+
+| alg                   | sub | add | del | trans |
+| --------------------- | --- | --- | --- | ----- |
+| `Hamming`             | ✅  | ❌  | ❌  | ❌    |
+| `Jaro`                | ❌  | ❌  | ❌  | ✅    |
+| `JaroWinkler`         | ❌  | ❌  | ❌  | ✅    |
+| `Sift4`               | ❌  | ❌  | ❌  | ✅    |
+| `Levenshtein`         | ✅  | ✅  | ✅  | ❌    |
+| `DamerauLevenshtein`  | ✅  | ✅  | ✅  | ✅    |
+
++ `Hamming` is the fastest one but detects only substitutions.
++ `Sift4` is very fast but not as well-known and battle-tested as other algorithms.
++ `Jaro` is slower than `Sift4` but well-known and battle-tested.
++ `JaroWinkler` is like `Jaro` but gives more weight to strings with a matching prefix.
++ `Levenshtein` detects everything but transpositions and faster than `DamerauLevenshtein` (but slower than other algorithms).
++ `DamerauLevenshtein` ticks all the boxes but very slow.
+
+There are some use cases:
+
++ `Jaro` is included in the Elixir standard library ([String.jaro_distance](https://hexdocs.pm/elixir/1.12/String.html#jaro_distance/2)). It is used by the compiler and by mix (cargo for Elixir) to provide the "did you mean?" functionality for typos in module or command names.
++ `RatcliffObershelp` variation is included in the Python standard library ([difflib.SequenceMatcher](https://docs.python.org/3/library/difflib.html#difflib.SequenceMatcher)).
+
+## Benchmarks
+
+Legend:
+
++ 🐌 is very slow (> 5 ms)
++ 🐢 is slow (> 1 ms)
++ 🐇 is fast (> 500 µs)
++ 🐎 is very fast (< 500 µs)
+
+| algorithm          | time      |
+| ------------------ | --------- |
+| bag                | 🐇 523.06 µs |
+| cosine             | 🐇 508.59 µs |
+| damerau_levenshtein | 🐌 41.938 ms |
+| damerau_levenshtein_restricted | 🐌 10.301 ms |
+| entropy_ncd        | 🐇 731.68 µs |
+| hamming            | 🐎 19.203 µs |
+| jaccard            | 🐇 580.79 µs |
+| jaro_winkler       | 🐢 1.7174 ms |
+| jaro               | 🐢 1.7148 ms |
+| lcsseq             | 🐌 7.4349 ms |
+| lcsstr             | 🐢 3.2658 ms |
+| length             | 🐎 2.5300 µs |
+| levenshtein        | 🐢 4.5999 ms |
+| lig3               | 🐌 6.5563 ms |
+| mlipns             | 🐎 20.625 µs |
+| overlap            | 🐇 513.76 µs |
+| prefix             | 🐎 22.473 µs |
+| ratcliff_obershelp | 🐌 36.308 ms |
+| roberts            | 🐇 714.79 µs |
+| sift4_common       | 🐎 238.86 µs |
+| sift4_simple       | 🐎 143.69 µs |
+| smith_waterman     | 🐌 9.5146 ms |
+| sorensen_dice      | 🐇 510.75 µs |
+| suffix             | 🐎 38.821 µs |
+| tversky            | 🐇 512.41 µs |
+| yujian_bo          | 🐢 4.6044 ms |
+
+The benchmarks are povered by [criterion](https://github.com/bheisler/criterion.rs) and live in the [benches](./benches/) directory. They are quite simple: grab 10 [open-source licenses](https://github.com/github/choosealicense.com/tree/gh-pages/_licenses), take a 200 chars prefix from each, and cross-compare these prefixes. The numbers might be very different an a different kind of input, length of the input, when comparing words rather than characters, or running the benchmarks on a different machine. The goal of these benchmarks is to provide a basic guidance rather than give a definitive answer. If performance is critical for you application, I encourage you to make your benchmarks on the real data you have.
+
 ## Versioning
 
 We stick to [SemVer](https://semver.org/):
@@ -133,10 +209,12 @@ We stick to [SemVer](https://semver.org/):
 
 There are the libraries that I used as a reference implementation and the source of test cases:
 
-+ Python: [textdistance](https://github.com/life4/textdistance), [abydos](https://github.com/chrislit/abydos), [jellyfish](https://github.com/jamesturk/jellyfish).
-+ JS: [talisman](https://github.com/Yomguithereal/talisman).
-+ Rust: [strsim](https://github.com/dguo/strsim-rs), [distance](https://github.com/mbrlabs/distance), [levenshtein-rs](https://github.com/wooorm/levenshtein-rs).
++ 🐍 Python: [textdistance](https://github.com/life4/textdistance), [abydos](https://github.com/chrislit/abydos), [jellyfish](https://github.com/jamesturk/jellyfish).
++ ☕️ JS: [talisman](https://github.com/Yomguithereal/talisman).
++ 🦀 Rust: [strsim](https://github.com/dguo/strsim-rs), [distance](https://github.com/mbrlabs/distance), [levenshtein-rs](https://github.com/wooorm/levenshtein-rs).
 
 ## Testing locally
 
 To run everything locally, all you need is Rust, Python, and [task](https://taskfile.dev/installation/). Execute `task all` to run all code formatters, linters, and tests.
+
+Thank you ❤️
