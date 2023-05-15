@@ -8,6 +8,7 @@ assert2 = "0.3.10"
 criterion = "0.4.0"
 proptest = "1.1.0"
 rstest = "0.17.0"
+unicode-segmentation = "1.10.1"
 
 [[bench]]
 name = "str_benchmarks"

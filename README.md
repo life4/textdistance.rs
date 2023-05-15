@@ -86,8 +86,9 @@ For more advanced usage, each algorithm is provided as a struct implementing the
 
 ```rust
 use textdistance::{Algorithm, DamerauLevenshtein};
+
 let a = DamerauLevenshtein::default();
-let r = a.for_str(s1, s2);
+let r = a.for_str("abc", "acbd");
 assert!(r.val() == 2);
 assert!(r.nval() == 2./4.);
 ```
@@ -107,8 +108,8 @@ use unicode_segmentation::UnicodeSegmentation;
 
 let s1 = "a̐éö̲\r\n";
 let s2 = "éa̐ö̲\r\n";
-let g1: <Vec<&str>> = s1.graphemes(true).collect();
-let g2: <Vec<&str>> = s2.graphemes(true).collect();
+let g1 = s1.graphemes(true);
+let g2 = s2.graphemes(true);
 let a = DamerauLevenshtein::default();
 let r = a.for_iter(g1, g2);
 assert!(r.val() == 1);
