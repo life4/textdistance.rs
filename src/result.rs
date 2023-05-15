@@ -1,19 +1,19 @@
 /// Result of a distance/similarity algorithm.
 pub struct Result<R> {
     /// Indicates if it is a distance or a similarity metric.
-    pub is_distance: bool,
+    pub(crate) is_distance: bool,
 
     /// Absolute raw value of the metric.
-    pub abs: R,
+    pub(crate) abs: R,
 
     /// Maximum possible value for the input of the given length.
-    pub max: R,
+    pub(crate) max: R,
 
     /// Length of the first analyzed sequence.
-    pub len1: usize,
+    pub(crate) len1: usize,
 
     /// Length of the second analyzed sequence.
-    pub len2: usize,
+    pub(crate) len2: usize,
 }
 
 impl Result<usize> {

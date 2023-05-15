@@ -21,10 +21,11 @@ impl Algorithm<f64> for YujianBo {
         let lev = self.levenshtein.for_iter(s1, s2);
         let dc: usize = self.levenshtein.del_cost;
         let ic: usize = self.levenshtein.ins_cost;
-        let res = if lev.abs == 0 {
+        let lval = lev.val();
+        let res = if lval == 0 {
             0.0
         } else {
-            (2 * lev.abs) as f64 / (lev.len1 * dc + lev.len2 * ic + lev.abs) as f64
+            (2 * lval) as f64 / (lev.len1 * dc + lev.len2 * ic + lval) as f64
         };
         Result {
             abs: res,

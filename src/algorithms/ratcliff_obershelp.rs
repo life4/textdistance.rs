@@ -98,12 +98,12 @@ mod tests {
         let a = RatcliffObershelp::default();
         assert!(
             a.for_str("GESTALT PATTERN MATCHING", "GESTALT PRACTICE")
-                .abs
+                .val()
                 == 24
         );
         assert!(
             a.for_str("GESTALT PRACTICE", "GESTALT PATTERN MATCHING")
-                .abs
+                .val()
                 == 26
         );
     }

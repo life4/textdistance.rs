@@ -207,15 +207,15 @@ mod tests {
             restricted: true,
             ..Default::default()
         };
-        assert!(a.for_str("ab", "bca").abs == 3);
-        assert!(a.for_str("abcd", "bdac").abs == 4);
+        assert!(a.for_str("ab", "bca").val() == 3);
+        assert!(a.for_str("abcd", "bdac").val() == 4);
     }
 
     #[test]
     fn unrestricted() {
         let a = DamerauLevenshtein::default();
-        assert!(a.for_str("ab", "bca").abs == 2);
-        assert!(a.for_str("abcd", "bdac").abs == 3);
+        assert!(a.for_str("ab", "bca").val() == 2);
+        assert!(a.for_str("abcd", "bdac").val() == 3);
     }
 
     proptest! {

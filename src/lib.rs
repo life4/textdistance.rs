@@ -194,7 +194,7 @@ mod tests {
                 } else if !s1.is_empty() && !s2.is_empty() {
                     prop_assert!(nd == ns, "{} == {}", nd, ns);
                 }
-                prop_assert!(res.abs == d || res.abs == s);
+                prop_assert!(res.val() == d || res.val() == s);
 
                 prop_assert_eq!(res.len1, s1.chars().count());
                 prop_assert_eq!(res.len2, s2.chars().count());

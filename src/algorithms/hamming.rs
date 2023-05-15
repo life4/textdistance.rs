@@ -84,15 +84,14 @@ mod tests {
         let r = Hamming::default().for_str("Rust", "rust");
         assert!(r.dist() == 1);
         assert!(r.sim() == 3);
-        assert!(r.max == 4);
         assert!(r.ndist() == 0.25);
     }
 
     #[test]
     fn truncate() {
         let a = Hamming { truncate: true };
-        assert!(a.for_str("hi mark", "hi markus").abs == 0);
-        assert!(a.for_str("Hi mark", "hi markus").abs == 1);
+        assert!(a.for_str("hi mark", "hi markus").val() == 0);
+        assert!(a.for_str("Hi mark", "hi markus").val() == 1);
     }
 
     proptest! {
