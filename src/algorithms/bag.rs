@@ -1,7 +1,7 @@
 //! Bag distance
 
-use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
+use crate::{Algorithm, Result};
 
 /// [Bag distance] is how many max items there are in one sequence that aren't in the other.
 ///

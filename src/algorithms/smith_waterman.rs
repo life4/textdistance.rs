@@ -1,5 +1,5 @@
 //! Smith-Waterman sequence alignment
-use crate::algorithm::{Algorithm, Result};
+use crate::{Algorithm, Result};
 
 /// [Smith-Waterman similarity] is edit-based and designed for nucleic acid (and protein) sequences.
 ///

@@ -1,6 +1,6 @@
 //! Roberts similarity
-use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
+use crate::{Algorithm, Result};
 
 /// [Roberts similarity].
 ///

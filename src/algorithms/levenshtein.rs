@@ -1,5 +1,5 @@
 //! Levenshtein distance
-use crate::algorithm::{Algorithm, Result};
+use crate::{Algorithm, Result};
 
 /// [Levenshtein distance] is an edit distance between two sequences.
 ///

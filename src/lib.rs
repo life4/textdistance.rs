@@ -3,6 +3,8 @@
 
 mod algorithm;
 mod counter;
+mod result;
+
 pub mod nstr;
 pub mod str;
 
@@ -34,7 +36,7 @@ mod algorithms {
     pub mod yujian_bo;
 }
 
-pub use self::algorithm::{Algorithm, Result};
+pub use self::algorithm::Algorithm;
 pub use self::algorithms::bag::Bag;
 pub use self::algorithms::cosine::Cosine;
 pub use self::algorithms::damerau_levenshtein::DamerauLevenshtein;
@@ -60,6 +62,7 @@ pub use self::algorithms::sorensen_dice::SorensenDice;
 pub use self::algorithms::suffix::Suffix;
 pub use self::algorithms::tversky::Tversky;
 pub use self::algorithms::yujian_bo::YujianBo;
+pub use self::result::Result;
 
 #[cfg(test)]
 mod tests {

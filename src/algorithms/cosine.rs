@@ -1,6 +1,6 @@
 //! Cosine similarity
-use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
+use crate::{Algorithm, Result};
 
 /// [Cosine similarity] is the cosine of the angle between two vectors.
 ///

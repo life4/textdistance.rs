@@ -1,5 +1,5 @@
 //! Suffix similarity
-use crate::algorithm::{Algorithm, Result};
+use crate::{Algorithm, Result};
 
 /// Suffix similarity is the length of the longest common suffix of the given sequences.
 ///

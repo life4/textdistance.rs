@@ -87,7 +87,7 @@ For more advanced usage, each algorithm is provided as a struct implementing the
 ```rust
 use textdistance::{Algorithm, DamerauLevenshtein};
 let a = DamerauLevenshtein::default();
-let r = a.for_str(s1, s2)
+let r = a.for_str(s1, s2);
 assert!(r.val() == 2);
 assert!(r.nval() == 2./4.);
 ```

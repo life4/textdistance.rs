@@ -1,6 +1,6 @@
 //! Yujian-Bo distance
 use super::levenshtein::Levenshtein;
-use crate::algorithm::{Algorithm, Result};
+use crate::{Algorithm, Result};
 use std::hash::Hash;
 
 /// [Yujian-Bo distance] is a normalization of [Levenshtein].

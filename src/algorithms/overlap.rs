@@ -1,6 +1,6 @@
 //! Overlap coefficient
-use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
+use crate::{Algorithm, Result};
 
 /// [Overlap similarity] is the size of the intersection divided by the smaller of the size of the two sets.
 ///

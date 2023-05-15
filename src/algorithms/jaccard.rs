@@ -1,6 +1,6 @@
 //! Jaccard index
-use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
+use crate::{Algorithm, Result};
 
 /// [Jaccard similarity] is a ratio of intersection to union of two sets.
 ///

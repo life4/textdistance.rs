@@ -1,7 +1,7 @@
 //! LIG3 similarity
 use super::hamming::Hamming;
 use super::levenshtein::Levenshtein;
-use crate::algorithm::{Algorithm, Result};
+use crate::{Algorithm, Result};
 use std::hash::Hash;
 
 /// [LIG3 similarity] is a normalization of [Hamming] by [Levenshtein].

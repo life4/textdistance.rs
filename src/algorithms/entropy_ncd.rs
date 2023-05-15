@@ -1,6 +1,6 @@
 //! Entropy-based Normalized Compression Distance
-use crate::algorithm::{Algorithm, Result};
 use crate::counter::Counter;
+use crate::{Algorithm, Result};
 use std::hash::Hash;
 
 /// Entropy-based [Normalized Compression Distance].

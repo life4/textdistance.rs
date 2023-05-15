@@ -1,5 +1,5 @@
 //! Damerau-Levenshtein distance
-use crate::algorithm::{Algorithm, Result};
+use crate::{Algorithm, Result};
 use std::collections::HashMap;
 use std::hash::Hash;
 

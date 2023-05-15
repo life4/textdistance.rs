@@ -1,5 +1,5 @@
 //! Gestalt pattern matching
-use crate::algorithm::{Algorithm, Result};
+use crate::{Algorithm, Result};
 
 /// [Ratcliff/Obershelp similarity] is [LCSStr] that recursively finds matches
 /// on both sides of the longest substring.

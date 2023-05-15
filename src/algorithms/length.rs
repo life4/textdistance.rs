@@ -1,5 +1,5 @@
 //! Length distance
-use crate::algorithm::{Algorithm, Result};
+use crate::{Algorithm, Result};
 
 /// Length distance is the absolute difference between the lengths of the two sequences.
 ///
