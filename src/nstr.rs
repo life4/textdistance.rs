@@ -1,6 +1,6 @@
-//! Helper functions providing the default implementation of distance/similarity algorithms for strings.
+//! Helper functions providing the default normalized implementation of distance/similarity algorithms for strings.
 //!
-//! See also [textdistance::str] for normalized distance.
+//! See also [textdistance::str](super::str) for non-normalized distance.
 
 use super::Algorithm;
 use super::Bag;

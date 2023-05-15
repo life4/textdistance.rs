@@ -42,6 +42,12 @@ def test_str_shortcut_exists(alg: str) -> None:
     assert f'/// a wrapper for [{alg}].\n' in text.lower()
 
 
+def test_str_docs_consistency() -> None:
+    fpath = (ROOT / 'src' / 'str.rs')
+    text = fpath.read_text()
+    assert text.count('/// Calculate ') == text.count('pub fn')
+
+
 @pytest.mark.parametrize('alg', ALGORITHMS)
 def test_nstr_shortcut_exists(alg: str) -> None:
     fpath = (ROOT / 'src' / 'nstr.rs')
@@ -50,6 +56,12 @@ def test_nstr_shortcut_exists(alg: str) -> None:
     alg = alg.replace('_', '')
     assert f'{alg}::default().for_str(s1, s2).nval()' in text.lower()
     assert f'/// a wrapper for [{alg}].\n' in text.lower()
+
+
+def test_nstr_docs_consistency() -> None:
+    fpath = (ROOT / 'src' / 'nstr.rs')
+    text = fpath.read_text()
+    assert text.count('/// Calculate normalized ') == text.count('pub fn')
 
 
 @pytest.mark.parametrize('alg', ALGORITHMS)

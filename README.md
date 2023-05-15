@@ -14,7 +14,7 @@ Features:
 + 🪶 Zero dependency.
 + 🔨 Works with any iterators, including bytes, code points, unicode grapheme clusters, words, and numbers.
 + ❤️ Friendly and consistent API for all algorithms.
-+ 📏 Optional normalization of the result on 0.0-1.0 interval.
++ 📏 Optional normalization of the result on the 0.0-1.0 interval.
 + 🛡 No unsafe code.
 + 🦀 Pure Rust.
 
@@ -68,11 +68,51 @@ cargo add textdistance
 
 ## Usage
 
-...
+The `textdistance::str` module provides shortcut functions for each algorithm for calculating the distance/similarity between two strings:
+
+```rust
+use textdistance::str::damerau_levenshtein;
+assert!(damerau_levenshtein("abc", "acbd") == 2);
+```
+
+The `textdistance::nstr` module is the same but all algorithms return a normalized value (between 0.0 and 1.0):
+
+```rust
+use textdistance::nstr::damerau_levenshtein;
+assert!(damerau_levenshtein("abc", "acbd") == 2./4.);
+```
+
+For more advanced usage, each algorithm is provided as a struct implementing the `Algorithm` trait:
+
+```rust
+use textdistance::{Algorithm, DamerauLevenshtein};
+let a = DamerauLevenshtein::default();
+let r = a.for_str(s1, s2)
+assert!(r.val() == 2);
+assert!(r.nval() == 2./4.);
+```
+
+1. The `Algorithm` trait provides `for_str`, `for_vec`, and `for_iter` to calculate the result for two strings, vectors (slices), or iterators respectively. In addition, there are `for_words` and `for_bigrams` methods that split the text to words or to bigrams respectively before calculating the distance.
+1. Each method returns a `textdistance::Result` that provides methods to get absolute (`val`) or normalized (`nval`) value of the metric, distance (`dist` and `ndist`) or similarity (`sim` and `nsim`).
 
 ## Unicode support
 
-...
+The `for_str` method (and so all function in the `str` and `nstr` modules) uses `String.chars` to split the string and then runs it through the `for_iter` method. So, `é` will be considered two distinct characters ("latin small letter e" and "combining acute accent"). Usually, that's ok and this is how Python works. You can read more in [the official Rust documentation](https://doc.rust-lang.org/std/primitive.char.html#representation).
+
+If you want `é` to be considered as a single symbol, use the [unicode-segmentation](https://crates.io/crates/unicode-segmentation) crate:
+
+```rust
+use textdistance::{Algorithm, DamerauLevenshtein};
+use unicode_segmentation::UnicodeSegmentation;
+
+let s1 = "a̐éö̲\r\n";
+let s2 = "éa̐ö̲\r\n";
+let g1: <Vec<&str>> = s1.graphemes(true).collect();
+let g2: <Vec<&str>> = s2.graphemes(true).collect();
+let a = DamerauLevenshtein::default();
+let r = a.for_iter(g1, g2);
+assert!(r.val() == 1);
+```
 
 ## Versioning
 
