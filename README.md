@@ -4,7 +4,7 @@
 [ [docs.rs](https://docs.rs/textdistance/) ]
 [ [crates.io](crates.io/crates/textdistance) ]
 
-Rust library with different algorithms to compare how similar two sequences are.
+Rust library with lots of different algorithms to compare how similar two sequences are.
 
 Features:
 

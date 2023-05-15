@@ -1,7 +1,24 @@
 [package]
 name = "textdistance"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
+authors = ["Gram <git@orsinium.dev>"]
+description = "Lots of algorithms to compare how similar two sequences are"
+repository = "https://github.com/life4/textdistance.rs"
+license = "MIT"
+keywords = [
+    "jaro",
+    "hamming",
+    "levenshtein",
+    "similarity",
+    "distance",
+]
+categories = [
+    "algorithms",
+    "science",
+    "text-processing",
+    "command-line-interface",
+]
 
 [dev-dependencies]
 assert2 = "0.3.10"
