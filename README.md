@@ -10,9 +10,9 @@ Features:
 
 + 💪 Based on popular and battle-tested [textdistance](https://github.com/life4/textdistance) Python library (and written by the same author).
 + 📚 Contains 20+ algorithms for all purposes.
-+ 🔬 Includes state of the art algorithms like `EntropyNCD` and `Sift4`.
-+ 🪶 Zero dependency.
-+ 🔨 Works with any iterators, including bytes, code points, unicode grapheme clusters, words, and numbers.
++ 🔬 Includes state-of-the-art algorithms like `EntropyNCD` and `Sift4`.
++ 🪶 Zero-dependency.
++ 🔨 Works with any iterators, including bytes, code points, Unicode grapheme clusters, words, and numbers.
 + ❤️ Friendly and consistent API for all algorithms.
 + 📏 Optional normalization of the result on the 0.0-1.0 interval.
 + 🛡 No unsafe code.
@@ -56,9 +56,9 @@ Naive:
 
 Normalization for other metrics:
 
-1. `LIG3` normallization for `Hamming` by `Levenshtein`
-1. `MLIPNS` normallization for `Hamming`
-1. `YujianBo` normallization for `Levenshtein`
+1. `LIG3` normalization for `Hamming` by `Levenshtein`
+1. `MLIPNS` normalization for `Hamming`
+1. `YujianBo` normalization for `Levenshtein`
 
 ## Installation
 
@@ -92,21 +92,21 @@ assert!(r.val() == 2);
 assert!(r.nval() == 2./4.);
 ```
 
-1. The `Algorithm` trait provides `for_str`, `for_vec`, and `for_iter` to calculate the result for two strings, vectors (slices), or iterators respectively. In addition, there are `for_words` and `for_bigrams` methods that split the text to words or to bigrams respectively before calculating the distance.
-1. Each method returns a `textdistance::Result` that provides methods to get absolute (`val`) or normalized (`nval`) value of the metric, distance (`dist` and `ndist`) or similarity (`sim` and `nsim`).
+1. The `Algorithm` trait provides `for_str`, `for_vec`, and `for_iter` to calculate the result for two strings, vectors (slices), or iterators respectively. In addition, there are `for_words` and `for_bigrams` methods that split the text into words or bigrams respectively before calculating the distance.
+1. Each method returns a `textdistance::Result` that provides methods to get absolute (`val`) or normalized (`nval`) value of the metric, distance (`dist` and `ndist`), or similarity (`sim` and `nsim`).
 
 ## Unicode support
 
-The `for_str` method (and so all function in the `str` and `nstr` modules) uses `String.chars` to split the string and then runs it through the `for_iter` method. So, `é` will be considered two distinct characters ("latin small letter e" and "combining acute accent"). Usually, that's ok and this is how Python works. You can read more in [the official Rust documentation](https://doc.rust-lang.org/std/primitive.char.html#representation).
+The `for_str` method (and so all functions in the `str` and `nstr` modules) uses `String.chars` to split the string and then runs it through the `for_iter` method. So, `é` will be considered two distinct characters ("latin small letter e" and "combining acute accent"). Usually, that's ok and this is how Python works. You can read more in [the official Rust documentation](https://doc.rust-lang.org/std/primitive.char.html#representation).
 
-If you want `é` to be considered as a single symbol, use the [unicode-segmentation](https://crates.io/crates/unicode-segmentation) crate:
+If you want `é` to be considered as a single symbol, use the [unicode-segmentation](https://crates.io/crates/unicode-segmentation) crate:
 
 ```rust
 use textdistance::{Algorithm, DamerauLevenshtein};
 use unicode_segmentation::UnicodeSegmentation;
 
-let s1 = "a̐éö̲\r\n";
-let s2 = "éa̐ö̲\r\n";
+let s1 = "a̐éö̲\r\n";
+let s2 = "éa̐ö̲\r\n";
 let g1: <Vec<&str>> = s1.graphemes(true).collect();
 let g2: <Vec<&str>> = s2.graphemes(true).collect();
 let a = DamerauLevenshtein::default();
@@ -116,9 +116,9 @@ assert!(r.val() == 1);
 
 ## Versioning
 
-We stick to SemVer:
+We stick to [SemVer](https://semver.org/):
 
-1. The **patch** number is for bug fixes. It is possible that the results of an algorithm will change in some corner cases if we found that the previous implementation doesn't match the algorithm described in the original paper.
+1. The **patch** number is for bug fixes. The results of an algorithm may change in some corner cases if we found that the previous implementation doesn't match the algorithm described in the original paper.
 1. The **minor** number is for new algorithms and features.
 1. The **major** number is for big changes in the API. We try to avoid breaking stuff but we prefer to provide a friendly and convenient API over keeping a backward compatibility.
 
@@ -138,4 +138,4 @@ There are the libraries that I used as a reference implementation and the source
 
 ## Testing locally
 
-To run everything locally, all you need is rust, python, and [task](https://taskfile.dev/installation/). Execute `task all` to run all code formatters, linters, and tests.
+To run everything locally, all you need is Rust, Python, and [task](https://taskfile.dev/installation/). Execute `task all` to run all code formatters, linters, and tests.
