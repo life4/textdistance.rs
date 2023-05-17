@@ -128,7 +128,7 @@ If you go with edit-based, the next thing is to decide what kind of changes you 
 + ✏️ Substitution. One character is replaced by another.
 + ➕ Addition. A new character is added.
 + 🗑 Deletion. A character is removed.
-+ 🔄 Transposition. Two sequentive characters are swapped.
++ 🔄 Transposition. Two sequential characters are swapped.
 
 | alg                   | sub | add | del | trans |
 | --------------------- | --- | --- | --- | ----- |
@@ -189,7 +189,7 @@ Legend:
 | tversky            | 🐇 512.41 µs |
 | yujian_bo          | 🐢 4.6044 ms |
 
-The benchmarks are povered by [criterion](https://github.com/bheisler/criterion.rs) and live in the [benches](./benches/) directory. They are quite simple: grab 10 [open-source licenses](https://github.com/github/choosealicense.com/tree/gh-pages/_licenses), take a 200 chars prefix from each, and cross-compare these prefixes. The numbers might be very different an a different kind of input, length of the input, when comparing words rather than characters, or running the benchmarks on a different machine. The goal of these benchmarks is to provide a basic guidance rather than give a definitive answer. If performance is critical for you application, I encourage you to make your benchmarks on the real data you have.
+The benchmarks are powered by [criterion](https://github.com/bheisler/criterion.rs) and live in the [benches](./benches/) directory. They are quite simple: grab 10 [open-source licenses](https://github.com/github/choosealicense.com/tree/gh-pages/_licenses), take a 200 chars prefix from each, and cross-compare these prefixes. The numbers might be very different for a different kind of input, length of the input, when comparing words rather than characters, or running the benchmarks on a different machine. The goal of these benchmarks is to provide basic guidance rather than give a definitive answer. If performance is critical for your application, I encourage you to make your benchmarks on the real data you have.
 
 ## Versioning
 
