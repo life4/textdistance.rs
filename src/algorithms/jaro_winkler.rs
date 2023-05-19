@@ -34,7 +34,7 @@ impl JaroWinkler {
     fn winklerize<C, E>(&self, jaro: f64, s1: C, s2: C) -> f64
     where
         C: Iterator<Item = E>,
-        E: Eq + Copy + std::hash::Hash,
+        E: Eq + std::hash::Hash,
     {
         debug_assert!(self.prefix_weight * self.max_prefix as f64 <= 1.0);
         let mut prefix_len = 0;
@@ -55,7 +55,7 @@ impl JaroWinkler {
 impl Algorithm<f64> for JaroWinkler {
     fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result<f64>
     where
-        E: Eq + Copy + std::hash::Hash,
+        E: Eq + std::hash::Hash,
     {
         let jaro = self.jaro.for_vec(s1, s2).nval();
         Result {

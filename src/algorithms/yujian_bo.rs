@@ -1,7 +1,6 @@
 //! Yujian-Bo distance
 use super::levenshtein::Levenshtein;
 use crate::{Algorithm, Result};
-use std::hash::Hash;
 
 /// [Yujian-Bo distance] is a normalization of [Levenshtein].
 ///
@@ -16,7 +15,7 @@ impl Algorithm<f64> for YujianBo {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result<f64>
     where
         C: Iterator<Item = E>,
-        E: Eq + Copy + Hash,
+        E: Eq + std::hash::Hash,
     {
         let lev = self.levenshtein.for_iter(s1, s2);
         let dc: usize = self.levenshtein.del_cost;
