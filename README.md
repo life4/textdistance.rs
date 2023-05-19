@@ -161,34 +161,51 @@ Legend:
 + 🐇 is fast (> 500 µs)
 + 🐎 is very fast (< 500 µs)
 
-| algorithm          | time      |
-| ------------------ | --------- |
-| bag                | 🐇 523.06 µs |
-| cosine             | 🐇 508.59 µs |
-| damerau_levenshtein | 🐌 41.938 ms |
-| damerau_levenshtein_restricted | 🐌 10.301 ms |
-| entropy_ncd        | 🐇 731.68 µs |
+Edit-based (and their normalizations):
+
+| algorithm          | time         |
+| ------------------ | ------------ |
 | hamming            | 🐎 19.203 µs |
-| jaccard            | 🐇 580.79 µs |
-| jaro_winkler       | 🐢 1.7174 ms |
-| jaro               | 🐢 1.7148 ms |
-| lcsseq             | 🐌 7.4349 ms |
-| lcsstr             | 🐢 3.2658 ms |
-| length             | 🐎 2.5300 µs |
-| levenshtein        | 🐢 4.5999 ms |
-| lig3               | 🐌 6.5563 ms |
 | mlipns             | 🐎 20.625 µs |
-| overlap            | 🐇 513.76 µs |
-| prefix             | 🐎 22.473 µs |
-| ratcliff_obershelp | 🐌 36.308 ms |
-| roberts            | 🐇 714.79 µs |
-| sift4_common       | 🐎 238.86 µs |
 | sift4_simple       | 🐎 143.69 µs |
-| smith_waterman     | 🐌 9.5146 ms |
-| sorensen_dice      | 🐇 510.75 µs |
-| suffix             | 🐎 38.821 µs |
-| tversky            | 🐇 512.41 µs |
+| sift4_common       | 🐎 238.86 µs |
+| jaro               | 🐢 1.7148 ms |
+| jaro_winkler       | 🐢 1.7174 ms |
+| levenshtein        | 🐢 4.5999 ms |
 | yujian_bo          | 🐢 4.6044 ms |
+| lig3               | 🐌 6.5563 ms |
+| smith_waterman     | 🐌 9.5146 ms |
+| damerau_levenshtein_restricted | 🐌 10.301 ms |
+| damerau_levenshtein | 🐌 41.938 ms |
+
+Token-based:
+
+| algorithm          | time         |
+| ------------------ | ------------ |
+| cosine             | 🐇 508.59 µs |
+| sorensen_dice      | 🐇 510.75 µs |
+| tversky            | 🐇 512.41 µs |
+| overlap            | 🐇 513.76 µs |
+| bag                | 🐇 523.06 µs |
+| jaccard            | 🐇 580.79 µs |
+| roberts            | 🐇 714.79 µs |
+| entropy_ncd        | 🐇 731.68 µs |
+
+Sequence-based:
+
+| algorithm          | time         |
+| ------------------ | ------------ |
+| lcsstr             | 🐢 3.2658 ms |
+| lcsseq             | 🐌 7.4349 ms |
+| ratcliff_obershelp | 🐌 36.308 ms |
+
+Naive:
+
+| algorithm          | time         |
+| ------------------ | ------------ |
+| length             | 🐎 2.5300 µs |
+| prefix             | 🐎 22.473 µs |
+| suffix             | 🐎 38.821 µs |
 
 The benchmarks are powered by [criterion](https://github.com/bheisler/criterion.rs) and live in the [benches](./benches/) directory. They are quite simple: grab 10 [open-source licenses](https://github.com/github/choosealicense.com/tree/gh-pages/_licenses), take a 200 chars prefix from each, and cross-compare these prefixes. The numbers might be very different for a different kind of input, length of the input, when comparing words rather than characters, or running the benchmarks on a different machine. The goal of these benchmarks is to provide basic guidance rather than give a definitive answer. If performance is critical for your application, I encourage you to make your benchmarks on the real data you have.
 
