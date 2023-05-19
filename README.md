@@ -2,7 +2,7 @@
 
 [ [github.com](https://github.com/life4/textdistance.rs) ]
 [ [docs.rs](https://docs.rs/textdistance/) ]
-[ [crates.io](crates.io/crates/textdistance) ]
+[ [crates.io](https://crates.io/crates/textdistance) ]
 
 Rust library with lots of different algorithms to compare how similar two sequences are.
 
@@ -148,6 +148,7 @@ If you go with edit-based, the next thing is to decide what kind of changes you 
 
 There are some use cases:
 
++ `DamerauLevenshtein` with some optimizations is [used in cargo](https://github.com/rust-lang/cargo/blob/master/src/cargo/util/edit_distance.rs) to correct typos in command names.
 + `Jaro` is included in the Elixir standard library ([String.jaro_distance](https://hexdocs.pm/elixir/1.12/String.html#jaro_distance/2)). It is used by the compiler and by mix (cargo for Elixir) to provide the "did you mean?" functionality for typos in module or command names.
 + `RatcliffObershelp` variation is included in the Python standard library ([difflib.SequenceMatcher](https://docs.python.org/3/library/difflib.html#difflib.SequenceMatcher)).
 
