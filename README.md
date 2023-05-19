@@ -213,6 +213,8 @@ There are the libraries that I used as a reference implementation and the source
 + ☕️ JS: [talisman](https://github.com/Yomguithereal/talisman).
 + 🦀 Rust: [strsim](https://github.com/dguo/strsim-rs), [distance](https://github.com/mbrlabs/distance), [levenshtein-rs](https://github.com/wooorm/levenshtein-rs).
 
+Specials thanks to [Trevor Gross](https://github.com/tgross35) for transferring to me the ownership of the [textdistance](https://crates.io/crates/textdistance) name on crates.io.
+
 ## Testing locally
 
 To run everything locally, all you need is Rust, Python, and [task](https://taskfile.dev/installation/). Execute `task all` to run all code formatters, linters, and tests.

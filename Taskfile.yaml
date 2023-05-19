@@ -43,7 +43,7 @@ tasks:
     deps:
       - install-pytest
     cmds:
-      - pytest
+      - pytest {{.CLI_ARGS}} tests/
 
   nextest:
     deps:
@@ -58,19 +58,37 @@ tasks:
       - cargo test --doc
 
   bench:
+    desc: "run benchmarks"
     deps:
       - clone-licenses
     cmds:
       - cargo bench {{.CLI_ARGS}}
 
+  release:
+    desc: "build and upload a new release"
+    cmds:
+      - which gh
+      - test {{.CLI_ARGS}}
+      - cat Cargo.toml | grep -F 'version = "{{.CLI_ARGS}}"'
+      - cargo publish
+      - git tag {{.CLI_ARGS}}
+      - git push
+      - git push --tags
+      - gh release create --generate-notes {{.CLI_ARGS}}
+      - gh release upload {{.CLI_ARGS}} ./dist/*
+
   test:
-    - task: pytest
-    - task: nextest
-    - task: doctest
+    desc: "run all tests"
+    cmds:
+      - task: pytest
+      - task: nextest
+      - task: doctest
 
   all:
-    - task: format
-    - task: check
-    - task: lint
-    - task: doc
-    - task: test
+    desc: "run all code formatters, linters, and tests"
+    cmds:
+      - task: format
+      - task: check
+      - task: lint
+      - task: doc
+      - task: test
