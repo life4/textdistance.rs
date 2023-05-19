@@ -8,7 +8,7 @@ pub struct Counter<K> {
 
 impl<K> Counter<K>
 where
-    K: Hash + Eq + Copy,
+    K: Hash + Eq,
 {
     /// make an empty Counter
     pub fn new() -> Counter<K> {
@@ -59,15 +59,15 @@ where
     }
 
     /// Merge two counters together.
-    pub fn merge(&self, rhs: &Counter<K>) -> Counter<K> {
-        let mut result: HashMap<K, usize> = HashMap::new();
+    pub fn merge<'a>(&'a self, rhs: &'a Counter<K>) -> Counter<&'a K> {
+        let mut result: HashMap<&K, usize> = HashMap::new();
         for (key, lhs_count) in &self.map {
             let rhs_count = rhs.map.get(key).unwrap_or(&0);
-            result.insert(*key, *lhs_count + rhs_count);
+            result.insert(key, *lhs_count + rhs_count);
         }
         for (key, rhs_count) in &rhs.map {
             if self.map.get(key).is_none() {
-                result.insert(*key, *rhs_count);
+                result.insert(key, *rhs_count);
             }
         }
         Counter { map: result }
@@ -118,7 +118,7 @@ mod tests {
     use assert2::assert;
     use rstest::rstest;
 
-    pub fn eq<K: Hash + Eq + Copy>(lhs: &Counter<K>, rhs: &Counter<K>) -> bool {
+    pub fn eq<K: Hash + Eq>(lhs: &Counter<K>, rhs: &Counter<K>) -> bool {
         for (key, lhs_count) in &lhs.map {
             if let Some(rhs_count) = rhs.map.get(key) {
                 if lhs_count != rhs_count {

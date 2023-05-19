@@ -48,7 +48,7 @@ impl Algorithm<usize> for MLIPNS {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result<usize>
     where
         C: Iterator<Item = E>,
-        E: Eq + Copy + Hash,
+        E: Eq + Hash,
     {
         let ham = self.hamming.for_iter(s1, s2);
         Result {

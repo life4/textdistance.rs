@@ -29,7 +29,7 @@ impl Default for EntropyNCD {
 }
 
 impl EntropyNCD {
-    fn compress<E: Hash + Eq + Copy>(&self, c: &Counter<E>) -> f64 {
+    fn compress<E: Hash + Eq>(&self, c: &Counter<E>) -> f64 {
         debug_assert!(self.correction >= 0.);
         let total_count = c.count();
         let mut entropy = 0.0;
@@ -46,7 +46,7 @@ impl Algorithm<f64> for EntropyNCD {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result<f64>
     where
         C: Iterator<Item = E>,
-        E: Eq + Copy + std::hash::Hash,
+        E: Eq + std::hash::Hash,
     {
         let c1 = Counter::from_iter(s1);
         let c2 = Counter::from_iter(s2);

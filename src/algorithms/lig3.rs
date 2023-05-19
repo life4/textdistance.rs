@@ -31,7 +31,7 @@ impl Default for LIG3 {
 impl Algorithm<f64> for LIG3 {
     fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result<f64>
     where
-        E: Eq + Copy + Hash,
+        E: Eq + Hash,
     {
         let lev_res = self.levenshtein.for_vec(s1, s2);
         let lev = lev_res.dist();

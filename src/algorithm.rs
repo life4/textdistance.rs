@@ -19,7 +19,7 @@ pub trait Algorithm<R> {
     fn for_iter<C, E>(&self, s1: C, s2: C) -> Result<R>
     where
         C: Iterator<Item = E>,
-        E: Eq + Copy + Hash,
+        E: Eq + Hash,
     {
         let s1: Vec<E> = s1.collect();
         let s2: Vec<E> = s2.collect();
@@ -35,7 +35,7 @@ pub trait Algorithm<R> {
     ///
     fn for_vec<E>(&self, s1: &[E], s2: &[E]) -> Result<R>
     where
-        E: Eq + Copy + Hash,
+        E: Eq + Hash,
     {
         self.for_iter(s1.iter(), s2.iter())
     }

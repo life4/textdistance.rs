@@ -11,7 +11,7 @@ use crate::{Algorithm, Result};
 pub struct LCSSeq {}
 
 impl Algorithm<usize> for LCSSeq {
-    fn for_vec<E: Eq + Copy>(&self, s1: &[E], s2: &[E]) -> Result<usize> {
+    fn for_vec<E: Eq>(&self, s1: &[E], s2: &[E]) -> Result<usize> {
         let l1 = s1.len();
         let l2 = s2.len();
         let mut lengths = vec![vec![0; l2 + 1]; l1 + 1];
@@ -26,7 +26,7 @@ impl Algorithm<usize> for LCSSeq {
             }
         }
 
-        let mut result = Vec::<E>::new();
+        let mut result = Vec::<&E>::new();
         let mut i = l1;
         let mut j = l2;
         while i != 0 && j != 0 {
@@ -36,7 +36,7 @@ impl Algorithm<usize> for LCSSeq {
                 j -= 1;
             } else {
                 assert!(s1[i - 1] == s2[j - 1]);
-                result.push(s1[i - 1]);
+                result.push(&s1[i - 1]);
                 i -= 1;
                 j -= 1;
             }
