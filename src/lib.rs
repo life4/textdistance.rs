@@ -1,5 +1,12 @@
-#![deny(missing_docs)]
 #![doc = include_str!("../README.md")]
+#![deny(missing_docs)]
+#![warn(clippy::all, clippy::pedantic)]
+#![allow(
+    clippy::cast_precision_loss,
+    clippy::must_use_candidate,
+    clippy::similar_names,
+    clippy::unreadable_literal
+)]
 
 mod algorithm;
 mod counter;
@@ -66,6 +73,8 @@ pub use self::result::Result;
 
 #[cfg(test)]
 mod tests {
+    #![allow(clippy::float_cmp)]
+
     use super::*;
     use assert2::assert;
     use proptest::prelude::*;
@@ -217,8 +226,8 @@ mod tests {
         fn prop_prefix(prefix in ".+", s1 in ".+", s2 in ".+") {
             for alg in 1..ALGS {
                 let r1 = get_result(alg, &s1, &s2).ndist();
-                let mut p1 = prefix.to_owned();
-                let mut p2 = prefix.to_owned();
+                let mut p1 = prefix.clone();
+                let mut p2 = prefix.clone();
                 p1.push_str(&s1);
                 p2.push_str(&s2);
                 let r2 = get_result(alg, &p1, &p2).ndist();

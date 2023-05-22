@@ -17,7 +17,7 @@ pub struct MLIPNS {
 impl Default for MLIPNS {
     fn default() -> Self {
         Self {
-            hamming: Default::default(),
+            hamming: Hamming::default(),
             threshold: 0.25,
             max_mismatches: 2,
         }
@@ -52,7 +52,7 @@ impl Algorithm<usize> for MLIPNS {
     {
         let ham = self.hamming.for_iter(s1, s2);
         Result {
-            abs: if self.check(&ham) { 1 } else { 0 },
+            abs: self.check(&ham).into(),
             is_distance: false,
             max: 1,
             len1: ham.len1,

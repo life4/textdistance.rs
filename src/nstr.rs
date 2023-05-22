@@ -1,6 +1,6 @@
 //! Helper functions providing the default normalized implementation of distance/similarity algorithms for strings.
 //!
-//! See also [textdistance::str](super::str) for non-normalized distance.
+//! See also [`textdistance::str`](super::str) for non-normalized distance.
 
 use super::Algorithm;
 use super::Bag;
@@ -31,7 +31,7 @@ use super::MLIPNS;
 
 /// Calculate normalized unrestricted [Damerau-Levenshtein distance][1] for two strings.
 ///
-/// A wrapper for [DamerauLevenshtein].
+/// A wrapper for [`DamerauLevenshtein`].
 ///
 ///     use textdistance::nstr::damerau_levenshtein;
 ///     assert!(damerau_levenshtein("abc", "acbd") == 2./4.); // "bc" swapped and "d" added
@@ -43,7 +43,7 @@ pub fn damerau_levenshtein(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized restricted [Damerau-Levenshtein distance][1] for two strings.
 ///
-/// A wrapper for [DamerauLevenshtein].
+/// A wrapper for [`DamerauLevenshtein`].
 ///
 ///     use textdistance::nstr::damerau_levenshtein;
 ///     assert!(damerau_levenshtein("abc", "acbd") == 2./4.); // "bc" swapped and "d" added
@@ -71,7 +71,7 @@ pub fn hamming(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized the length of the [Longest Common SubSequence][1] for two strings.
 ///
-/// A wrapper for [LCSSeq].
+/// A wrapper for [`LCSSeq`].
 ///
 ///     use textdistance::nstr::lcsseq;
 ///     assert!(lcsseq("abcdef", "xbcegf") == 4./6.); // "bcef"
@@ -83,7 +83,7 @@ pub fn lcsseq(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized the length of the [Longest Common SubString][1] for two strings.
 ///
-/// A wrapper for [LCSStr].
+/// A wrapper for [`LCSStr`].
 ///
 ///     use textdistance::nstr::lcsstr;
 ///     assert!(lcsstr("abcdef", "xbcegf") == 2./6.); // "bc"
@@ -107,7 +107,7 @@ pub fn levenshtein(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized [Ratcliff-Obershelp normalized similarity][1] for two strings.
 ///
-/// A wrapper for [RatcliffObershelp].
+/// A wrapper for [`RatcliffObershelp`].
 ///
 ///     use textdistance::nstr::ratcliff_obershelp;
 ///     assert_eq!(ratcliff_obershelp("abc", "acbd"), 0.5714285714285714);
@@ -119,7 +119,7 @@ pub fn ratcliff_obershelp(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized [Sift4 distance][1] for two strings using the "simplest" algorithm.
 ///
-/// A wrapper for [Sift4Simple].
+/// A wrapper for [`Sift4Simple`].
 ///
 ///     use textdistance::nstr::sift4_simple;
 ///     assert!(sift4_simple("abc", "acbd") == 2./4.);
@@ -131,7 +131,7 @@ pub fn sift4_simple(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized [Sift4 distance][1] for two strings using the "common" algorithm.
 ///
-/// A wrapper for [Sift4Common].
+/// A wrapper for [`Sift4Common`].
 ///
 ///     use textdistance::nstr::sift4_common;
 ///     assert!(sift4_common("abc", "acbd") == 2./4.);
@@ -155,7 +155,7 @@ pub fn jaro(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized [Jaro-Winkler normalized similarity][1] for two strings.
 ///
-/// A wrapper for [JaroWinkler].
+/// A wrapper for [`JaroWinkler`].
 ///
 ///     use textdistance::nstr::jaro_winkler;
 ///     assert_eq!(jaro_winkler("abc", "acbd"), 0.825);
@@ -167,7 +167,7 @@ pub fn jaro_winkler(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized [Yujian-Bo normalization][1] of [Levenshtein] for two strings.
 ///
-/// A wrapper for [YujianBo].
+/// A wrapper for [`YujianBo`].
 ///
 ///     use textdistance::nstr::yujian_bo;
 ///     assert_eq!(yujian_bo("abc", "acbd"), 0.4444444444444444);
@@ -227,7 +227,7 @@ pub fn jaccard(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized [Sørensen–Dice normalized similarity][1] for two strings.
 ///
-/// A wrapper for [SorensenDice].
+/// A wrapper for [`SorensenDice`].
 ///
 ///     use textdistance::nstr::sorensen_dice;
 ///     assert_eq!(sorensen_dice("abc", "acbd"), 0.8571428571428571);
@@ -308,7 +308,7 @@ pub fn length(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized [Smith-Waterman similarity] for two strings.
 ///
-/// A wrapper for [SmithWaterman].
+/// A wrapper for [`SmithWaterman`].
 ///
 ///     use textdistance::nstr::smith_waterman;
 ///     assert!(smith_waterman("abc", "acbd") == 1./4.);
@@ -320,7 +320,7 @@ pub fn smith_waterman(s1: &str, s2: &str) -> f64 {
 
 /// Calculate normalized [Entropy]-based [normalized compression distance][1] for two strings.
 ///
-/// A wrapper for [EntropyNCD].
+/// A wrapper for [`EntropyNCD`].
 ///
 ///     use textdistance::nstr::entropy_ncd;
 ///     assert_eq!(entropy_ncd("abc", "acbd"), 0.12174985473119697);

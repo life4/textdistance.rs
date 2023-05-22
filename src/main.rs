@@ -1,3 +1,5 @@
+#![allow(clippy::cast_precision_loss)]
+
 use std::borrow::Borrow;
 use textdistance::str;
 
@@ -12,5 +14,5 @@ fn main() {
         "roberts" => str::roberts(s1, s2),
         _ => panic!("unknown algorithm name"),
     };
-    println!("{}", res);
+    println!("{res}");
 }

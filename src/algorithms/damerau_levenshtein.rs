@@ -50,11 +50,11 @@ impl DamerauLevenshtein {
 
         let mut mat: Vec<Vec<usize>> = vec![vec![0; l2 + 2]; l1 + 2];
         mat[0][0] = max_dist;
-        for i in 0..(l1 + 1) {
+        for i in 0..=l1 {
             mat[i + 1][0] = max_dist;
             mat[i + 1][1] = i;
         }
-        for i in 0..(l2 + 1) {
+        for i in 0..=l2 {
             mat[0][i + 1] = max_dist;
             mat[1][i + 1] = i;
         }
@@ -99,10 +99,10 @@ impl DamerauLevenshtein {
         let l2 = s2.len();
 
         let mut mat: Vec<Vec<usize>> = vec![vec![0; l2 + 2]; l1 + 2];
-        for i in 0..(l1 + 1) {
+        for i in 0..=l1 {
             mat[i][0] = i;
         }
-        for i in 0..(l2 + 1) {
+        for i in 0..=l2 {
             mat[0][i] = i;
         }
 

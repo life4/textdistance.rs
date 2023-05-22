@@ -23,7 +23,7 @@ pub struct JaroWinkler {
 impl Default for JaroWinkler {
     fn default() -> Self {
         Self {
-            jaro: Default::default(),
+            jaro: Jaro::default(),
             prefix_weight: 0.1,
             max_prefix: 4,
         }

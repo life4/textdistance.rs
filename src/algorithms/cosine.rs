@@ -23,8 +23,7 @@ impl Algorithm<f64> for Cosine {
         let n2 = c2.count();
         let res = match (n1, n2) {
             (0, 0) => 1.,
-            (_, 0) => 0.,
-            (0, _) => 0.,
+            (_, 0) | (0, _) => 0.,
             (_, _) => {
                 let ic = c1.intersect_count(&c2);
                 ic as f64 / ((n1 * n2) as f64).sqrt()

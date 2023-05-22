@@ -45,6 +45,7 @@ impl Algorithm<usize> for SmithWaterman {
         }
         let result = dist_mat[l1][l2];
         Result {
+            #[allow(clippy::cast_sign_loss)]
             abs: result as usize,
             is_distance: false,
             max: l1.max(l2),

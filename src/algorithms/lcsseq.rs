@@ -3,7 +3,7 @@ use crate::{Algorithm, Result};
 
 /// The length of the [Longest common subsequence].
 ///
-/// It differs from the [LCSStr](crate::LCSStr). Unlike substrings, subsequences are not required
+/// It differs from the [`LCSStr`](crate::LCSStr). Unlike substrings, subsequences are not required
 /// to occupy consecutive positions within the original sequences.
 ///
 /// [Longest common subsequence]: https://en.wikipedia.org/wiki/Longest_common_subsequence
