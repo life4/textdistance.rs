@@ -4,7 +4,7 @@ use crate::{Algorithm, Result};
 /// [Sift4 distance] is an edit algorithm designed to be "fast and relatively accurate".
 ///
 /// The original blog post describes 3 different implementations of the algorithm,
-/// this is the "common" one. The main diffrerence from [Sift4Simple](crate::Sift4Simple)
+/// this is the "common" one. The main difference from [Sift4Simple](crate::Sift4Simple)
 /// is the support for `max_distance` that can be used to stop calculating the distance
 /// after a certain threshold.
 ///
