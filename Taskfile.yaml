@@ -39,6 +39,8 @@ tasks:
         -- -D clippy::pedantic -D clippy::dbg-macro -D warnings
 
   doc:
+    env:
+      RUSTDOCFLAGS: "-Dwarnings"
     cmds:
       - cargo doc {{.CLI_ARGS}}
 
