@@ -2,7 +2,7 @@
 use crate::counter::Counter;
 use crate::{Algorithm, Result};
 
-/// [Tversky similarity] is a generalization of [SorensenDice] and [Jaccard].
+/// [Tversky similarity] is a generalization of [`SorensenDice`] and [Jaccard].
 ///
 /// [Tversky similarity]: https://en.wikipedia.org/wiki/Tversky_index
 /// [SorensenDice]: crate::SorensenDice

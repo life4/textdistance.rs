@@ -58,6 +58,8 @@ impl Algorithm<usize> for Hamming {
 
 #[cfg(test)]
 mod tests {
+    #![allow(clippy::float_cmp)]
+
     use super::{Algorithm, Hamming};
     use crate::str::hamming;
     use assert2::assert;

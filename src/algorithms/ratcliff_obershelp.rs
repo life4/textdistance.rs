@@ -1,7 +1,7 @@
 //! Gestalt pattern matching
 use crate::{Algorithm, Result};
 
-/// [Ratcliff/Obershelp similarity] is [LCSStr] that recursively finds matches
+/// [Ratcliff/Obershelp similarity] is [`LCSStr`] that recursively finds matches
 /// on both sides of the longest substring.
 ///
 /// The non-normalized result is a double number of matching characters defined as the first
@@ -79,6 +79,8 @@ impl Algorithm<usize> for RatcliffObershelp {
 
 #[cfg(test)]
 mod tests {
+    #![allow(clippy::float_cmp)]
+
     use super::{Algorithm, RatcliffObershelp};
     use crate::str::ratcliff_obershelp;
     use assert2::assert;

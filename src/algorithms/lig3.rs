@@ -18,7 +18,7 @@ pub struct LIG3 {
 impl Default for LIG3 {
     fn default() -> Self {
         Self {
-            levenshtein: Default::default(),
+            levenshtein: Levenshtein::default(),
             #[allow(clippy::needless_update)]
             hamming: Hamming {
                 truncate: false,

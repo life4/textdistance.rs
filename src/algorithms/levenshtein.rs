@@ -6,7 +6,7 @@ use crate::{Algorithm, Result};
 /// It is the minimum number of single-character edits (insertions, deletions or substitutions)
 /// required to change one word into the other.
 ///
-/// See also [DamerauLevenshtein](crate::DamerauLevenshtein) which is an extended
+/// See also [`DamerauLevenshtein`](crate::DamerauLevenshtein) which is an extended
 /// version of this algorithm that also includes transpositions.
 ///
 /// [Levenshtein distance]: https://en.wikipedia.org/wiki/Levenshtein_distance

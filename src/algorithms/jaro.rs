@@ -5,7 +5,7 @@ use crate::{Algorithm, Result};
 ///
 /// The metric is always normalized on the interval from 0.0 to 1.0.
 ///
-/// See also [JaroWinkler](crate::JaroWinkler).
+/// See also [`JaroWinkler`](crate::JaroWinkler).
 ///
 /// [Jaro similarity]: https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance#Jaro_similarity
 #[derive(Default)]
