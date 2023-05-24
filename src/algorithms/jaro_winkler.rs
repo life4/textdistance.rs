@@ -2,7 +2,7 @@
 use super::jaro::Jaro;
 use crate::{Algorithm, Result};
 
-/// [Jaro-Winkler similarity] is a variation of [Jaro] with a better rating for strings with a matching prefix.
+/// [Jaro-Winkler similarity] is a variation of [`Jaro`] with a better rating for strings with a matching prefix.
 ///
 /// The metric is always normalized on the interval from 0.0 to 1.0.
 ///

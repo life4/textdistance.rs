@@ -4,7 +4,7 @@ use super::levenshtein::Levenshtein;
 use crate::{Algorithm, Result};
 use std::hash::Hash;
 
-/// [LIG3 similarity] is a normalization of [Hamming] by [Levenshtein].
+/// [LIG3 similarity] is a normalization of [`Hamming`] by [`Levenshtein`].
 ///
 /// [LIG3 similarity]: https://github.com/chrislit/abydos/blob/master/abydos/distance/_lig3.py
 pub struct LIG3 {

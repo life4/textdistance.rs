@@ -11,7 +11,7 @@ use crate::{Algorithm, Result};
 /// The normalized result is the non-normalized one divided by the sum of the input string lengths.
 ///
 /// [Ratcliff/Obershelp similarity]: https://en.wikipedia.org/wiki/Gestalt_pattern_matching
-/// [LCSStr]: crate::LCSStr
+/// [`LCSStr`]: crate::LCSStr
 #[derive(Default)]
 pub struct RatcliffObershelp {}
 

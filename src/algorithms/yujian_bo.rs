@@ -2,7 +2,7 @@
 use super::levenshtein::Levenshtein;
 use crate::{Algorithm, Result};
 
-/// [Yujian-Bo distance] is a normalization of [Levenshtein].
+/// [Yujian-Bo distance] is a normalization of [`Levenshtein`].
 ///
 /// [Yujian-Bo distance]: https://ieeexplore.ieee.org/document/4160958
 #[derive(Default)]
