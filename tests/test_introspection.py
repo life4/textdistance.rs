@@ -39,7 +39,7 @@ def test_str_shortcut_exists(alg: str) -> None:
     assert f'fn {alg}(' in text
     alg = alg.replace('_', '')
     assert f'{alg}::default().for_str(s1, s2).' in text.lower()
-    assert f'/// a wrapper for [{alg}].\n' in text.lower()
+    assert f'/// a wrapper for [`{alg}`].\n' in text.lower()
 
 
 def test_str_docs_consistency() -> None:
@@ -55,7 +55,7 @@ def test_nstr_shortcut_exists(alg: str) -> None:
     assert f'fn {alg}(' in text
     alg = alg.replace('_', '')
     assert f'{alg}::default().for_str(s1, s2).nval()' in text.lower()
-    assert f'/// a wrapper for [{alg}].\n' in text.lower()
+    assert f'/// a wrapper for [`{alg}`].\n' in text.lower()
 
 
 def test_nstr_docs_consistency() -> None:

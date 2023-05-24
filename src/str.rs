@@ -59,7 +59,7 @@ pub fn damerau_levenshtein_restricted(s1: &str, s2: &str) -> usize {
 
 /// Calculate [Hamming distance][1] for two strings.
 ///
-/// A wrapper for [Hamming].
+/// A wrapper for [`Hamming`].
 ///
 ///     use textdistance::str::hamming;
 ///     assert!(hamming("abc", "acbd") == 3); // only "a" matches
@@ -95,7 +95,7 @@ pub fn lcsstr(s1: &str, s2: &str) -> usize {
 
 /// Calculate [Levenshtein distance][1] for two strings.
 ///
-/// A wrapper for [Levenshtein].
+/// A wrapper for [`Levenshtein`].
 ///
 ///     use textdistance::str::levenshtein;
 ///     assert!(levenshtein("abc", "acbd") == 2); // add "c" at 2 and then swap "c" with "d" at 4
@@ -143,7 +143,7 @@ pub fn sift4_common(s1: &str, s2: &str) -> usize {
 
 /// Calculate [Jaro normalized similarity][1] for two strings.
 ///
-/// A wrapper for [Jaro].
+/// A wrapper for [`Jaro`].
 ///
 ///     use textdistance::str::jaro;
 ///     assert_eq!(jaro("abc", "acbd"), 0.8055555555555555);
@@ -179,7 +179,7 @@ pub fn yujian_bo(s1: &str, s2: &str) -> f64 {
 
 /// Calculate [MLIPNS normalization][1] of [Hamming] for two strings.
 ///
-/// A wrapper for [MLIPNS].
+/// A wrapper for [`MLIPNS`].
 ///
 ///     use textdistance::str::mlipns;
 ///     assert!(mlipns("abc", "acbd") == 0);
@@ -191,7 +191,7 @@ pub fn mlipns(s1: &str, s2: &str) -> usize {
 
 /// Calculate [Bag distance][1] for two strings.
 ///
-/// A wrapper for [Bag].
+/// A wrapper for [`Bag`].
 ///
 ///     use textdistance::str::bag;
 ///     assert!(bag("abc", "acbd") == 1);
@@ -203,7 +203,7 @@ pub fn bag(s1: &str, s2: &str) -> usize {
 
 /// Calculate [LIG3 normalization][1] of [Hamming] by [Levenshtein] for two strings.
 ///
-/// A wrapper for [LIG3].
+/// A wrapper for [`LIG3`].
 ///
 ///     use textdistance::str::lig3;
 ///     assert_eq!(lig3("abc", "acbd"), 0.5);
@@ -215,7 +215,7 @@ pub fn lig3(s1: &str, s2: &str) -> f64 {
 
 /// Calculate [Jaccard normalized similarity][1] for two strings.
 ///
-/// A wrapper for [Jaccard].
+/// A wrapper for [`Jaccard`].
 ///
 ///     use textdistance::str::jaccard;
 ///     assert_eq!(jaccard("abc", "acbd"), 0.75);
@@ -239,7 +239,7 @@ pub fn sorensen_dice(s1: &str, s2: &str) -> f64 {
 
 /// Calculate [Tversky normalized similarity][1] for two strings.
 ///
-/// A wrapper for [Tversky].
+/// A wrapper for [`Tversky`].
 ///
 ///     use textdistance::str::tversky;
 ///     assert_eq!(tversky("abc", "acbd"), 0.75);
@@ -251,7 +251,7 @@ pub fn tversky(s1: &str, s2: &str) -> f64 {
 
 /// Calculate [Overlap normalized similarity][1] for two strings.
 ///
-/// A wrapper for [Overlap].
+/// A wrapper for [`Overlap`].
 ///
 ///     use textdistance::str::overlap;
 ///     assert_eq!(overlap("abc", "acbd"), 1.0);
@@ -263,7 +263,7 @@ pub fn overlap(s1: &str, s2: &str) -> f64 {
 
 /// Calculate [Cosine normalized similarity][1] for two strings.
 ///
-/// A wrapper for [Cosine].
+/// A wrapper for [`Cosine`].
 ///
 ///     use textdistance::str::cosine;
 ///     assert_eq!(cosine("abc", "acbd"), 0.8660254037844387);
@@ -275,7 +275,7 @@ pub fn cosine(s1: &str, s2: &str) -> f64 {
 
 /// Calculate common prefix length for two strings.
 ///
-/// A wrapper for [Prefix].
+/// A wrapper for [`Prefix`].
 ///
 ///     use textdistance::str::prefix;
 ///     assert!(prefix("abc", "acbd") == 1); // "a"
@@ -286,7 +286,7 @@ pub fn prefix(s1: &str, s2: &str) -> usize {
 
 /// Calculate common suffix length for two strings.
 ///
-/// A wrapper for [Suffix].
+/// A wrapper for [`Suffix`].
 ///
 ///     use textdistance::str::suffix;
 ///     assert!(suffix("abcd", "axcd") == 2); // "cd"
@@ -297,7 +297,7 @@ pub fn suffix(s1: &str, s2: &str) -> usize {
 
 /// Calculate length distance for two strings.
 ///
-/// A wrapper for [Length].
+/// A wrapper for [`Length`].
 ///
 ///     use textdistance::str::length;
 ///     assert!(length("abcd", "axc") == 4 - 3);
@@ -333,7 +333,7 @@ pub fn entropy_ncd(s1: &str, s2: &str) -> f64 {
 
 /// Calculate [Roberts similarity] for two strings.
 ///
-/// A wrapper for [Roberts].
+/// A wrapper for [`Roberts`].
 ///
 ///     use textdistance::str::roberts;
 ///     assert_eq!(roberts("abc", "acbd"), 0.8571428571428571);
