@@ -33,9 +33,14 @@ tasks:
 
   lint:
     cmds:
-      - cargo clippy --examples --tests --benches --bins --lib --workspace -- -D clippy::pedantic -D clippy::dbg-macro -D warnings
+      - >
+        cargo clippy
+        --examples --tests --benches --bins --lib --workspace
+        -- -D clippy::pedantic -D clippy::dbg-macro -D warnings
 
   doc:
+    env:
+      RUSTDOCFLAGS: "-Dwarnings"
     cmds:
       - cargo doc {{.CLI_ARGS}}
 

@@ -2,11 +2,11 @@
 use crate::counter::Counter;
 use crate::{Algorithm, Result};
 
-/// [Tversky similarity] is a generalization of [`SorensenDice`] and [Jaccard].
+/// [Tversky similarity] is a generalization of [`SorensenDice`] and [`Jaccard`].
 ///
 /// [Tversky similarity]: https://en.wikipedia.org/wiki/Tversky_index
-/// [SorensenDice]: crate::SorensenDice
-/// [Jaccard]: crate::Jaccard
+/// [`SorensenDice`]: crate::SorensenDice
+/// [`Jaccard`]: crate::Jaccard
 pub struct Tversky {
     /// α, the weight of the first sequence (the "prototype").
     pub alpha: f64,
