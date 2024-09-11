@@ -1,7 +1,7 @@
+use core::time::Duration;
 use criterion::BenchmarkId;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use std::fs;
-use std::time::Duration;
 use textdistance::{nstr, str};
 
 fn read_licenses() -> Vec<(String, String)> {

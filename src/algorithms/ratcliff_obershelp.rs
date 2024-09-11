@@ -1,5 +1,7 @@
 //! Gestalt pattern matching
 use crate::{Algorithm, Result};
+use alloc::vec;
+use alloc::vec::Vec;
 
 /// [Ratcliff/Obershelp similarity] is [`LCSStr`] that recursively finds matches
 /// on both sides of the longest substring.
@@ -23,8 +25,7 @@ impl Algorithm<usize> for RatcliffObershelp {
         stack.push(((0, l1), (0, l2)));
         let mut result = 0;
 
-        while !stack.is_empty() {
-            let top = stack.pop().unwrap();
+        while let Some(top) = stack.pop() {
             let ((part1_start, part1_len), (part2_start, part2_len)) = top;
             let s1_part = s1[part1_start..(part1_start + part1_len)].iter();
             let s2_part: Vec<&E> = s2[part2_start..(part2_start + part2_len)].iter().collect();

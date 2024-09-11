@@ -1,5 +1,6 @@
 //! Sift4 distance
 use crate::{Algorithm, Result};
+use alloc::vec::Vec;
 
 /// [Sift4 distance] is an edit algorithm designed to be "fast and relatively accurate".
 ///
@@ -44,7 +45,7 @@ impl Algorithm<usize> for Sift4Common {
         let mut lcss = 0; // largest common subsequence
         let mut local_cs = 0; // local common substring
         let mut trans = 0; // number of transpositions ('ab' vs 'ba')
-        let mut offset_arr: Vec<Offset> = vec![]; // offset pair array, for computing the transpositions
+        let mut offset_arr: Vec<Offset> = Vec::new(); // offset pair array, for computing the transpositions
         while (c1 < l1) && (c2 < l2) {
             if s1[c1] == s2[c2] {
                 local_cs += 1;

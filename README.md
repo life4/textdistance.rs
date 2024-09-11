@@ -12,6 +12,7 @@ Features:
 + 📚 Contains 20+ algorithms for all purposes.
 + 🔬 Includes state-of-the-art algorithms like `EntropyNCD` and `Sift4`.
 + 🪶 Zero-dependency.
++ 🐜 `#![no_std]` support (embedded systems).
 + 🔨 Works with any iterators, including bytes, code points, Unicode grapheme clusters, words, and numbers.
 + ❤️ Friendly and consistent API for all algorithms.
 + 📏 Optional normalization of the result on the 0.0-1.0 interval.
@@ -64,6 +65,12 @@ Normalization for other metrics:
 
 ```shell
 cargo add textdistance
+```
+
+Or if you're going to use it in a [no_std](https://docs.rust-embedded.org/book/intro/no-std.html) project:
+
+```shell
+cargo add --no-default-features textdistance
 ```
 
 ## Usage

@@ -1,5 +1,6 @@
 //! Levenshtein distance
 use crate::{Algorithm, Result};
+use alloc::vec::Vec;
 
 /// [Levenshtein distance] is an edit distance between two sequences.
 ///
