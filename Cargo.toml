@@ -19,10 +19,10 @@ default = ["std"]
 std = []
 
 [dev-dependencies]
-assert2 = "0.3.10"
-criterion = "0.4.0"
+assert2 = "0.3.15"
+criterion = "0.5.1"
 proptest = "1.1.0"
-rstest = "0.17.0"
+rstest = "0.22.0"
 unicode-segmentation = "1.10.1"
 
 [[bench]]
