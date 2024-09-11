@@ -6,19 +6,17 @@ authors = ["Gram <git@orsinium.dev>"]
 description = "Lots of algorithms to compare how similar two sequences are"
 repository = "https://github.com/life4/textdistance.rs"
 license = "MIT"
-keywords = [
-    "jaro",
-    "hamming",
-    "levenshtein",
-    "similarity",
-    "distance",
-]
+keywords = ["jaro", "hamming", "levenshtein", "similarity", "distance"]
 categories = [
     "algorithms",
     "science",
     "text-processing",
     "command-line-interface",
 ]
+
+[features]
+default = ["std"]
+std = []
 
 [dev-dependencies]
 assert2 = "0.3.10"

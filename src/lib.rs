@@ -1,3 +1,4 @@
+#![cfg_attr(not(any(feature = "std", test)), no_std)]
 #![doc = include_str!("../README.md")]
 #![deny(missing_docs)]
 #![deny(clippy::all, clippy::pedantic)]
@@ -5,7 +6,8 @@
     clippy::cast_precision_loss,
     clippy::must_use_candidate,
     clippy::similar_names,
-    clippy::unreadable_literal
+    clippy::unreadable_literal,
+    clippy::wildcard_imports
 )]
 
 extern crate alloc;
@@ -46,11 +48,16 @@ mod algorithms {
 }
 
 pub use self::algorithm::Algorithm;
+#[cfg(feature = "std")]
 pub use self::algorithms::bag::Bag;
+#[cfg(feature = "std")]
 pub use self::algorithms::cosine::Cosine;
+#[cfg(feature = "std")]
 pub use self::algorithms::damerau_levenshtein::DamerauLevenshtein;
+#[cfg(feature = "std")]
 pub use self::algorithms::entropy_ncd::EntropyNCD;
 pub use self::algorithms::hamming::Hamming;
+#[cfg(feature = "std")]
 pub use self::algorithms::jaccard::Jaccard;
 pub use self::algorithms::jaro::Jaro;
 pub use self::algorithms::jaro_winkler::JaroWinkler;
@@ -60,15 +67,19 @@ pub use self::algorithms::length::Length;
 pub use self::algorithms::levenshtein::Levenshtein;
 pub use self::algorithms::lig3::LIG3;
 pub use self::algorithms::mlipns::MLIPNS;
+#[cfg(feature = "std")]
 pub use self::algorithms::overlap::Overlap;
 pub use self::algorithms::prefix::Prefix;
 pub use self::algorithms::ratcliff_obershelp::RatcliffObershelp;
+#[cfg(feature = "std")]
 pub use self::algorithms::roberts::Roberts;
 pub use self::algorithms::sift4_common::Sift4Common;
 pub use self::algorithms::sift4_simple::Sift4Simple;
 pub use self::algorithms::smith_waterman::SmithWaterman;
+#[cfg(feature = "std")]
 pub use self::algorithms::sorensen_dice::SorensenDice;
 pub use self::algorithms::suffix::Suffix;
+#[cfg(feature = "std")]
 pub use self::algorithms::tversky::Tversky;
 pub use self::algorithms::yujian_bo::YujianBo;
 pub use self::result::Result;
@@ -91,6 +102,7 @@ mod tests {
             3 => LCSStr::default().for_str(s1, s2),
             4 => RatcliffObershelp::default().for_str(s1, s2),
             5 => Levenshtein::default().for_str(s1, s2),
+            #[cfg(feature = "std")]
             6 => DamerauLevenshtein::default().for_str(s1, s2),
             7 => Sift4Simple::default().for_str(s1, s2),
             8 => MLIPNS::default().for_str(s1, s2),

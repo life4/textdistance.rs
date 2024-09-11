@@ -1,4 +1,5 @@
 //! Damerau-Levenshtein distance
+#![cfg(feature = "std")]
 use crate::{Algorithm, Result};
 use alloc::vec;
 use alloc::vec::Vec;

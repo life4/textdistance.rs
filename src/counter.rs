@@ -1,3 +1,4 @@
+#![cfg(feature = "std")]
 use core::hash::Hash;
 use std::collections::HashMap;
 

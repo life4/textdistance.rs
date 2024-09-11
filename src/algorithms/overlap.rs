@@ -1,4 +1,5 @@
 //! Overlap coefficient
+#![cfg(feature = "std")]
 use crate::counter::Counter;
 use crate::{Algorithm, Result};
 
