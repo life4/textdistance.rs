@@ -1,12 +1,14 @@
 #![doc = include_str!("../README.md")]
 #![deny(missing_docs)]
-#![warn(clippy::all, clippy::pedantic)]
+#![deny(clippy::all, clippy::pedantic)]
 #![allow(
     clippy::cast_precision_loss,
     clippy::must_use_candidate,
     clippy::similar_names,
     clippy::unreadable_literal
 )]
+
+extern crate alloc;
 
 mod algorithm;
 mod counter;

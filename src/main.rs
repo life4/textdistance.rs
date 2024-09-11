@@ -1,10 +1,10 @@
 #![allow(clippy::cast_precision_loss)]
 
-use std::borrow::Borrow;
+use core::borrow::Borrow;
 use textdistance::str;
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
+    let args: Vec<String> = core::env::args().collect();
     let alg_name = args.get(1).expect("algorithm name is required");
     let s1 = args.get(2).expect("first text is required");
     let s2 = args.get(3).expect("second text is required");

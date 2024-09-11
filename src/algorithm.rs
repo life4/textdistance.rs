@@ -1,5 +1,6 @@
 use super::Result;
-use std::hash::Hash;
+use alloc::vec::Vec;
+use core::hash::Hash;
 
 /// A base trait for all distance/similarity algorithms.
 ///

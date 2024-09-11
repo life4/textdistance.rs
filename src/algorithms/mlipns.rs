@@ -1,7 +1,7 @@
 //! MLIPNS similarity
 use super::hamming::Hamming;
 use crate::{Algorithm, Result};
-use std::hash::Hash;
+use core::hash::Hash;
 
 /// [MLIPNS similarity] is a normalization for [`Hamming`] that returns either 0 or 1.
 ///

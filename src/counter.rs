@@ -1,5 +1,5 @@
+use core::hash::Hash;
 use std::collections::HashMap;
-use std::hash::Hash;
 
 /// Multiset container inspired by Python's `collections.Counter`.
 pub struct Counter<K> {

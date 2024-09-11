@@ -1,7 +1,9 @@
 //! Damerau-Levenshtein distance
 use crate::{Algorithm, Result};
+use alloc::vec;
+use alloc::vec::Vec;
+use core::hash::Hash;
 use std::collections::HashMap;
-use std::hash::Hash;
 
 /// [Damerau-Levenshtein distance] is an edit distance between two sequences.
 ///

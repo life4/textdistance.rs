@@ -1,5 +1,7 @@
 //! Longest common subsequence
 use crate::{Algorithm, Result};
+use alloc::vec;
+use alloc::vec::Vec;
 
 /// The length of the [Longest common subsequence].
 ///
