@@ -43,7 +43,7 @@ fn main() {
         "length" => textdistance::str::length(s1, s2) as f64,
         "smith_waterman" => textdistance::str::smith_waterman(s1, s2) as f64,
         #[cfg(feature = "std")]
-        "entropy_ncd" => textdistance::str::entropy_ncd(s1, s2) as f64,
+        "entropy_ncd" => textdistance::str::entropy_ncd(s1, s2),
         #[cfg(feature = "std")]
         "roberts" => textdistance::str::roberts(s1, s2),
         _ => panic!("unknown algorithm name"),
