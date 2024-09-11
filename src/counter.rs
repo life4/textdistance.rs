@@ -66,7 +66,7 @@ where
             result.insert(key, *lhs_count + rhs_count);
         }
         for (key, rhs_count) in &rhs.map {
-            if self.map.get(key).is_none() {
+            if !self.map.contains_key(key) {
                 result.insert(key, *rhs_count);
             }
         }
@@ -92,7 +92,7 @@ where
             result += lhs_count.max(rhs_count);
         }
         for (key, rhs_count) in &rhs.map {
-            if self.map.get(key).is_none() {
+            if !self.map.contains_key(key) {
                 result += rhs_count;
             }
         }
