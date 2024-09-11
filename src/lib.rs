@@ -7,6 +7,7 @@
     clippy::must_use_candidate,
     clippy::similar_names,
     clippy::unreadable_literal,
+    clippy::doc_markdown,
     clippy::wildcard_imports
 )]
 
