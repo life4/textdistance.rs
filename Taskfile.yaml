@@ -57,6 +57,7 @@ tasks:
       CLICOLOR_FORCE: "yes"
     cmds:
       - cargo nextest run --no-fail-fast {{.CLI_ARGS}}
+      - cargo build --no-default-features
 
   doctest:
     cmds:
