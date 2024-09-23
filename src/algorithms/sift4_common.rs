@@ -165,6 +165,9 @@ mod tests {
     #[case("aaaa", "abbb", 3)]
     #[case("123 nowhere ave", "123 n0where 4ve", 2)]
     #[case("bisectable6", "disectable6", 1)]
+    // Non-ASCII regression tests
+    #[case("aaaaaa |", "baaaaa", 3)]
+    #[case("/", "®/", 1)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
         assert!(sift4_common(s1, s2) == exp);
     }
