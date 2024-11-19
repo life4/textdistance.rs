@@ -1,6 +1,7 @@
 //! Sift4 distance
 use crate::{Algorithm, Result};
 use alloc::vec::Vec;
+use core::num::Wrapping;
 
 /// [Sift4 distance] is an edit algorithm designed to be "fast and relatively accurate".
 ///
@@ -40,23 +41,24 @@ impl Algorithm<usize> for Sift4Common {
         //     return l1;
         // }
 
-        let mut c1 = 0; // cursor for string 1
-        let mut c2 = 0; // cursor for string 2
+        // NOTE: c1 and c2 are Wrapping because one step of the algorithm can temporarily underflow them, causing panics in debug builds
+        let mut c1 = Wrapping(0); // cursor for string 1
+        let mut c2 = Wrapping(0); // cursor for string 2
         let mut lcss = 0; // largest common subsequence
         let mut local_cs = 0; // local common substring
         let mut trans = 0; // number of transpositions ('ab' vs 'ba')
         let mut offset_arr: Vec<Offset> = Vec::new(); // offset pair array, for computing the transpositions
-        while (c1 < l1) && (c2 < l2) {
-            if s1[c1] == s2[c2] {
+        while (c1.0 < l1) && (c2.0 < l2) {
+            if s1[c1.0] == s2[c2.0] {
                 local_cs += 1;
                 let mut is_trans = false;
                 //see if current match is a transposition
                 let mut i = 0;
                 while i < offset_arr.len() {
                     let ofs = &mut offset_arr[i];
-                    if c1 <= ofs.c1 || c2 <= ofs.c2 {
+                    if c1.0 <= ofs.c1 || c2.0 <= ofs.c2 {
                         // when two matches cross, the one considered a transposition is the one with the largest difference in offsets
-                        is_trans = c1.abs_diff(c2) >= ofs.c1.abs_diff(ofs.c2);
+                        is_trans = c1.0.abs_diff(c2.0) >= ofs.c1.abs_diff(ofs.c2);
                         if is_trans {
                             trans += 1;
                         } else if !ofs.trans {
@@ -64,15 +66,15 @@ impl Algorithm<usize> for Sift4Common {
                             trans += 1;
                         }
                         break;
-                    } else if c1 > ofs.c2 && c2 > ofs.c1 {
+                    } else if c1.0 > ofs.c2 && c2.0 > ofs.c1 {
                         offset_arr.remove(i);
                     } else {
                         i += 1;
                     }
                 }
                 offset_arr.push(Offset {
-                    c1,
-                    c2,
+                    c1: c1.0,
+                    c2: c2.0,
                     trans: is_trans,
                 });
             } else {
@@ -84,7 +86,7 @@ impl Algorithm<usize> for Sift4Common {
                     c2 = t;
                 }
                 if self.max_distance != 0 {
-                    let temporary_distance = c1.max(c2) - lcss + trans;
+                    let temporary_distance = c1.0.max(c2.0) - lcss + trans;
                     if temporary_distance > self.max_distance {
                         return Result {
                             abs: temporary_distance,
@@ -98,25 +100,34 @@ impl Algorithm<usize> for Sift4Common {
                 //if matching characters are found, remove 1 from both cursors (they get incremented at the end of the loop)
                 //so that we can have only one code block handling matches
                 for i in 0..self.max_offset {
-                    if c1 + i >= l1 && c2 + i >= l2 {
+                    if c1.0 + i >= l1 && c2.0 + i >= l2 {
                         break;
                     }
-                    if (c1 + i < l1) && (s1[c1 + i] == s2[c2]) {
-                        c1 += i - 1;
-                        c2 -= 1;
+                    if (c1.0 + i < l1) && (s1[c1.0 + i] == s2[c2.0]) {
+                        c1 += i;
+                        c1 -= 1; // NOTE: c1 may underflow here
+
+                        c2 -= 1; // NOTE: c2 may underflow here
+
                         break;
                     }
-                    if (c2 + i < l2) && (s1[c1] == s2[c2 + i]) {
-                        c1 -= 1;
-                        c2 += i - 1;
+                    if (c2.0 + i < l2) && (s1[c1.0] == s2[c2.0 + i]) {
+                        c1 -= 1; // NOTE: c1 may underflow here
+
+                        c2 += i;
+                        c2 -= 1; // NOTE: c2 may underflow here
+
                         break;
                     }
                 }
             }
+
+            // NOTE: If c1 or c2 underflowed in the previous loop, this ensures that they return to 0
             c1 += 1;
             c2 += 1;
+
             // this covers the case where the last match is on the last token in list, so that it can compute transpositions correctly
-            if (c1 >= l1) || (c2 >= l2) {
+            if (c1.0 >= l1) || (c2.0 >= l2) {
                 lcss += local_cs;
                 local_cs = 0;
                 let t = c1.min(c2);
@@ -165,7 +176,7 @@ mod tests {
     #[case("aaaa", "abbb", 3)]
     #[case("123 nowhere ave", "123 n0where 4ve", 2)]
     #[case("bisectable6", "disectable6", 1)]
-    // Non-ASCII regression tests
+    // Underflow panic regression tests
     #[case("aaaaaa |", "baaaaa", 3)]
     #[case("/", "®/", 1)]
     fn function_str(#[case] s1: &str, #[case] s2: &str, #[case] exp: usize) {
